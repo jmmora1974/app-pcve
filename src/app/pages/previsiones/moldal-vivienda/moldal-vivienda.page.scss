@@ -1,0 +1,37 @@
+ion-item {
+ 
+  align-items: start;
+}
+
+ion-col {
+  background-color: #3ea3b1;
+  border: solid 1px #2b51b9;
+  color: #fff;
+  
+}
+
+ ion-form{
+    background-color: #b95f2b;
+    border: solid 1px #2b51b9;
+    color: #0c0a7a;
+    text-align: start;
+ }
+
+ion-select-option {
+    background-color: #68a72d;
+    border: solid 2px #0f1730;
+    --border-radius: 8px;
+    color: #aa2727;
+    text-align: center;
+  }
+
+  ion-label{
+    padding: 5px;
+  }
+
+  ion-input{
+    text-align: right;
+    max-width: 80px;
+    background-color: #dbf0c8;
+    border: unset 1px #0f1730;
+  }
