@@ -3,6 +3,8 @@ import { ServiPrevisionesService } from 'src/app/services/servi-previsiones.serv
 import { ModalController } from '@ionic/angular';
 import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
 import { IVivienda } from 'src/app/models/ivivienda';
+import { IPrevision } from 'src/app/models/iprevision';
+import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-generales.page';
 
 @Component({
   selector: 'app-previsiones',
@@ -10,18 +12,29 @@ import { IVivienda } from 'src/app/models/ivivienda';
   styleUrls: ['./previsiones.page.scss'],
 })
 export class PrevisionesPage {
-
+  prevision=this.previsionesService.listaPrevisiones
   viviendas = this.previsionesService.viviendas$;
   prevision$ = this.previsionesService.prevision$;
   listaViviendas = this.previsionesService.listaViviendas;
-  listaIrve=this.previsionesService.obtenListaIrve();
-  PTotal: number = 0;
+  listaIrve$ = this.previsionesService.obtenListaIrve();
+  previsionActual: IPrevision ={
+    id:this.previsionesService.listaPrevisiones.length,
+    Pviv: 0,
+    Psgen: 0,
+    Ploc: 0,
+    Pgar: 0,
+    Pirve: 0,
+    Ptotal: 0,
+    esquema: '1a',
+    spl: false
+  }
   P1: number = 0;
   P2: number = 0;
   P3: number = 0;
   P4: number = 0;
   P5: number = 0;
-  
+  PT: number = 0;
+
 
 
   agregarIrve() {
@@ -33,8 +46,23 @@ export class PrevisionesPage {
   agregarLocales() {
     throw new Error('Method not implemented.');
   }
-  agregarServGrales() {
-    throw new Error('Method not implemented.');
+  
+  async agregarServGrales() {
+    const modal = await this.modalCtrl.create({
+      component: ModalServGeneralesPage,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.previsionesService.agregraServiciosGenerales(data);
+      
+      this.actualizaResultados();
+      console.log('agregados servicios generales ', this.previsionActual);
+      
+
+    }
   }
 
 
@@ -48,39 +76,54 @@ export class PrevisionesPage {
 
     if (role === 'confirm') {
       this.previsionesService.agregraVivienda(data);
-      this.PTotal = this.previsionesService.calculaPT();
-      this.P1 = this.previsionesService.valorP1;
-      this.P5 = this.previsionesService.valorP5
+      
+      this.actualizaResultados();
+      console.log('agregaod ', this.previsionActual);
+      
+
     }
 
   }
   //Elimina la vivienda 
-  eliminaVivienda(ev:any) {
-    console.log ("eliminando vivienda ID : ",JSON.stringify(ev.id));
-    this.listaViviendas=this.previsionesService.eliminaVivienda(ev.id);
-    this.listaIrve=this.previsionesService.obtenListaIrve();
-      this.PTotal = this.previsionesService.calculaPT();
-      this.P1 = this.previsionesService.valorP1;
-      this.P5 = this.previsionesService.valorP5;
-      
-    }
+  eliminaVivienda(ev: any) {
+    console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
+    this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
+    this.listaIrve$ = this.previsionesService.obtenListaIrve();
+    //this.prevision$ = this.previsionesService.calculaPT();
+    
+    this.actualizaResultados();
 
+  }
+
+
+  actualizaResultados() {
+
+    let prevTemp= this.previsionesService.calculaPT();
+    console.log("actua",prevTemp[0])
+    this.previsionActual= prevTemp[0];
+    this.P1 = this.previsionActual.Pviv;
+    this.P2 = this.previsionActual.Psgen!;
+    this.P3 = this.previsionActual.Ploc!;
+    this.P4 = this.previsionActual.Pgar!;
+    this.P5 = this.previsionActual.Pirve!;
+    this.PT = this.previsionActual.Ptotal!;
+    this.previsionActual.Ptotal
+
+  }
   //Cambia el valor de la variable SPL si el edificio dispone del sistema SPL.
-  cambiaSPL(arg0: boolean) {
-    //console.log ('spl', arg0);
-    this.previsionesService.spl = arg0;
-    this.PTotal = this.previsionesService.calculaPT();
-      this.P1 = this.previsionesService.valorP1;
-      this.P5 = this.previsionesService.valorP5;
+  cambiaSPL(argspl: boolean) {
+    
+    this.previsionesService.spl = argspl;
+    this.actualizaResultados();
+    //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
   }
 
   cambiaEsquema(arg0: any) {
-      this.previsionesService.esquemaVivienda=arg0.value;
-      this.PTotal = this.previsionesService.calculaPT();
-      this.P1 = this.previsionesService.valorP1;
-      this.P5 = this.previsionesService.valorP5;
+    this.previsionesService.esquemaVivienda = arg0.value;
 
-    }
+    this.actualizaResultados();
+    
+  }
 
   constructor(
     private previsionesService: ServiPrevisionesService,
