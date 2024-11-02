@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="danger" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Agregar vivienda/s a la previsión</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="agregaVivienda()" [strong]="true" [disabled]="!formVivienda.dirty">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-form [formGroup]="formVivienda" onsubmit="agregaVivienda()">
+    
+      <ion-item>
+        <ion-label color="primary" >Núm viviendas:</ion-label>
+        <ion-input formControlName="numViv" type="number" color="danger" required></ion-input>
+        <ion-label > </ion-label><ion-label > </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" >con Irve?:</ion-label>
+        <ion-input formControlName="numVivIrve" type="number" ></ion-input>
+        <ion-label color="primary" >potencia Irve?:</ion-label>
+        <ion-input formControlName="potIrve" type="number" value=3.68></ion-input>
+        <ion-label>kW </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label bg="dark">Tipo: </ion-label>
+
+        <ion-item>
+          <ion-select aria-label="Tipo Viviendas" interface="action-sheet" formControlName="tipoViv"
+            placeholder="Selecciona tipo" (ionChange)="handleChange($event)">
+            <ion-select-option *ngFor="let tipoVivivienda of tipoViviendas" [value]="tipoVivivienda">{{
+              tipoVivivienda.id }}.-{{ tipoVivivienda.nombre }} - {{ tipoVivivienda.descripcion }}
+            </ion-select-option>
+          </ion-select>
+
+        </ion-item>
+        <ion-label>Potencia: </ion-label>
+        <ion-input size="10" enabled=false formControlName="potViv" [(ngModel)]="potenciaViv" type="number"></ion-input>
+        <ion-label>kW </ion-label>
+        
+
+      </ion-item>
+      <ion-item disabled="true" class="ion-hide">
+        <ion-label position="floating">ID</ion-label>
+        <ion-input formControlName="id" type="number" value="{{nuevaVivienda.id}}">
+        </ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button [disabled]="!formVivienda.dirty" type="button" color="primary" shape="full" expand="block"
+            (click)="agregaVivienda()">Agregar vivienda</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-form>
+  </ion-list>
+</ion-content>
