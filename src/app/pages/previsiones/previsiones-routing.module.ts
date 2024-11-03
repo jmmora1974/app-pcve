@@ -7,14 +7,17 @@ const routes: Routes = [
   {
     path: '',
     component: PrevisionesPage
-  },  {
+
+  },
+  {
     path: 'moldal-vivienda',
     loadChildren: () => import('./moldal-vivienda/moldal-vivienda.module').then( m => m.MoldalViviendaPageModule)
   },
   {
-    path: 'modal-irve',
-    loadChildren: () => import('./modal-irve/modal-irve.module').then( m => m.ModalIrvePageModule)
+    path: 'modal-serv-generales',
+    loadChildren: () => import('./modal-serv-generales/modal-serv-generales.module').then( m => m.ModalServGeneralesPageModule)
   }
+
 
 ];
 

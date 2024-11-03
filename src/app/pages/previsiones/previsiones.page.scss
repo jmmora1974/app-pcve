@@ -24,9 +24,14 @@
     padding: 5px;
   }
 
+  ion-item {
+    --border-radius: 1px;
+    margin-bottom:1px;
+  }
   ion-col {
     //background-color: #3ea3b1;
-    background-color: #135d54;
+    background-color: #28bbaa;
+
     border: solid 1px #d7dbe7;
     color: #fcfcfc;
     display: flex;
@@ -34,6 +39,7 @@
     justify-content: center;
     text-align: center;
   }
+
   #p1 {
     background-color: #c8e232;
     border: solid 1px #2b51b9;
@@ -71,29 +77,12 @@
 
   #pt {
     background-color: #41e232;
-    border: solid 2px #b9402b;
-    color: #070101;
+
+    border: solid 2px #b6351e;
+    color: #010702;
 
   }
 
 
 
-
-  ion-item {
-    --border-radius: 8px;
-    margin-bottom: 8px;
-  }
-
-  .logo-container {
-    text-align: center;
-
-    h1 {
-      font-size: 32px;
-      font-weight: 800;
-    }
-
-    p {
-      margin-bottom: 42px;
-    }
-  }
 }
