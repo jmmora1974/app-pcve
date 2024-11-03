@@ -23,6 +23,7 @@
   ion-label {
     padding: 5px;
   }
+
   ion-item {
     --border-radius: 1px;
     margin-bottom:1px;
@@ -30,6 +31,7 @@
   ion-col {
     //background-color: #3ea3b1;
     background-color: #28bbaa;
+
     border: solid 1px #d7dbe7;
     color: #fcfcfc;
     display: flex;
@@ -37,7 +39,7 @@
     justify-content: center;
     text-align: center;
   }
-  
+
   #p1 {
     background-color: #c8e232;
     border: solid 1px #2b51b9;
@@ -75,10 +77,12 @@
 
   #pt {
     background-color: #41e232;
+
     border: solid 2px #b6351e;
     color: #010702;
 
   }
+
 
 
 }

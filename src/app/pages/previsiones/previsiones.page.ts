@@ -3,8 +3,10 @@ import { ServiPrevisionesService } from 'src/app/services/servi-previsiones.serv
 import { ModalController } from '@ionic/angular';
 import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
 import { IVivienda } from 'src/app/models/ivivienda';
+
 import { IPrevision } from 'src/app/models/iprevision';
 import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-generales.page';
+
 
 @Component({
   selector: 'app-previsiones',
@@ -12,6 +14,7 @@ import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-genera
   styleUrls: ['./previsiones.page.scss'],
 })
 export class PrevisionesPage {
+
   prevision=this.previsionesService.listaPrevisiones
   viviendas = this.previsionesService.viviendas$;
   prevision$ = this.previsionesService.prevision$;
@@ -28,13 +31,14 @@ export class PrevisionesPage {
     esquema: '1a',
     spl: false
   }
+
   P1: number = 0;
   P2: number = 0;
   P3: number = 0;
   P4: number = 0;
   P5: number = 0;
-  PT: number = 0;
 
+  PT: number = 0;
 
 
   agregarIrve() {
@@ -46,6 +50,7 @@ export class PrevisionesPage {
   agregarLocales() {
     throw new Error('Method not implemented.');
   }
+
   
   async agregarServGrales() {
     const modal = await this.modalCtrl.create({
@@ -63,6 +68,7 @@ export class PrevisionesPage {
       
 
     }
+
   }
 
 
@@ -76,15 +82,18 @@ export class PrevisionesPage {
 
     if (role === 'confirm') {
       this.previsionesService.agregraVivienda(data);
+
       
       this.actualizaResultados();
       console.log('agregaod ', this.previsionActual);
       
 
+
     }
 
   }
   //Elimina la vivienda 
+
   eliminaVivienda(ev: any) {
     console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
     this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
@@ -124,6 +133,7 @@ export class PrevisionesPage {
     this.actualizaResultados();
     
   }
+
 
   constructor(
     private previsionesService: ServiPrevisionesService,

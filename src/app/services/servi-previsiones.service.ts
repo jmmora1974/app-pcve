@@ -9,7 +9,7 @@ import { IIrve } from '../models/iirve';
   providedIn: 'root'
 })
 export class ServiPrevisionesService {
- 
+
   private viviendas = new BehaviorSubject<IVivienda[]>([]);
   private previsiones = new BehaviorSubject<IPrevision[]>([]);
   private prevision = new BehaviorSubject<IPrevision[]>([]);
@@ -17,7 +17,9 @@ export class ServiPrevisionesService {
   listaPrevisiones: IPrevision[] = [];
   listaIrve: IIrve[] = [];
   viviendas$ = this.viviendas.asObservable();
+
   irves$ = this.irves.asObservable();
+
 
   previsiones$ = this.previsiones.asObservable();
   prevision$ = this.previsiones.asObservable();
@@ -27,20 +29,25 @@ export class ServiPrevisionesService {
   valorP4: number = 0;
   valorP5: number = 0;
 
+
   esquemaVivienda: string | undefined;
   spl!: boolean;
+
   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
     { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5.75 },
     { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
     { id: 3, nombre: 'Contratada', descripcion: 'Vivienda con potencia contratada o con tarifa nocturna.', potencia: 0 }
   ];
+
+
   
    
 
   constructor(utilsService: UtilsService) {
   
    }
+
 
   //Agrega la nueva vieneda al listado de viviendas de la previsión.
   agregraVivienda(viv: IVivienda) {
@@ -58,12 +65,14 @@ export class ServiPrevisionesService {
         tipoVivienda: viv.tipo
       });
     };
+
     this.viviendas.next(this.listaViviendas);
     this.irve.next(this.listaIrve);
 
     console.log('Se ha agregado la vivienda ', viv);
     //this.calculaPT();
   }
+
 
 
   eliminaVivienda(indice: number) {
@@ -82,6 +91,8 @@ export class ServiPrevisionesService {
         let contIdi = 0;
 
         this.listaIrve.forEach(irvetemp => {
+
+
 
           if (element.id != irvetemp.id) {
             listaIrveTemp.push(irvetemp);
@@ -111,6 +122,7 @@ export class ServiPrevisionesService {
   sumvivP1: number = 0;
   sumPotP1sinIrve: number = 0;
   sumPotP1conIrve: number = 0;
+
   sumPotP1med: number = 0;
   sumPotP1diurna: number = 0;
   sumVivconIrve: number= 0;
@@ -118,12 +130,14 @@ export class ServiPrevisionesService {
   PotP1diurMed: number=0;
   cs: number = 0;
   numIrves: number=0;
+
   //Calcula la prevision de vivienda P1 Viv
   calculaP1(): number {
     this.sumPotP1 = 0;
     this.sumPotP1sinIrve = 0;
     this.sumPotP1conIrve = 0;
     this.sumvivP1 = 0;
+
     this.sumPotP1med = 0;
     this.sumPotP1diurna = 0;
     this.sumVivconIrve =0;
@@ -179,12 +193,14 @@ export class ServiPrevisionesService {
         default:
           
         this.sumPotP1med *= this.cs;
+
           break;
 
       }
 
 
     });
+
 
     let minIrve=Math.ceil(this.sumvivP1/10);
     console.log( "10%",this.numIrves)
@@ -233,7 +249,7 @@ export class ServiPrevisionesService {
       case "4a":
         return 0;
       default:
-        this.valorP5 = 0;
+      this.valorP5 = 0;
         this.listaIrve.forEach(irve => {
           this.valorP5 += irve.cantidad * irve.potencia;
         });
@@ -246,6 +262,7 @@ export class ServiPrevisionesService {
   }
 
   calculaPT(): any {
+
 
     this.valorP1 = this.calculaP1();
     this.valorP2 = this.calculaP2();
@@ -279,5 +296,6 @@ export class ServiPrevisionesService {
   }
 
 }
+
 
 
