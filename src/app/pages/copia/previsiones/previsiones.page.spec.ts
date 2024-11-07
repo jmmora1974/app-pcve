@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrevisionesPage } from './previsiones.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PrevisionesPage', () => {
   let component: PrevisionesPage;

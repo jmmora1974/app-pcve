@@ -13,11 +13,12 @@ export class ServiPrevisionesService {
   private viviendas = new BehaviorSubject<IVivienda[]>([]);
   private previsiones = new BehaviorSubject<IPrevision[]>([]);
   private prevision = new BehaviorSubject<IPrevision[]>([]);
+  private irve = new BehaviorSubject<IIrve[]>([]);
   listaViviendas: IVivienda[] = [];
   listaPrevisiones: IPrevision[] = [];
   listaIrve: IIrve[] = [];
   viviendas$ = this.viviendas.asObservable();
-  irves$ = this.irves.asObservable();
+  irves$ = this.irve.asObservable();
 
   previsiones$ = this.previsiones.asObservable();
   prevision$ = this.previsiones.asObservable();

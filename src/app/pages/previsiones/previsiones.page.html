@@ -1,121 +1,93 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Previsión de carga de edificio con IRVE</ion-title>
+    <ion-title>Previsiones de carga de edificios con IRVE</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
 
-  <ion-item>
-    <ion-grid>
-      <ion-row class="ion-justify-content-start">
-        <ion-col id="p1" color="primary">P1 Viv: {{P1}}{{previsionActual.Pviv}}</ion-col>
-        <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
-        <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
-        <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
-        <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
-        <ion-col id="pt" color="Success">P Total: {{previsionActual.Ptotal}}</ion-col>
-      </ion-row>
-      <ion-row color="danger">
+  <ion-grid>
+    <ion-row class="ion-justify-content-start">
+      <ion-col id="p1">P1 Viv: </ion-col>
+      <ion-col id="p2">P2 Serv Gen: </ion-col>
+      <ion-col id="p3">P3 Locales: </ion-col>
+      <ion-col id="p4">P4 Garage: </ion-col>
+      <ion-col id="p5">P5 Irve: </ion-col>
+      <ion-col id="pt">P Total: </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-accordion-group [multiple]="true" [value]="['1Ac', '5Ac']">
+    <ion-accordion #acc1 value="1Ac" color="primary">
+      <ion-item slot="header">
+        <ion-label style="text-align: center; width: 35px; ">Prevision Viviendas </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-grid>
+          <ion-row class="ion-justify-content-start">
+            <ion-col>
 
-        <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
-            shape="round">
-            Agregar viviendas
-          </ion-button></ion-col>
-        <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
-            Agregar Serv Grales
-          </ion-button></ion-col>
-        <ion-col><ion-button (click)="agregarLocales()" expand="block" fill="clear" shape="round">
-            Agregar Locales
-          </ion-button></ion-col>
-        <ion-col><ion-button (click)="agregarGarage()" expand="block" fill="clear" shape="round">
-            Agregar Garage
-          </ion-button></ion-col>
+              <ion-item class="ion-text-wrap" >
+                <ion-label for="numViv"  slot="start" >Numero de viviendas:<ion-text color="danger">* </ion-text></ion-label>
+                <ion-input   required id="numViv" name="numViv" [ngModel]="numViv" type="number" >
+                </ion-input>
+             
+                <ion-label>Tipo de vivienda:</ion-label>
+                <ion-select id="selTipoVivi" [(ngModel)]="selTipoVivienda" interface="popover" multiple="false"
+                value="Basica" placeholder="Basica" (ionChange)="cambiaPotencia($event.target)" alt="tipoVivienda.descripcion">
+                
+                  <ion-select-option *ngFor="let tipoVivienda of tipoViviendas" [value]="tipoVivienda.nombre"
+                    alt="tipoVivienda.descripcion" >{{ tipoVivienda.nombre}}</ion-select-option>
+                    
+                </ion-select>
+                <ion-label >Potencia: <ion-text color="danger">*</ion-text>
+                  <ion-input required id="potViv" name="potViv" type="number" readonly  value="5750"></ion-input>W</ion-label>
+               
+                 <ion-text >Total potencia:{{numViv}} W</ion-text>
+                  <div   class="btnAgregar" (click)="agregarVivienda()" onmouseover="style.background='lightgreen'" onmouseleave="style.background='green'">  Agregar vivienda </div>
+              </ion-item>
 
+            
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-list class="ion-padding-top">
+            @for (i of viviendas(); track i.id){
+              <ion-item lines="none" class="ion-padding-bottom">
+                {{i.numViviendas}} viviendas de {{i.tipo.nombre}} {{i.tipo.potencia}} W
+              </ion-item>
+            }
+          </ion-list>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="2Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Servicios generales</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Servicios generales</div>
+    </ion-accordion>
+    <ion-accordion value="3Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Locales</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales
 
-      </ion-row>
-      <ion-row>
-        <ion-col class="ion-justify-content-start">
+      </div>
 
-          <ion-label>Esquema:</ion-label>
-          <ion-select aria-label="tipo de esquema" interface="action-sheet" placeholder="tipo de esquema" color="danger"
-            (ionChange)="cambiaEsquema($event.srcElement)">
-            <ion-select-option value="1a">1a</ion-select-option>
-            <ion-select-option value="1b">1b</ion-select-option>
-            <ion-select-option value="1c">1c</ion-select-option>
-            <ion-select-option value="2">2</ion-select-option>
-            <ion-select-option value="3a">3a</ion-select-option>
-            <ion-select-option value="4a">4a</ion-select-option>
-            <ion-select-option value="4b">4b</ion-select-option>
+    </ion-accordion>
 
-          </ion-select>
-
-        </ion-col>
-        <ion-col>
-          <ion-checkbox (ionChange)="cambiaSPL ($event.target.checked)">¿Tiene SPL?:</ion-checkbox>
-
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-
-  </ion-item>
-  <ion-item-group>
-    <ion-item-divider color="primary">
-      <ion-label>Prevision Viviendas</ion-label>
-    </ion-item-divider>
-
-    <ion-item *ngFor="let viv of listaViviendas">
-      <ion-label id="lidviv">{{viv.id}}</ion-label>
-      <ion-label>Num viv :{{viv.numViviendas}}</ion-label>
-      <ion-label>Tipo : {{viv.tipo.nombre}}</ion-label>
-      <ion-label>Potencia :{{viv.tipo.potencia}} kW</ion-label>
-      <ion-label>con Irve :{{viv.conIrve}}</ion-label>
-      <ion-label>Potencia Irve :{{viv.potIrve}} kW</ion-label>
-      <ion-label>={{(viv.numViviendas-viv.conIrve!)*viv.tipo.potencia+(viv.conIrve!*(viv.tipo.potencia+0.3*viv.potIrve!))}}
-        kW</ion-label>
-      <ion-button (click)="eliminaVivienda(viv)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
-    </ion-item>
-
-
-  </ion-item-group>
-
-  <ion-item-group>
-    <ion-item-divider color="secondary">
-      <ion-label>Prevision Sevicios Generales</ion-label>
-    </ion-item-divider>
-
-
-  </ion-item-group>
-
-  <ion-item-group>
-    <ion-item-divider color="tertiary">
-      <ion-label>Prevision Locales</ion-label>
-    </ion-item-divider>
-  </ion-item-group>
-
-  <ion-item-group>
-    <ion-item-divider color="secondary">
-      <ion-label>Prevision Garage</ion-label>
-    </ion-item-divider>
-    
-  </ion-item-group>
-
-  <ion-item-group>
-    <ion-item-divider color="primary">
-      <ion-label>Prevision Irve</ion-label>
-    </ion-item-divider>
-    <ion-item *ngFor="let irve of listaIrve$">
-      <ion-label id="lidviv">{{irve.id}}</ion-label>
-      <ion-label>Num viv :{{irve.cantidad}}</ion-label>
-
-      <ion-label>Potencia : {{irve.potencia}}</ion-label>
-      <ion-label>Potencia vivienda :{{irve.tipoVivienda.potencia}} kW</ion-label>
-      <ion-label>={{(irve.cantidad*irve.potencia)}} kW</ion-label>
-
-    </ion-item>
-
-
-  </ion-item-group>
-
+    <ion-accordion value="4Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision garages</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales</div>
+    </ion-accordion>
+    <ion-accordion value="5Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Irve</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales</div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>

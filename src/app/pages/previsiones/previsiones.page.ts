@@ -1,136 +1,110 @@
-import { Component, OnInit } from '@angular/core';
-import { ServiPrevisionesService } from 'src/app/services/servi-previsiones.service';
-import { ModalController } from '@ionic/angular';
-import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
-import { IVivienda } from 'src/app/models/ivivienda';
-import { IPrevision } from 'src/app/models/iprevision';
-import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-generales.page';
+import { Component, ElementRef, OnInit, signal, viewChild, WritableSignal } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NavParams } from '@ionic/angular';
+import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
 
 @Component({
   selector: 'app-previsiones',
   templateUrl: './previsiones.page.html',
   styleUrls: ['./previsiones.page.scss'],
 })
-export class PrevisionesPage {
-  prevision=this.previsionesService.listaPrevisiones
-  viviendas = this.previsionesService.viviendas$;
-  prevision$ = this.previsionesService.prevision$;
-  listaViviendas = this.previsionesService.listaViviendas;
-  listaIrve$ = this.previsionesService.obtenListaIrve();
-  previsionActual: IPrevision ={
-    id:this.previsionesService.listaPrevisiones.length,
-    Pviv: 0,
-    Psgen: 0,
-    Ploc: 0,
-    Pgar: 0,
-    Pirve: 0,
-    Ptotal: 0,
-    esquema: '1a',
-    spl: false
+
+export class PrevisionesPage implements OnInit {
+potViv: any;
+public viviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
+agregaVivienda() {
+throw new Error('Method not implemented.');
+}
+
+  viviendasForm!: FormGroup;
+
+  public tipoViviendas: ITipoVivienda[] = [
+    { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5750 },
+    { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9200 },
+    { id: 3, nombre: 'Contratada', descripcion: 'Vivienda con potencia contratada o con tarifa nocturna.', potencia: 0 }
+  ];
+  numViv: number = 0;
+ 
+  cambiaPotencia(eve:any) {
+    let valorPot = document.getElementById("potViv") as HTMLIonInputElement;
+    let tipoViv = document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+    console.log("valor",eve, "ipo ",tipoViv.value);
+    switch (tipoViv.value) {
+      case this.tipoViviendas[0].nombre:
+        valorPot.style.color="green";
+        valorPot.value = this.tipoViviendas[0].potencia;
+        valorPot.readonly=true;
+        break;
+      case this.tipoViviendas[1].nombre:
+        valorPot.style.color="green";
+        valorPot.value = this.tipoViviendas[1].potencia;
+        valorPot.readonly=true;
+        break;
+
+      default:
+        valorPot.value = 0;
+        valorPot.readonly=false;
+        valorPot.style.color="red";
+        break;
+    }
+    
   }
-  P1: number = 0;
-  P2: number = 0;
-  P3: number = 0;
-  P4: number = 0;
-  P5: number = 0;
-  PT: number = 0;
-
-
-
-  agregarIrve() {
+  cambiaColorNumero(arg0: any) {
+    console.log("numero :", JSON.stringify(arg0));
+}
+  cambiaEsquema(arg0: EventTarget | null) {
     throw new Error('Method not implemented.');
   }
-  agregarGarage() {
+  cambiaSPL(arg0: boolean) {
     throw new Error('Method not implemented.');
   }
-  agregarLocales() {
-    throw new Error('Method not implemented.');
-  }
-  
-  async agregarServGrales() {
-    const modal = await this.modalCtrl.create({
-      component: ModalServGeneralesPage,
-    });
-    modal.present();
+  selTipoVivienda!: string;
+  obtenTipoVivienda() {
 
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.previsionesService.agregraServiciosGenerales(data);
-      
-      this.actualizaResultados();
-      console.log('agregados servicios generales ', this.previsionActual);
-      
-
+    for (let x = 0; x < this.tipoViviendas.length; x++) {
+      //this.selTipoVivienda = new Option(this.tipoViviendas[x]);
     }
   }
 
-
-  async agregarVivienda() {
-    const modal = await this.modalCtrl.create({
-      component: MoldalViviendaPage,
-    });
-    modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.previsionesService.agregraVivienda(data);
-      
-      this.actualizaResultados();
-      console.log('agregaod ', this.previsionActual);
-      
-
+  agregarVivienda() {
+    let numVivElem = document.getElementById("numViv") as HTMLInputElement;
+    let potVivElem = document.getElementById("potViv") as HTMLInputElement;
+    let tipoViv = document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+    //Comprobamos que los valores son numeros positivos 
+    let valorNumViv =  parseInt( numVivElem.value);
+    if (valorNumViv<1){
+      alert("El número de viviendas ha de ser posistivo");
     }
 
-  }
-  //Elimina la vivienda 
-  eliminaVivienda(ev: any) {
-    console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
-    this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
-    this.listaIrve$ = this.previsionesService.obtenListaIrve();
-    //this.prevision$ = this.previsionesService.calculaPT();
+    let valorPot =  parseInt( potVivElem.value);
+    console.log(tipoViv.value)
+    if (valorPot<5750){
+      alert("La potencia ha de ser superior a 5750 W.");
+    }
     
-    this.actualizaResultados();
+    let tipoVivNueva= {nombre: tipoViv.value, potencia: valorPot } as ITipoVivienda;
+     let nuevaVivienda = {
+          id:this.viviendas.length, 
+          tipo: tipoVivNueva,
+          numViviendas: valorNumViv
+         } ;
+    this.viviendas.update (values => [...values,nuevaVivienda]);
 
   }
+  constructor(public fb: FormBuilder) { }
+
+  ngOnInit() {
+
+    document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+
+    this.viviendasForm = this.fb.group({
+
+      numViv: [0, [Validators.required]],
+
+      potViv: [5750],
 
 
-  actualizaResultados() {
-
-    let prevTemp= this.previsionesService.calculaPT();
-    console.log("actua",prevTemp[0])
-    this.previsionActual= prevTemp[0];
-    this.P1 = this.previsionActual.Pviv;
-    this.P2 = this.previsionActual.Psgen!;
-    this.P3 = this.previsionActual.Ploc!;
-    this.P4 = this.previsionActual.Pgar!;
-    this.P5 = this.previsionActual.Pirve!;
-    this.PT = this.previsionActual.Ptotal!;
-    this.previsionActual.Ptotal
-
+    })
   }
-  //Cambia el valor de la variable SPL si el edificio dispone del sistema SPL.
-  cambiaSPL(argspl: boolean) {
-    
-    this.previsionesService.spl = argspl;
-    this.actualizaResultados();
-    //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
-  }
-
-  cambiaEsquema(arg0: any) {
-    this.previsionesService.esquemaVivienda = arg0.value;
-
-    this.actualizaResultados();
-    
-  }
-
-  constructor(
-    private previsionesService: ServiPrevisionesService,
-    private modalCtrl: ModalController
-  ) { }
-
-
-
 
 }

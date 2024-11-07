@@ -1,84 +1,140 @@
 :host {
-  body {
-    background-color: var(--ion-color-light);
-  }
+    body {
+        background-color: var(--ion-color-light);
+    }
 
-  ion-content {
-    --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
-  }
+    ion-content {
+        --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
+    }
 
-  ion-grid {
-    --ion-grid-width: 50%;
+    ion-grid {
+        --ion-grid-width: 50%;
 
-    --ion-grid-width-xs: 50%;
-    --ion-grid-width-sm: 576px;
-    --ion-grid-width-md: 768px;
-    --ion-grid-width-lg: 992px;
-    --ion-grid-width-xl: 1200px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+        --ion-grid-width-xs: 50%;
+        --ion-grid-width-sm: 576px;
+        --ion-grid-width-md: 768px;
+        --ion-grid-width-lg: 992px;
+        --ion-grid-width-xl: 1200px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        align-content: center;
+    }
+    ion-label{
+       // margin: 10px;
+       // padding: 10px;
+        //min-width: 60px;
+       max-width:15%;
+    }
 
-  ion-label {
-    padding: 5px;
-  }
-  ion-item {
-    --border-radius: 1px;
-    margin-bottom:1px;
-  }
-  ion-col {
-    //background-color: #3ea3b1;
-    background-color: #28bbaa;
-    border: solid 1px #d7dbe7;
-    color: #fcfcfc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  #p1 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
+    ion-select{
+        margin: 0px;
+        padding: 0px;
+        min-width: 60px;
+        max-width: 100px;
+        display: block;
+    }
 
-  }
+    ion-text{
+        margin: 0px;
+        padding: 0px;
+        min-width: 60px;
+        height: 90%;
+    }
+    ion-input{
+        text-align: center;
+        min-width: 60px;
+        max-width: 100px;
+        max-height: 10px;
+        color:rgb(235, 13, 13);
+        //border: 1px solid rgb(235, 13, 13);
+    }
+    .btnAgregar{
+        border: solid 2px #6bac17;
+        background-color: #41e232;
+        color: #070101;
+        height: 90%;
+        //width: 15%;
+        min-width: 80px;
+        align-content: center;
+        border-radius: 10px;
+        text-align: center;
+        right: 10px;
+    }
+    
 
-  #p2 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
+    #p1 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
+        border-radius: 4px;
+    }
 
-  }
+    #p2 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
+        border-radius: 5px;
+    }
 
-  #p3 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
+    #p3 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
+        border-radius: 6px;
+    }
 
-  }
+    #p4 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
 
-  #p4 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
+    }
 
-  }
+    #p5 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
 
-  #p5 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
+    }
 
-  }
+    #pt {
+        background-color: #41e232;
+        border: solid 4px #b6351e;
+        color: #010702;
+        border-radius: 10%;
+    }
 
-  #pt {
-    background-color: #41e232;
-    border: solid 2px #b6351e;
-    color: #010702;
+    ion-accordion.accordion-expanding ion-item[slot="header"],
+    ion-accordion.accordion-expanded ion-item[slot="header"] {
+        --background: var(--ion-color-light);
+        --color: rgb(10, 128, 10);
+        width: 100%;
+    }
 
-  }
-
+    :root {
+        --ion-color-rose: #fecdd3;
+        --ion-color-rose-rgb: 254, 205, 211;
+        --ion-color-rose-contrast: #000000;
+        --ion-color-rose-contrast-rgb: 0, 0, 0;
+        --ion-color-rose-shade: #e0b4ba;
+        --ion-color-rose-tint: #fed2d7;
+      }
+      
+      .ion-color-rose {
+        --ion-color-base: var(--ion-color-rose);
+        --ion-color-base-rgb: var(--ion-color-rose-rgb);
+        --ion-color-contrast: var(--ion-color-rose-contrast);
+        --ion-color-contrast-rgb: var(--ion-color-rose-contrast-rgb);
+        --ion-color-shade: var(--ion-color-rose-shade);
+        --ion-color-tint: var(--ion-color-rose-tint);
+      }
+      
+      div[slot='content'] {
+       // background: rgba(var(--ion-color-rose-rgb), 0.25);
+      
+        background-color: #c1e2be;
+    }
+   
 
 }

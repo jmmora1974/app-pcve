@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PrevisionesPageRoutingModule } from './previsiones-routing.module';
@@ -13,8 +13,7 @@ import { PrevisionesPage } from './previsiones.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PrevisionesPageRoutingModule,
-    ReactiveFormsModule
+    PrevisionesPageRoutingModule
   ],
   declarations: [PrevisionesPage]
 })

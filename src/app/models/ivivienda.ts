@@ -14,7 +14,7 @@ const tipoViviendas: ITipoVivienda[] = [
   ];
   
 export interface IVivienda {
-    id:number;
+    id?:number;
     tipo:  ITipoVivienda;
     numViviendas: number;
     conIrve?: number;
