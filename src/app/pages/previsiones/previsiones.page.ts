@@ -1,291 +1,111 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, inject } from '@angular/core';
-import { PrevisionesService } from '../../services/previsiones.service';
-import { ModalController } from '@ionic/angular';
-import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
-//import { IVivienda } from 'src/app/models/ivivienda';
-//import { IPrevision } from 'src/app/models/iprevision';
-import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-generales.page';
-import { MatTableModule } from '@angular/material/table';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { IVivienda } from 'src/app/models/ivivienda';
-import { IGMotor } from 'src/app/models/igmotor';
-import { IAscensor } from 'src/app/models/iascensor';
-import { IAlumbrado } from 'src/app/models/ialumbrado';
-import { R3TargetBinder } from '@angular/compiler';
-import { ModalLocalesComponent } from './modal-locales/modal-locales.component';
-import { ILocal } from 'src/app/models/ilocal';
-import { ModalGaragesComponent } from './modal-garages/modal-garages.component';
-import { IGarage } from 'src/app/models/igarage';
-
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
-
-
+import { Component, ElementRef, OnInit, signal, viewChild, WritableSignal } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NavParams } from '@ionic/angular';
+import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
 
 @Component({
   selector: 'app-previsiones',
   templateUrl: './previsiones.page.html',
   styleUrls: ['./previsiones.page.scss']
 })
-export class PrevisionesPage {
-  /*
-  prevision=this.previsionesService.listaPrevisiones
-  viviendas = this.previsionesService.viviendas$;
-  prevision$ = this.previsionesService.prevision$;
-  listaViviendas = this.previsionesService.listaViviendas;
-  listaIrve$ = this.previsionesService.obtenListaIrve();
-  */
-  previsionesService = inject(PrevisionesService);
-  /* previsionActual: IPrevision ={
-     id:this.previsionesService.listaPrevisiones.length,
-     Pviv: 0,
-     Psgen: 0,
-     Ploc: 0,
-     Pgar: 0,
-     Pirve: 0,
-     Ptotal: 0,
-     esquema: '1a',
-     spl: false
-   }
-   */
-  /* Definiciones de la cabecera */
-  tiles: Tile[] = [
-    { text: 'PViv', cols: 1, rows: 1, color: '#F8ECE0' },
-    { text: 'PSerGen', cols: 1, rows: 1, color: '#F8ECE0' },
-    { text: 'PLoc', cols: 1, rows: 1, color: '#F8ECE0' },
-    { text: 'PGar', cols: 1, rows: 1, color: '#F8ECE0' },
-    { text: 'PIrve', cols: 1, rows: 1, color: '#F8ECE0' },
-    { text: 'PTotal: ' + this.previsionesService.prevision().Ptotal.toString(), cols: 1, rows: 2, color: '#45F577' },
-    { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: this.previsionesService.prevision().Ploc!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: this.previsionesService.prevision().Pgar!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: this.previsionesService.prevision().Pirve!.toFixed(2), cols: 1, rows: 1, color: '#D9F5D7' },
+
+export class PrevisionesPage implements OnInit {
+potViv: any;
+public viviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
+agregaVivienda() {
+throw new Error('Method not implemented.');
+}
+
+  viviendasForm!: FormGroup;
+
+  public tipoViviendas: ITipoVivienda[] = [
+    { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5750 },
+    { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9200 },
+    { id: 3, nombre: 'Contratada', descripcion: 'Vivienda con potencia contratada o con tarifa nocturna.', potencia: 0 }
   ];
+  numViv: number = 0;
+ 
+  cambiaPotencia(eve:any) {
+    let valorPot = document.getElementById("potViv") as HTMLIonInputElement;
+    let tipoViv = document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+    console.log("valor",eve, "ipo ",tipoViv.value);
+    switch (tipoViv.value) {
+      case this.tipoViviendas[0].nombre:
+        valorPot.style.color="green";
+        valorPot.value = this.tipoViviendas[0].potencia;
+        valorPot.readonly=true;
+        break;
+      case this.tipoViviendas[1].nombre:
+        valorPot.style.color="green";
+        valorPot.value = this.tipoViviendas[1].potencia;
+        valorPot.readonly=true;
+        break;
 
-  /* Definiciones de la tabla de resultados vivienda*/
-  displayedColumnsViv: string[] = ['numViviendas','tipo.potencia','conIrve','potIrve','total','ion-button'];
-  columnaResultado:string[]=['numViviendas', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
-  
-  
-  P1: number = 0;
-  P2: number = 0;
-  P3: number = 0;
-  P4: number = 0;
-  P5: number = 0;
-  PT: number = 0;
-
-
-  calculaPotLocal(){
-    console.log('toi en previ')
+      default:
+        valorPot.value = 0;
+        valorPot.readonly=false;
+        valorPot.style.color="red";
+        break;
+    }
+    
   }
-  
-  agregarIrve() {
+  cambiaColorNumero(arg0: any) {
+    console.log("numero :", JSON.stringify(arg0));
+}
+  cambiaEsquema(arg0: EventTarget | null) {
     throw new Error('Method not implemented.');
   }
- 
-  
- /* Funcion agregar servicios generales */
-  async agregarServGrales() {
-    const modal = await this.modalCtrl.create({
-      component: ModalServGeneralesPage,
-    });
-    modal.present();
-    
-    const { data, role } = await modal.onWillDismiss();
+  cambiaSPL(arg0: boolean) {
+    throw new Error('Method not implemented.');
+  }
+  selTipoVivienda!: string;
+  obtenTipoVivienda() {
 
-    if (role === 'confirm') {
-      this.previsionesService.agregraServiciosGenerales(data);
-
-      this.actualizaResultados();
-      //console.log('agregados servicios generales ', this.previsionActual);
-
-
+    for (let x = 0; x < this.tipoViviendas.length; x++) {
+      //this.selTipoVivienda = new Option(this.tipoViviendas[x]);
     }
     this.actualizaResultados();
   }
 
-  /* Funcion agregar vivienda */
-
-  async agregarVivienda() {
-    const modal = await this.modalCtrl.create({
-      component: MoldalViviendaPage,
-    });
-    modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.previsionesService.agregraVivienda(data);
-
-      this.actualizaResultados();
-      console.log('agregada vivienda: ', this.previsionesService.prevision);
-
-
-    } 
-  }
-  /* Funcion agregar garage */
-  async agregarGarage() {
-    const modal = await this.modalCtrl.create({
-      component: ModalGaragesComponent,
-    });
-    modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      //this.previsionesService.agregarGarage(data);
-
-      //this.actualizaResultados();
-      console.log('agregado garage: ', this.previsionesService.prevision);
-
-
+  agregarVivienda() {
+    let numVivElem = document.getElementById("numViv") as HTMLInputElement;
+    let potVivElem = document.getElementById("potViv") as HTMLInputElement;
+    let tipoViv = document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+    //Comprobamos que los valores son numeros positivos 
+    let valorNumViv =  parseInt( numVivElem.value);
+    if (valorNumViv<1){
+      alert("El número de viviendas ha de ser posistivo");
     }
-    this.actualizaResultados();
 
-  }
-
-  async agregarLocales() {
-    const modal = await this.modalCtrl.create({
-      component: ModalLocalesComponent,
-    });
-    modal.present();
-    
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      //this.previsionesService.agregrarLocales(data);
-
-      this.actualizaResultados();
-      //console.log('agregados servicios generales ', this.previsionActual);
-
-
+    let valorPot =  parseInt( potVivElem.value);
+    console.log(tipoViv.value)
+    if (valorPot<5750){
+      alert("La potencia ha de ser superior a 5750 W.");
     }
-    this.actualizaResultados();
-  }
-  //Elimina la vivienda 
-  eliminaVivienda(ev: any) {
-    this.previsionesService.eliminaVivienda(ev.id);
-    console.log("eliminando vivienda ID : ", JSON.stringify(ev));
-    let listaVivTemp = this.previsionesService.eliminaVivienda(ev.id);
-    //this.previsionesService.listaViviendas.update(listaVivTemp);
-    //this.listaIrve$ = this.previsionesService.obtenListaIrve();
-    //this.prevision$ = this.previsionesService.calculaPT();
-
-    this.actualizaResultados();
-
-  }
-  //Elimina ascensor y actualiza datos
-  eliminaAscensor(ascElement: IAscensor){
-    this.previsionesService.eliminaAscensor(ascElement);
-    this.actualizaResultados();
-  }
-  //Elimina grupo motor
-  eliminaGrupoMotor(gmElement:IGMotor){
-    this.previsionesService.eliminaGrupoMotor(gmElement);
-    this.actualizaResultados();
-  }
-
-  //Elimina grupo motor
-  eliminaAlumbrado (AlumElement:IAlumbrado){
-    this.previsionesService.eliminaAlumbrado(AlumElement);
-    this.actualizaResultados();
-  }
-
-   //Elimina local
-   eliminarLocal(locElement:ILocal){
-    this.previsionesService.eliminarLocal(locElement);
-    this.actualizaResultados();
-  }
-
-    //Elimina garage
-    eliminarGarage(garageElement:IGarage){
-      this.previsionesService.eliminarGarage(garageElement);
-      this.actualizaResultados();
-    }
-  
-  
-  //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
-  actualizaResultados() {
-
-    /*let prevTemp= this.previsionesService.calculaPT();
     
-    console.log("actua",prevTemp[0])
-    if (this.previsionesService.prevision()){
-      this.previsionesService.prevision()= prevTemp[0];*/
-
-    /* Hace los calculos y actualiza los resultados PX*/
-    this.previsionesService.calculaPT();
-
-    this.tiles[6].text = this.previsionesService.prevision().Pviv.toFixed(3);
-    this.tiles[7].text = this.previsionesService.prevision().Psgen!.toFixed(3);
-    this.tiles[8].text = this.previsionesService.prevision().Ploc!.toFixed(3);
-    this.tiles[9].text = this.previsionesService.prevision().Pgar!.toFixed(3)
-    this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(3);
-    this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(3);
-
-    //Si ya hay viviendas creadas, cambia el color del boton.
-    if (this.previsionesService.listaViviendas().length>0) {
-      document.getElementById("btnAgregarViv")?.setAttribute('color','success') ;
-    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
-
-    
-    //Si ya hay servicos generales creados, cambia el color del boton.
-    if ((this.previsionesService.PAlum()+this.previsionesService.Pasc()+this.previsionesService.Pgm())>0) {
-      document.getElementById("btnAgregarSerGen")?.setAttribute('color','success') ;
-      
-    } else  document.getElementById("btnAgregarSerGen")?.setAttribute('color','warning') ;
-
-    //Si ya hay locales creados, cambia el color del boton.
-    if (this.previsionesService.Ploc()>0) {
-      document.getElementById("btnAgregarLocales")?.setAttribute('color','success') ;
-    } else  document.getElementById("btnAgregarLocales")?.setAttribute('color','warning') ;
-    
-
-     //Si ya hay garages creados, cambia el color del boton.
-     if ((this.previsionesService.PGar())>0) {
-      document.getElementById("btnAgregarGarage")?.setAttribute('color','success') ;
-    } else  document.getElementById("btnAgregarGarage")?.setAttribute('color','warning') ;
-    
-
-    
-
-    
-    
-    //console.log('tile ', this.tiles[6].text);
-
-    //}
-
-
+    let tipoVivNueva= {nombre: tipoViv.value, potencia: valorPot } as ITipoVivienda;
+     let nuevaVivienda = {
+          id:this.viviendas.length, 
+          tipo: tipoVivNueva,
+          numViviendas: valorNumViv
+         } ;
+    this.viviendas.update (values => [...values,nuevaVivienda]);
 
   }
-  //Cambia el valor de la variable SPL si el edificio dispone del sistema SPL.
-  cambiaSPL(argspl: boolean) {
+  constructor(public fb: FormBuilder) { }
 
-    this.previsionesService.prevision().spl = argspl;
+  ngOnInit() {
 
-    this.actualizaResultados();
-    //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
+    document.getElementById("selTipoVivi") as HTMLIonSelectElement;
+
+    this.viviendasForm = this.fb.group({
+
+      numViv: [0, [Validators.required]],
+
+      potViv: [5750],
+
+
+    })
   }
-
-  cambiaEsquema(arg0: any) {
-    this.previsionesService.prevision().esquema = arg0.value;
-    // this.previsionesService.calculaPT();
-
-    this.actualizaResultados();
-
-  }
-
-  constructor(
-
-    private modalCtrl: ModalController
-  ) { }
-
-
-
 
 }

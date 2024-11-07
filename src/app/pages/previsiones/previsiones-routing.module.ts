@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -29,3 +30,22 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class PrevisionesPageRoutingModule {}
+=======
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { PrevisionesPage } from './previsiones.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: PrevisionesPage
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class PrevisionesPageRoutingModule {}
+>>>>>>> a6f1fb9 ( Changes to be committed:)

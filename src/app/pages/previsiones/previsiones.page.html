@@ -1,11 +1,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Previsión de carga de edificio con IRVE</ion-title>
+    <ion-title>Previsiones de carga de edificios con IRVE</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
 
+<<<<<<< HEAD
   <mat-grid-list cols="6" rowHeight="50px">
     @for (tile of tiles; track tile) {
     <mat-grid-tile [colspan]="tile.cols" [rowspan]="tile.rows"
@@ -338,5 +339,90 @@
 
 
   </ion-item-group>
+=======
+  <ion-grid>
+    <ion-row class="ion-justify-content-start">
+      <ion-col id="p1">P1 Viv: </ion-col>
+      <ion-col id="p2">P2 Serv Gen: </ion-col>
+      <ion-col id="p3">P3 Locales: </ion-col>
+      <ion-col id="p4">P4 Garage: </ion-col>
+      <ion-col id="p5">P5 Irve: </ion-col>
+      <ion-col id="pt">P Total: </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-accordion-group [multiple]="true" [value]="['1Ac', '5Ac']">
+    <ion-accordion #acc1 value="1Ac" color="primary">
+      <ion-item slot="header">
+        <ion-label style="text-align: center; width: 35px; ">Prevision Viviendas </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-grid>
+          <ion-row class="ion-justify-content-start">
+            <ion-col>
 
+              <ion-item class="ion-text-wrap" >
+                <ion-label for="numViv"  slot="start" >Numero de viviendas:<ion-text color="danger">* </ion-text></ion-label>
+                <ion-input   required id="numViv" name="numViv" [ngModel]="numViv" type="number" >
+                </ion-input>
+             
+                <ion-label>Tipo de vivienda:</ion-label>
+                <ion-select id="selTipoVivi" [(ngModel)]="selTipoVivienda" interface="popover" multiple="false"
+                value="Basica" placeholder="Basica" (ionChange)="cambiaPotencia($event.target)" alt="tipoVivienda.descripcion">
+                
+                  <ion-select-option *ngFor="let tipoVivienda of tipoViviendas" [value]="tipoVivienda.nombre"
+                    alt="tipoVivienda.descripcion" >{{ tipoVivienda.nombre}}</ion-select-option>
+                    
+                </ion-select>
+                <ion-label >Potencia: <ion-text color="danger">*</ion-text>
+                  <ion-input required id="potViv" name="potViv" type="number" readonly  value="5750"></ion-input>W</ion-label>
+               
+                 <ion-text >Total potencia:{{numViv}} W</ion-text>
+                  <div   class="btnAgregar" (click)="agregarVivienda()" onmouseover="style.background='lightgreen'" onmouseleave="style.background='green'">  Agregar vivienda </div>
+              </ion-item>
+
+            
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-list class="ion-padding-top">
+            @for (i of viviendas(); track i.id){
+              <ion-item lines="none" class="ion-padding-bottom">
+                {{i.numViviendas}} viviendas de {{i.tipo.nombre}} {{i.tipo.potencia}} W
+              </ion-item>
+            }
+          </ion-list>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="2Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Servicios generales</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Servicios generales</div>
+    </ion-accordion>
+    <ion-accordion value="3Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Locales</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales
+
+      </div>
+
+    </ion-accordion>
+>>>>>>> a6f1fb9 ( Changes to be committed:)
+
+    <ion-accordion value="4Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision garages</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales</div>
+    </ion-accordion>
+    <ion-accordion value="5Ac">
+      <ion-item slot="header" color="light">
+        <ion-label>Prevision Irve</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">Prevision Locales</div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>

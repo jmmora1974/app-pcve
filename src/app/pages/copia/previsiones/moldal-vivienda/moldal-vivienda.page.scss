@@ -52,6 +52,7 @@ ion-col {
   }
 
   ion-input{
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.scss
     padding: 10px 5px 2px 2px;
     margin: auto;
     max-width: 60px;
@@ -60,3 +61,12 @@ ion-col {
     text-align: center;
     vertical-align: middle
   }
+=======
+    text-align: right;
+   color: red;
+    max-width: 80px;
+    //background-color: #dbf0c8;
+    border: unset 1px #0f1730;
+  }
+  
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.scss

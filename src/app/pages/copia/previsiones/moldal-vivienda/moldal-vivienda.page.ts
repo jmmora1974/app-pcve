@@ -2,7 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertController, IonSelect, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
 import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
 import { PrevisionesService } from '../../../services/previsiones.service';
+=======
+import { ServiPrevisionesService } from '../../../../services/servi-previsiones.service';
+import { IonSelectCustomEvent } from '@ionic/core';
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
@@ -17,7 +22,11 @@ export class MoldalViviendaPage implements OnInit {
   potenciaViv?: number=5.75;
   numIdVivienda:number=0;
   numeroviviendas: number=0;
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
   formViviendaM!: FormGroup;
+=======
+  formViviendao!: FormGroup;
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
   nuevaVivienda:IVivienda={
     id: 0,
     numViviendas: 0,
@@ -31,15 +40,24 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   
   constructor(
     private modalCtrl: ModalController, 
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     public fb: FormBuilder,  
    
+=======
+    public fb: FormBuilder,navParams: NavParams,  
+    PrevisionesService1 : ServiPrevisionesService,
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     private loadingController: LoadingController,
     private alertController: AlertController,
     private  utilserv: UtilsService,
 
   ) { 
     
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     this.numIdVivienda=this.previsionesService.totalViviendas();
+=======
+    this.numIdVivienda=PrevisionesService1.totalViviendas();
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     
   } 
   ngOnInit(): void {
@@ -48,7 +66,11 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
   nuevoFormVivienda(){
      
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     this.formViviendaM = this.fb.group({
+=======
+    this.formViviendao = this.fb.group({
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
       id: [this.numIdVivienda],
       numViv:  new FormControl (0, [Validators.required]),
       tipoViv: [this.tipoViviendas[0]],
@@ -60,6 +82,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   }
 
   get id() {
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     return this.formViviendaM.get('id')?.value;
   }
   get ObtenNumViviendas() {
@@ -69,6 +92,17 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
   get medidaTipoVivienda() {
     return this.formViviendaM.get('tipoViv.medidaPotVivienda')?.value | 0;
+=======
+    return this.formViviendao.get('id')?.value;
+  }
+  get ObtenNumViviendas() {
+    return this.formViviendao.get('numViv')?.value;
+  }
+
+
+  get potTipoVivienda() {
+    return this.formViviendao.get('tipoViv')?.value | 0;
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
   }
 
   get tipoVivienda() {
@@ -77,7 +111,11 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
  
   get ObtenNumViviendasConIrve() {
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     return this.formViviendaM.get('numVivIrve')?.value;
+=======
+    return this.formViviendao.get('numVivIrve')?.value;
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
   }
 
   cancel() {
@@ -86,6 +124,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
 //Funcion agrega vivienda
   agregaVivienda() {  
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     if (this.formViviendaM.get('numViv')?.value >0 )  {
       if (this.formViviendaM.get('numViv')?.value <this.formViviendaM.get('numVivIrve')?.value )  {
         this.utilserv.showAlert ("Error numero Irves","El numero de Irves ha de ser inferior o igual a las viviendas.")
@@ -123,6 +162,23 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       }
 
 
+=======
+    if (this.formViviendao.get('numViv')?.value >0 )  {
+      if (this.formViviendao.get('numViv')?.value <this.formViviendao.get('numVivIrve')?.value )  {
+        this.utilserv.showAlert ("Error numero Irves","El numero de Irves ha de ser inferior o igual a las viviendas.")
+      return "";
+      }
+      this.nuevaVivienda.tipo= this.formViviendao.get('tipoViv')?.value ;
+      if (this.nuevaVivienda.tipo.nombre=="Contratada" ){
+        this.nuevaVivienda.tipo.potencia = this.formViviendao.get('potViv')?.value;
+  
+      }
+      
+      this.nuevaVivienda.numViviendas=this.formViviendao.get('numViv')?.value ;
+      this.numIdVivienda!++;
+      this.nuevaVivienda.conIrve=this.formViviendao.get('numVivIrve')?.value ;
+      this.nuevaVivienda.potIrve=this.formViviendao.get('potIrve')?.value ;
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
       
       return this.modalCtrl.dismiss(this.nuevaVivienda, 'confirm');
     } else {
@@ -137,7 +193,11 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     console.log('Current cambio tipo vivienda:', JSON.stringify(ev.value));
     
     this.nuevaVivienda.numViviendas=this.numeroviviendas;
+<<<<<<< HEAD:src/app/pages/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     const tipVivtemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
+=======
+    const tipVivtemp:ITipoVivienda = this.formViviendao.get('tipoViv')!.value;
+>>>>>>> a6f1fb9 ( Changes to be committed:):src/app/pages/copia/previsiones/moldal-vivienda/moldal-vivienda.page.ts
     this.potenciaViv =tipVivtemp.potencia;
     
    // console.log('tipo potencia', JSON.stringify(tipVivtemp));
