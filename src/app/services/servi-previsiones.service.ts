@@ -13,6 +13,7 @@ export class ServiPrevisionesService {
   private viviendas = new BehaviorSubject<IVivienda[]>([]);
   private previsiones = new BehaviorSubject<IPrevision[]>([]);
   private prevision = new BehaviorSubject<IPrevision[]>([]);
+  private irves = new BehaviorSubject<IIrve[]>([]);
   listaViviendas: IVivienda[] = [];
   listaPrevisiones: IPrevision[] = [];
   listaIrve: IIrve[] = [];
@@ -59,7 +60,7 @@ export class ServiPrevisionesService {
       });
     };
     this.viviendas.next(this.listaViviendas);
-    this.irve.next(this.listaIrve);
+    this.irves.next(this.listaIrve);
 
     console.log('Se ha agregado la vivienda ', viv);
     //this.calculaPT();
