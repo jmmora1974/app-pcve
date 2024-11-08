@@ -16,6 +16,15 @@
         <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
         <ion-col id="pt" color="Success">P Total: {{previsionActual.Ptotal}}</ion-col>
       </ion-row>
+
+      <ion-row class="ion-justify-content-start">
+        <ion-col id="p1" > {{P1}}{{previsionActual.Pviv}}</ion-col>
+        <ion-col id="p2" >{{P2}}</ion-col>
+        <ion-col id="p3" >{{P3}}</ion-col>
+        <ion-col id="p4" >{{P4}} </ion-col>
+        <ion-col id="p5" >{{P5}} </ion-col>
+        <ion-col id="pt"> {{previsionActual.Ptotal}}</ion-col>
+      </ion-row>
       <ion-row color="danger">
 
         <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
