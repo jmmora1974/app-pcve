@@ -7,7 +7,8 @@
 <ion-content [fullscreen]="true">
 
   <ion-item>
-    <ion-grid>
+    <ion-grid >
+      <div  style="display: flexbox;">
       <ion-row class="ion-justify-content-start">
         <ion-col id="p1" color="primary">P1 Viv: {{P1}}{{previsionActual.Pviv}}</ion-col>
         <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
@@ -17,29 +18,21 @@
         <ion-col id="pt" color="Success">P Total: {{previsionActual.Ptotal}}</ion-col>
       </ion-row>
 
-      <ion-row class="ion-justify-content-start">
-        <ion-col id="p1" > {{P1}}{{previsionActual.Pviv}}</ion-col>
-        <ion-col id="p2" >{{P2}}</ion-col>
-        <ion-col id="p3" >{{P3}}</ion-col>
-        <ion-col id="p4" >{{P4}} </ion-col>
-        <ion-col id="p5" >{{P5}} </ion-col>
-        <ion-col id="pt"> {{previsionActual.Ptotal}}</ion-col>
+      <ion-row >
+        <ion-col id="rp1" > {{P1}}{{previsionActual.Pviv}}</ion-col>
+        <ion-col id="rp2" >{{P2}}</ion-col>
+        <ion-col id="rp3" >{{P3}}</ion-col>
+        <ion-col id="rp4" >{{P4}} </ion-col>
+        <ion-col id="rp5" >{{P5}} </ion-col>
+        <ion-col id="rpt"> {{previsionActual.Ptotal}}</ion-col>
       </ion-row>
+    </div>
       <ion-row color="danger">
 
-        <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
-            shape="round">
-            Agregar viviendas
-          </ion-button></ion-col>
-        <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
-            Agregar Serv Grales
-          </ion-button></ion-col>
-        <ion-col><ion-button (click)="agregarLocales()" expand="block" fill="clear" shape="round">
-            Agregar Locales
-          </ion-button></ion-col>
-        <ion-col><ion-button (click)="agregarGarage()" expand="block" fill="clear" shape="round">
-            Agregar Garage
-          </ion-button></ion-col>
+      
+       
+       
+        
 
 
       </ion-row>
@@ -73,6 +66,10 @@
     <ion-item-divider color="primary">
       <ion-label>Prevision Viviendas</ion-label>
     </ion-item-divider>
+    <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
+      shape="round">
+      Agregar viviendas
+    </ion-button></ion-col>
 
     <ion-item *ngFor="let viv of listaViviendas">
       <ion-label id="lidviv">{{viv.id}}</ion-label>
@@ -93,7 +90,9 @@
     <ion-item-divider color="secondary">
       <ion-label>Prevision Sevicios Generales</ion-label>
     </ion-item-divider>
-
+    <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
+      Agregar Serv Grales
+    </ion-button></ion-col>
 
   </ion-item-group>
 
@@ -101,13 +100,18 @@
     <ion-item-divider color="tertiary">
       <ion-label>Prevision Locales</ion-label>
     </ion-item-divider>
+    <ion-col><ion-button (click)="agregarLocales()" expand="block" fill="clear" shape="round">
+      Agregar Locales
+    </ion-button></ion-col>
   </ion-item-group>
 
   <ion-item-group>
     <ion-item-divider color="secondary">
       <ion-label>Prevision Garage</ion-label>
     </ion-item-divider>
-    
+    <ion-col><ion-button (click)="agregarGarage()" expand="block" fill="clear" shape="round">
+      Agregar Garage
+    </ion-button></ion-col>
   </ion-item-group>
 
   <ion-item-group>
