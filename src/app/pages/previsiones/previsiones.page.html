@@ -66,28 +66,54 @@
       </ion-button></ion-col>
     <ion-grid>
       <div style="display: flexbox;">
-        @for (item of previsionesService.listaViviendas(); track item.id) {
+       <ion-row>
+        <ion-col>ID</ion-col>
+        <ion-col>Num Viviendas</ion-col>
+        <ion-col>Tipo</ion-col>
+        <ion-col>Potencia</ion-col>
+        <ion-col>Con Irve</ion-col>
+        <ion-col>Sin Irve</ion-col>
+        <ion-col>Pot Irve</ion-col>
+        <ion-col>Total</ion-col>
+        <ion-col>Elimina</ion-col>
+       </ion-row>
         <ion-row>
-         
-            <ion-item *ngFor="let viv of previsionesService.listaViviendas()">
-              <ion-label id="lidviv">{{item.id}}</ion-label>
-              <ion-label>Num viv :{{item.numViviendas}}</ion-label>
-              <ion-label>Tipo : {{item.tipo.nombre}}</ion-label>
-              <ion-label>Potencia :{{item.tipo.potencia}} kW</ion-label>
-              <ion-label>con Irve :{{item.conIrve}}</ion-label>
-              <ion-label>Potencia Irve :{{item.potIrve}} kW</ion-label>
-              <ion-label>={{(item.numViviendas-viv.conIrve!)*item.tipo.potencia+(item.conIrve!*(item.tipo.potencia+0.3*item.potIrve!))}}
-                kW</ion-label>
-              <ion-button (click)="eliminaVivienda(viv)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
-            </ion-item>
+          @for (item of previsionesService.listaViviendas(); track item.id) {
            
+              <ion-col>
+              <ion-label id="viv">{{item.id}}</ion-label>              
+            </ion-col>
+            <ion-col>
+              <ion-label>{{item.numViviendas}}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>{{item.tipo.nombre}}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>{{item.tipo.potencia}} kW</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>{{item.conIrve}}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>{{item.potIrve}} kW</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label>={{(item.numViviendas-item.conIrve!)*item.tipo.potencia+(item.conIrve!*(item.tipo.potencia+0.3*item.potIrve!))}}
+                kW</ion-label>
+              </ion-col>
+              <ion-col>
+                  <ion-button (click)="eliminaVivienda(item)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
+              </ion-col>
+              
+          } @empty {
+            <li>No hay ninguna vivienda definida.</li>
+            }
           
 
           </ion-row>
 
-        } @empty {
-          <li>No hay ninguna vivienda definida.</li>
-          }
+        
        
       </div>
 
