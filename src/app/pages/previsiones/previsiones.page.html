@@ -10,30 +10,24 @@
     <ion-grid >
       <div  style="display: flexbox;">
       <ion-row class="ion-justify-content-start">
-        <ion-col id="p1" color="primary">P1 Viv: {{P1}}{{previsionActual.Pviv}}</ion-col>
+        <ion-col id="p1" color="primary">P1 Viv: {{P1}}</ion-col>
         <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
         <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
         <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
         <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
-        <ion-col id="pt" color="Success">P Total: {{previsionActual.Ptotal}}</ion-col>
+        <ion-col id="pt" color="Success">P Total:</ion-col>
       </ion-row>
 
       <ion-row >
-        <ion-col id="rp1" > {{P1}}{{previsionActual.Pviv}}</ion-col>
+        <ion-col id="rp1" > {{P1}}{{previsionesService.prevision().Pviv}}</ion-col>
         <ion-col id="rp2" >{{P2}}</ion-col>
         <ion-col id="rp3" >{{P3}}</ion-col>
         <ion-col id="rp4" >{{P4}} </ion-col>
         <ion-col id="rp5" >{{P5}} </ion-col>
-        <ion-col id="rpt"> {{previsionActual.Ptotal}}</ion-col>
+        <ion-col id="rpt"> </ion-col>
       </ion-row>
     </div>
       <ion-row color="danger">
-
-      
-       
-       
-        
-
 
       </ion-row>
       <ion-row>
@@ -71,7 +65,7 @@
       Agregar viviendas
     </ion-button></ion-col>
 
-    <ion-item *ngFor="let viv of listaViviendas">
+    <ion-item *ngFor="let viv of previsionesService.listaViviendas()">
       <ion-label id="lidviv">{{viv.id}}</ion-label>
       <ion-label>Num viv :{{viv.numViviendas}}</ion-label>
       <ion-label>Tipo : {{viv.tipo.nombre}}</ion-label>
@@ -118,7 +112,7 @@
     <ion-item-divider color="primary">
       <ion-label>Prevision Irve</ion-label>
     </ion-item-divider>
-    <ion-item *ngFor="let irve of listaIrve$">
+    <ion-item *ngFor="let irve of previsionesService.listaIrve()">
       <ion-label id="lidviv">{{irve.id}}</ion-label>
       <ion-label>Num viv :{{irve.cantidad}}</ion-label>
 

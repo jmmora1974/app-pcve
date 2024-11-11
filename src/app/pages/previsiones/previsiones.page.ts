@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ServiPrevisionesService } from 'src/app/services/servi-previsiones.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { PrevisionesService } from 'src/app/services/previsiones.service';
 import { ModalController } from '@ionic/angular';
 import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
 import { IVivienda } from 'src/app/models/ivivienda';
@@ -12,12 +12,15 @@ import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-genera
   styleUrls: ['./previsiones.page.scss'],
 })
 export class PrevisionesPage {
+  /*
   prevision=this.previsionesService.listaPrevisiones
   viviendas = this.previsionesService.viviendas$;
   prevision$ = this.previsionesService.prevision$;
   listaViviendas = this.previsionesService.listaViviendas;
   listaIrve$ = this.previsionesService.obtenListaIrve();
-  previsionActual: IPrevision ={
+  */
+  previsionesService = inject (PrevisionesService);
+ /* previsionActual: IPrevision ={
     id:this.previsionesService.listaPrevisiones.length,
     Pviv: 0,
     Psgen: 0,
@@ -28,6 +31,8 @@ export class PrevisionesPage {
     esquema: '1a',
     spl: false
   }
+  */
+
   P1: number = 0;
   P2: number = 0;
   P3: number = 0;
@@ -59,7 +64,7 @@ export class PrevisionesPage {
       this.previsionesService.agregraServiciosGenerales(data);
       
       this.actualizaResultados();
-      console.log('agregados servicios generales ', this.previsionActual);
+      //console.log('agregados servicios generales ', this.previsionActual);
       
 
     }
@@ -78,7 +83,7 @@ export class PrevisionesPage {
       this.previsionesService.agregraVivienda(data);
       
       this.actualizaResultados();
-      console.log('agregaod ', this.previsionActual);
+      console.log('agregaod ', this.previsionesService.prevision);
       
 
     }
@@ -87,8 +92,8 @@ export class PrevisionesPage {
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
     console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
-    this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
-    this.listaIrve$ = this.previsionesService.obtenListaIrve();
+   // this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
+    //this.listaIrve$ = this.previsionesService.obtenListaIrve();
     //this.prevision$ = this.previsionesService.calculaPT();
     
     this.actualizaResultados();
@@ -98,16 +103,20 @@ export class PrevisionesPage {
 
   actualizaResultados() {
 
-    let prevTemp= this.previsionesService.calculaPT();
+    /*let prevTemp= this.previsionesService.calculaPT();
     console.log("actua",prevTemp[0])
-    this.previsionActual= prevTemp[0];
-    this.P1 = this.previsionActual.Pviv;
-    this.P2 = this.previsionActual.Psgen!;
-    this.P3 = this.previsionActual.Ploc!;
-    this.P4 = this.previsionActual.Pgar!;
-    this.P5 = this.previsionActual.Pirve!;
-    this.PT = this.previsionActual.Ptotal!;
-    this.previsionActual.Ptotal
+    if (this.previsionesService.prevision()){
+      this.previsionesService.prevision()= prevTemp[0];*/
+    this.P1 = this.previsionesService.prevision().Pviv|0;
+    this.P2 = this.previsionesService.prevision().Psgen!|0;
+    this.P3 = this.previsionesService.prevision().Ploc!|0;
+    this.P4 = this.previsionesService.prevision().Pgar!|0;
+    this.P5 = this.previsionesService.prevision().Pirve!|0;
+    this.PT = this.previsionesService.prevision().Ptotal!|0;
+
+    //}
+    
+    
 
   }
   //Cambia el valor de la variable SPL si el edificio dispone del sistema SPL.
@@ -126,7 +135,7 @@ export class PrevisionesPage {
   }
 
   constructor(
-    private previsionesService: ServiPrevisionesService,
+    
     private modalCtrl: ModalController
   ) { }
 

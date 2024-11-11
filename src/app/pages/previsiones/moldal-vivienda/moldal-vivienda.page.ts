@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
 import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
-import { ServiPrevisionesService } from '../../../services/servi-previsiones.service';
+import { PrevisionesService } from '../../../services/previsiones.service';
 import { IonSelectCustomEvent } from '@ionic/core';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -12,7 +12,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./moldal-vivienda.page.scss'],
 })
 export class MoldalViviendaPage implements OnInit {
- 
+  previsionesService=inject(PrevisionesService);
    public tipoViviendas: ITipoVivienda[] = [
     { id: 0, nombre: 'Basica', descripcion:'Vivienda standard',  potencia: 5.75 },
     { id: 1, nombre: 'Elevada', descripcion:'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
@@ -21,7 +21,7 @@ export class MoldalViviendaPage implements OnInit {
   potenciaViv?: number=5.75;
   numIdVivienda:number=0;
   numeroviviendas: number=0;
-  formVivienda!: FormGroup;
+  formViviendaM!: FormGroup;
   nuevaVivienda:IVivienda={
     id: 0,
     numViviendas: 0,
@@ -35,14 +35,14 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   constructor(
     private modalCtrl: ModalController, 
     public fb: FormBuilder,navParams: NavParams,  
-    PrevisionesService: ServiPrevisionesService,
+   
     private loadingController: LoadingController,
     private alertController: AlertController,
     private  utilserv: UtilsService,
 
   ) { 
     
-    this.numIdVivienda=PrevisionesService.totalViviendas();
+    this.numIdVivienda=this.previsionesService.totalViviendas();
     
   } 
   ngOnInit(): void {
@@ -51,7 +51,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
   nuevoFormVivienda(){
      
-    this.formVivienda = this.fb.group({
+    this.formViviendaM = this.fb.group({
       id: [this.numIdVivienda],
       numViv: [0, [Validators.required]],
       tipoViv: [this.tipoViviendas[0]],
@@ -63,19 +63,19 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   }
 
   get id() {
-    return this.formVivienda.get('id')?.value;
+    return this.formViviendaM.get('id')?.value;
   }
   get ObtenNumViviendas() {
-    return this.formVivienda.get('numViv')?.value;
+    return this.formViviendaM.get('numViv')?.value;
   }
 
 
   get potTipoVivienda() {
-    return this.formVivienda.get('tipoViv')?.value | 0;
+    return this.formViviendaM.get('tipoViv')?.value | 0;
   }
 
   get ObtenNumViviendasConIrve() {
-    return this.formVivienda.get('numVivIrve')?.value;
+    return this.formViviendaM.get('numVivIrve')?.value;
   }
 
   cancel() {
@@ -84,21 +84,21 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
 
   agregaVivienda() {  
-    if (this.formVivienda.get('numViv')?.value >0 )  {
-      if (this.formVivienda.get('numViv')?.value <this.formVivienda.get('numVivIrve')?.value )  {
+    if (this.formViviendaM.get('numViv')?.value >0 )  {
+      if (this.formViviendaM.get('numViv')?.value <this.formViviendaM.get('numVivIrve')?.value )  {
         this.utilserv.showAlert ("Error numero Irves","El numero de Irves ha de ser inferior o igual a las viviendas.")
       return "";
       }
-      this.nuevaVivienda.tipo= this.formVivienda.get('tipoViv')?.value ;
+      this.nuevaVivienda.tipo= this.formViviendaM.get('tipoViv')?.value ;
       if (this.nuevaVivienda.tipo.nombre=="Contratada" ){
-        this.nuevaVivienda.tipo.potencia = this.formVivienda.get('potViv')?.value;
+        this.nuevaVivienda.tipo.potencia = this.formViviendaM.get('potViv')?.value;
   
       }
       
-      this.nuevaVivienda.numViviendas=this.formVivienda.get('numViv')?.value ;
+      this.nuevaVivienda.numViviendas=this.formViviendaM.get('numViv')?.value ;
       this.numIdVivienda!++;
-      this.nuevaVivienda.conIrve=this.formVivienda.get('numVivIrve')?.value ;
-      this.nuevaVivienda.potIrve=this.formVivienda.get('potIrve')?.value ;
+      this.nuevaVivienda.conIrve=this.formViviendaM.get('numVivIrve')?.value ;
+      this.nuevaVivienda.potIrve=this.formViviendaM.get('potIrve')?.value ;
       
       return this.modalCtrl.dismiss(this.nuevaVivienda, 'confirm');
     } else {
@@ -111,7 +111,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     console.log('Current value:', JSON.stringify(ev.target.value));
     
     this.nuevaVivienda.numViviendas=this.numeroviviendas;
-    const tipVivtemp:ITipoVivienda = this.formVivienda.get('tipoViv')!.value;
+    const tipVivtemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
     this.potenciaViv =tipVivtemp.potencia;
     console.log('tipo potencia', JSON.stringify(tipVivtemp));
   }
