@@ -1,13 +1,18 @@
+
+
+//import { BehaviorSubject } from 'rxjs';
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ITipoVivienda, IVivienda } from '../models/ivivienda';
 import { IPrevision } from '../models/iprevision';
 import { UtilsService } from './utils.service';
 import { IIrve } from '../models/iirve';
 
+
 @Injectable({
   providedIn: 'root'
-})
+});
+
+
 export class PrevisionesService {
  
   /*
@@ -20,9 +25,9 @@ export class PrevisionesService {
   listaViviendas: WritableSignal<IVivienda[]>=  signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
-  prevision: WritableSignal<IPrevision>=signal<IPrevision>(
-    {
-      id:0,
+
+  prevision: WritableSignal<IPrevision>=signal<IPrevision>({
+      id: 0,
       Pviv: 0,
       Psgen: 0,
       Ploc: 0,
@@ -62,14 +67,14 @@ export class PrevisionesService {
 
   //Agrega la nueva vieneda al listado de viviendas de la previsión.
   agregraVivienda(nuevaViv: IVivienda) {
-    const numV = this.listaViviendas.length;
+    const numV = this.listaViviendas().length;
     nuevaViv.id = numV;
     //Agregamos la vivienda a la lista de viviendas.
-    this.listaViviendas.update(values => [...values,nuevaViv]);
+    this.listaViviendas.update((values: IVivienda[]) => [...values,nuevaViv]);
 
     //Agregamos las viviendas con irve a la lista
     if (nuevaViv.conIrve! > 0) {
-      this.listaIrve.update (values=>[...values,{
+      this.listaIrve.update ((values: IIrve[])=>[...values,{
         id: this.listaIrve.length,
         cantidad: nuevaViv.conIrve!,
         potencia: nuevaViv.potIrve!,
@@ -89,7 +94,7 @@ export class PrevisionesService {
     let listaIrveTemp: IIrve[] = [];
     let contId = 0;
 
-    return this.listaViviendas.update(values=>values.filter((vid:IVivienda)=>vid.id==indice));
+    return this.listaViviendas.update((values: any[])=>values.filter((vid:IVivienda)=>vid.id==indice));
     /*
     this.listaViviendas.update(element => {
       element.id != indice) {
@@ -151,10 +156,10 @@ export class PrevisionesService {
     this.PotP1diurMed=0;
     this.numIrves=0;
 
-    this.listaViviendas().forEach(viviendan => {
+    this.listaViviendas().forEach((viviendan:IVivienda) => {
       //Calculamos las potencias y generamos la potencia media de la vivienda.
-      this.sumPotP1.update(values=>values+ (viviendan.numViviendas * viviendan.tipo.potencia));
-      this.sumvivP1.update(values=>values+ (viviendan.numViviendas));
+      this.sumPotP1.update((values:number)=>values+ (viviendan.numViviendas * viviendan.tipo.potencia));
+      this.sumvivP1.update((values:number)=>values+ (viviendan.numViviendas));
       this.numIrves += viviendan.conIrve!;
       this.sumPotP1med=this.sumPotP1()/this.sumvivP1();
        //Calculamos el coeficente CS de la tabla tablaITC10
@@ -254,8 +259,8 @@ export class PrevisionesService {
         return 0;
       default:
         this.valorP5 = 0;
-        this.listaIrve().forEach(irve => {
-          this.valorP5 += irve.cantidad * irve.potencia;
+        this.listaIrve().forEach((irve: { cantidad: number; potencia: number; }) => {
+          this.valorP5 += (irve.cantidad * irve.potencia);
         });
         console.log('spl p5 ', this.spl);
         if (this.spl) {
@@ -272,7 +277,7 @@ export class PrevisionesService {
     this.valorP3 = this.calculaP3();
     this.valorP4 = this.calculaP4();
     this.valorP5 = this.calculaP5();
-    this.prevision.update(values=>values={
+    this.prevision.update((values:IPrevision)=>values={
       id: this.listaPrevisiones.length,
       Pviv: this.valorP1,
       Psgen: this.valorP2,
@@ -300,4 +305,8 @@ export class PrevisionesService {
 
 }
 
+
+function signal<T>(arg0: never[]): WritableSignal<IIrve[]> {
+  throw new Error('Function not implemented.');
+}
 

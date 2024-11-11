@@ -7,26 +7,26 @@
 <ion-content [fullscreen]="true">
 
   <ion-item>
-    <ion-grid >
-      <div  style="display: flexbox;">
-      <ion-row class="ion-justify-content-start">
-        <ion-col id="p1" color="primary">P1 Viv: {{P1}}</ion-col>
-        <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
-        <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
-        <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
-        <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
-        <ion-col id="pt" color="Success">P Total:</ion-col>
-      </ion-row>
+    <ion-grid>
+      <div style="display: flexbox;">
+        <ion-row class="ion-justify-content-start">
+          <ion-col id="p1" color="primary">P1 Viv: {{P1}}</ion-col>
+          <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
+          <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
+          <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
+          <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
+          <ion-col id="pt" color="Success">P Total:</ion-col>
+        </ion-row>
 
-      <ion-row >
-        <ion-col id="rp1" > {{P1}}{{previsionesService.prevision().Pviv}}</ion-col>
-        <ion-col id="rp2" >{{P2}}</ion-col>
-        <ion-col id="rp3" >{{P3}}</ion-col>
-        <ion-col id="rp4" >{{P4}} </ion-col>
-        <ion-col id="rp5" >{{P5}} </ion-col>
-        <ion-col id="rpt"> </ion-col>
-      </ion-row>
-    </div>
+        <ion-row>
+          <ion-col id="rp1"> {{P1}}{{previsionesService.prevision().Pviv}}</ion-col>
+          <ion-col id="rp2">{{P2}}</ion-col>
+          <ion-col id="rp3">{{P3}}</ion-col>
+          <ion-col id="rp4">{{P4}} </ion-col>
+          <ion-col id="rp5">{{P5}} </ion-col>
+          <ion-col id="rpt"> </ion-col>
+        </ion-row>
+      </div>
       <ion-row color="danger">
 
       </ion-row>
@@ -61,9 +61,24 @@
       <ion-label>Prevision Viviendas</ion-label>
     </ion-item-divider>
     <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
-      shape="round">
-      Agregar viviendas
-    </ion-button></ion-col>
+        shape="round">
+        Agregar viviendas
+      </ion-button></ion-col>
+    <ion-grid>
+      <div style="display: flexbox;">
+       
+        <ion-row>
+
+          <ion-col>
+            <ion-li> {{vivien}}</ion-li>
+          </ion-col>
+
+
+        </ion-row>
+       
+      </div>
+
+    </ion-grid>
 
     <ion-item *ngFor="let viv of previsionesService.listaViviendas()">
       <ion-label id="lidviv">{{viv.id}}</ion-label>
@@ -85,8 +100,8 @@
       <ion-label>Prevision Sevicios Generales</ion-label>
     </ion-item-divider>
     <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
-      Agregar Serv Grales
-    </ion-button></ion-col>
+        Agregar Serv Grales
+      </ion-button></ion-col>
 
   </ion-item-group>
 
@@ -95,8 +110,8 @@
       <ion-label>Prevision Locales</ion-label>
     </ion-item-divider>
     <ion-col><ion-button (click)="agregarLocales()" expand="block" fill="clear" shape="round">
-      Agregar Locales
-    </ion-button></ion-col>
+        Agregar Locales
+      </ion-button></ion-col>
   </ion-item-group>
 
   <ion-item-group>
@@ -104,8 +119,8 @@
       <ion-label>Prevision Garage</ion-label>
     </ion-item-divider>
     <ion-col><ion-button (click)="agregarGarage()" expand="block" fill="clear" shape="round">
-      Agregar Garage
-    </ion-button></ion-col>
+        Agregar Garage
+      </ion-button></ion-col>
   </ion-item-group>
 
   <ion-item-group>
