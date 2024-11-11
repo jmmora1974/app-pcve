@@ -1,6 +1,6 @@
 
 
-//import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ITipoVivienda, IVivienda } from '../models/ivivienda';
 import { IPrevision } from '../models/iprevision';
@@ -10,7 +10,7 @@ import { IIrve } from '../models/iirve';
 
 @Injectable({
   providedIn: 'root'
-});
+} )
 
 
 export class PrevisionesService {
@@ -71,6 +71,7 @@ export class PrevisionesService {
     nuevaViv.id = numV;
     //Agregamos la vivienda a la lista de viviendas.
     this.listaViviendas.update((values: IVivienda[]) => [...values,nuevaViv]);
+    console.log("nueva viv ",nuevaViv);
 
     //Agregamos las viviendas con irve a la lista
     if (nuevaViv.conIrve! > 0) {
@@ -306,7 +307,5 @@ export class PrevisionesService {
 }
 
 
-function signal<T>(arg0: never[]): WritableSignal<IIrve[]> {
-  throw new Error('Function not implemented.');
-}
+
 

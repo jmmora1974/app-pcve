@@ -66,15 +66,28 @@
       </ion-button></ion-col>
     <ion-grid>
       <div style="display: flexbox;">
-       
+        @for (item of previsionesService.listaViviendas(); track item.id) {
         <ion-row>
+         
+            <ion-item *ngFor="let viv of previsionesService.listaViviendas()">
+              <ion-label id="lidviv">{{item.id}}</ion-label>
+              <ion-label>Num viv :{{item.numViviendas}}</ion-label>
+              <ion-label>Tipo : {{item.tipo.nombre}}</ion-label>
+              <ion-label>Potencia :{{item.tipo.potencia}} kW</ion-label>
+              <ion-label>con Irve :{{item.conIrve}}</ion-label>
+              <ion-label>Potencia Irve :{{item.potIrve}} kW</ion-label>
+              <ion-label>={{(item.numViviendas-viv.conIrve!)*item.tipo.potencia+(item.conIrve!*(item.tipo.potencia+0.3*item.potIrve!))}}
+                kW</ion-label>
+              <ion-button (click)="eliminaVivienda(viv)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
+            </ion-item>
+           
+          
 
-          <ion-col>
-            <ion-li> {{vivien}}</ion-li>
-          </ion-col>
+          </ion-row>
 
-
-        </ion-row>
+        } @empty {
+          <li>No hay ninguna vivienda definida.</li>
+          }
        
       </div>
 
