@@ -91,42 +91,44 @@ export class PrevisionesService {
 
   eliminaVivienda(indice: number) {
 
-    let listaVivTemp: IVivienda[] = [];
+    let listaVivTemp = signal<IVivienda[]>([]);
     let listaIrveTemp: IIrve[] = [];
     let contId = 0;
 
-    return this.listaViviendas.update((values: any[])=>values.filter((vid:IVivienda)=>vid.id==indice));
-    /*
-    this.listaViviendas.update(element => {
-      element.id != indice) {
-
-        listaVivTemp.push(element);
+   // return this.listaViviendas.update((values: any[])=>values.filter((vid:IVivienda)=>vid.id==indice));
+   console.log("No se ha eliminado vivienda ",indice);
+    this.listaViviendas().forEach ( (element) => {
+     if(element.id != indice) {
+        element.id=contId;
+        console.log("No se ha eliminado vivienda ", element.id);
+        listaVivTemp().push(element);
         contId++;
 
       } else {
-        let contIdi = 0;
-
-        this.listaIrve.forEach(irvetemp => {
-
-          if (element.id != irvetemp.id) {
-            listaIrveTemp.push(irvetemp);
-
-
+        contId++;
+        let contIrve = 0;
+        this.listaIrve().forEach(irvetemp => {
+          
+          if (element.conIrve != irvetemp.cantidad && element.potIrve ==irvetemp.potencia ) {
+            console.log("Se ha eliminado el irve ", irvetemp.id);
           } else {
-            console.log("Se ha eliminado vivienda ", element.id);
-
+          
+            irvetemp.id=contId;
+            listaIrveTemp.push(irvetemp);
           }
+          contIrve++;
+          console.log("Se ha eliminado la vivienda  ", element.id);
 
         });
-        this.listaIrve = listaIrveTemp;
+        this.listaIrve.set( listaIrveTemp);
     
       }
 
     });
-
-    this.listaViviendas = listaVivTemp;
+    this,this.listaViviendas.set([]);
+    this.listaViviendas.update(...[], listaVivTemp);
     return listaVivTemp;
-    */
+    
   }
 
   totalViviendas(): number {

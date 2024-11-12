@@ -91,8 +91,10 @@ export class PrevisionesPage {
   }
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
+    this.previsionesService.eliminaVivienda(ev.id);
     console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
-   // this.listaViviendas = this.previsionesService.eliminaVivienda(ev.id);
+    let listaVivTemp =  this.previsionesService.eliminaVivienda(ev.id);
+    this.previsionesService.listaViviendas.update(listaVivTemp);
     //this.listaIrve$ = this.previsionesService.obtenListaIrve();
     //this.prevision$ = this.previsionesService.calculaPT();
     

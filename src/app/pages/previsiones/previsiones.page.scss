@@ -36,9 +36,24 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    border-radius: 5px;
+  }
+
+  .titListado {
+    color:#2834bb;
+    background-color: #2b51b9;
+    width: 20;
+    display:flex;
   }
   
-  #p1 {
+  #viv{
+    width: 20px;
+  }
+  .btnEliminar{
+    width: 20px;
+  }
+  
+  #p1, rp1 {
     background-color: #c8e232;
     border: solid 1px #2b51b9;
     color: #070101;
