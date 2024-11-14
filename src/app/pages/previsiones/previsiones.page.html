@@ -38,7 +38,8 @@
 
 
   </ion-item>
-  <mat-grid-list cols="6" rowHeight="100px">
+  
+  <mat-grid-list cols="6" rowHeight="40px">
     @for (tile of tiles; track tile) {
     <mat-grid-tile
       [colspan]="tile.cols"
@@ -48,6 +49,7 @@
     >
     }
   </mat-grid-list>
+
   <ion-grid>
     <ion-row>
       <ion-col class="ion-justify-content-start">
