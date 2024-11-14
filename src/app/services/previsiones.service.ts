@@ -85,7 +85,7 @@ export class PrevisionesService {
     
 
     console.log('Se ha agregado la vivienda ', nuevaViv);
-    //this.calculaPT();
+    this.calculaPT();
   }
 
 
