@@ -5,39 +5,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  
-  <ion-item>
-
-
-    <ion-grid>
-      <div style="display: flexbox;">
-        <ion-row class="ion-justify-content-start">
-          <ion-col id="p1" color="primary">P1 Viv: {{P1}}</ion-col>
-          <ion-col id="p2" color="secondary">P2 Serv Gen: {{P2}}</ion-col>
-          <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
-          <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
-          <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
-          <ion-col id="pt" >P Total:</ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col id="p1"> {{P1}}{{previsionesService.prevision().Pviv}}</ion-col>
-          <ion-col id="p2">{{P2}}</ion-col>
-          <ion-col id="p3">{{P3}}</ion-col>
-          <ion-col id="p4">{{P4}} </ion-col>
-          <ion-col id="p5">{{P5}} </ion-col>
-          <ion-col id="pt"> </ion-col>
-        </ion-row>
-      </div>
-      <ion-row color="danger">
-
-      </ion-row>
-      
-    </ion-grid>
-
-
-  </ion-item>
   
   <mat-grid-list cols="6" rowHeight="40px">
     @for (tile of tiles; track tile) {

@@ -44,16 +44,16 @@ export class PrevisionesPage {
   */
   tiles: Tile[] = [
     { text: 'PViv', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'P2', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'P3', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'P4', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'P5', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PT', cols: 1, rows: 2, color: '#45F577' },
+    { text: 'PSerGen', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PLoc', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PGar', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PIrve', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PTotal: '+ this.previsionesService.prevision().Ptotal.toString(), cols: 1, rows: 2, color: '#45F577' },
     { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: 'res2', cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: 'res3', cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: 'res4', cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: 'res5', cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: this.previsionesService.prevision().Ploc!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: this.previsionesService.prevision().Pgar!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: this.previsionesService.prevision().Pirve!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
   ];
 
   P1: number = 0;
