@@ -132,12 +132,14 @@ export class PrevisionesPage {
     console.log("actua",prevTemp[0])
     if (this.previsionesService.prevision()){
       this.previsionesService.prevision()= prevTemp[0];*/
-    this.P1 = this.previsionesService.prevision().Pviv|0;
-    this.P2 = this.previsionesService.prevision().Psgen!|0;
-    this.P3 = this.previsionesService.prevision().Ploc!|0;
-    this.P4 = this.previsionesService.prevision().Pgar!|0;
-    this.P5 = this.previsionesService.prevision().Pirve!|0;
-    this.PT = this.previsionesService.prevision().Ptotal!|0;
+      this.tiles[6].text= this.previsionesService.prevision().Pviv.toString();
+      this.tiles[7].text= this.previsionesService.prevision().Psgen!.toString();
+      this.tiles[8].text= this.previsionesService.prevision().Ploc!.toString();
+      this.tiles[9].text= this.previsionesService.prevision().Pgar!.toString();
+      this.tiles[10].text= this.previsionesService.prevision().Pirve!.toString();
+      this.tiles[5].text='Prevision Total '+ this.previsionesService.prevision().Ptotal.toString();
+    
+    console.log('tile ', this.tiles[6].text);
 
     //}
     
@@ -147,13 +149,13 @@ export class PrevisionesPage {
   //Cambia el valor de la variable SPL si el edificio dispone del sistema SPL.
   cambiaSPL(argspl: boolean) {
     
-    this.previsionesService.spl = argspl;
+    this.previsionesService.prevision().spl = argspl;
     this.actualizaResultados();
     //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
   }
 
   cambiaEsquema(arg0: any) {
-    this.previsionesService.esquemaVivienda = arg0.value;
+    this.previsionesService.prevision().esquema = arg0.value;
 
     this.actualizaResultados();
     

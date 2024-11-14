@@ -16,7 +16,7 @@
     >
     }
   </mat-grid-list>
-
+  
   <ion-grid>
     <ion-row>
       <ion-col class="ion-justify-content-start">
@@ -43,7 +43,7 @@
   </ion-grid>
   <ion-item-group>
     <ion-item-divider color="primary">
-      <ion-label>Prevision Viviendas</ion-label>
+      <ion-label>Prevision Viviendas  : {{this.previsionesService.prevision().Pviv}}</ion-label>
     </ion-item-divider>
     <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
         shape="round">

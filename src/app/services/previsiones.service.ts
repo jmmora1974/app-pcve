@@ -50,8 +50,7 @@ export class PrevisionesService {
   valorP4: number = 0;
   valorP5: number = 0;
 
-  esquemaVivienda: string | undefined;
-  spl!: boolean;
+  
   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
     { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5.75 },
@@ -146,8 +145,10 @@ export class PrevisionesService {
   PotP1diurMed: number=0;
   cs: number = 0;
   numIrves: number=0;
+
   //Calcula la prevision de vivienda P1 Viv
   calculaP1(): number {
+    //reseteamos valores de los contadores.
     this.sumPotP1.set(0);
     this.sumPotP1sinIrve = 0;
     this.sumPotP1conIrve = 0;
@@ -174,7 +175,7 @@ export class PrevisionesService {
       }
     } 
       //Comprobamos el tipo de esquema para calcular la opcion
-      switch (this.esquemaVivienda) {
+      switch (this.prevision().esquema) {
         case "2":
         case "4a":
 
@@ -227,7 +228,7 @@ export class PrevisionesService {
         console.log('irv',vivTemp.conIrve);
         this.eliminaVivienda(vivTemp.id);
         this.agregraVivienda(vivTemp!);
-        //this.calculaP1();
+        this.calculaP1();
       }
       
       
@@ -256,7 +257,7 @@ export class PrevisionesService {
   }
   //Calcula prevision Irve excepto esquema 2 y 4a.
   calculaP5(): number {
-    switch (this.esquemaVivienda) {
+    switch (this.prevision().esquema) {
       case "2":
       case "4a":
         return 0;
@@ -265,8 +266,8 @@ export class PrevisionesService {
         this.listaIrve().forEach((irve: { cantidad: number; potencia: number; }) => {
           this.valorP5 += (irve.cantidad * irve.potencia);
         });
-        console.log('spl p5 ', this.spl);
-        if (this.spl) {
+        console.log('spl p5 ', this.prevision().spl);
+        if (this.prevision().spl) {
           this.valorP5 *= 0.3;
         }
         return this.valorP5;
@@ -288,8 +289,8 @@ export class PrevisionesService {
       Pgar: this.valorP4,
       Pirve: this.valorP5,
       Ptotal: this.valorP1 + this.valorP2 + this.valorP3 + this.valorP4 + this.valorP5,
-      esquema: this.esquemaVivienda,
-      spl: this.spl
+      esquema: this.prevision().esquema,
+      spl: this.prevision().spl
     });
    
     return this.prevision();
