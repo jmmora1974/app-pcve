@@ -1,15 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { PrevisionesService } from 'src/app/services/previsiones.service';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, inject } from '@angular/core';
+import { PrevisionesService } from '../../services/previsiones.service';
 import { ModalController } from '@ionic/angular';
 import { MoldalViviendaPage } from './moldal-vivienda/moldal-vivienda.page';
-import { IVivienda } from 'src/app/models/ivivienda';
-import { IPrevision } from 'src/app/models/iprevision';
+//import { IVivienda } from 'src/app/models/ivivienda';
+//import { IPrevision } from 'src/app/models/iprevision';
 import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-generales.page';
+
+import { MatGridListModule } from '@angular/material/grid-list';
+
+export interface Tile {
+  color: string;
+  cols: number;
+  rows: number;
+  text: string;
+}
+
 
 @Component({
   selector: 'app-previsiones',
   templateUrl: './previsiones.page.html',
-  styleUrls: ['./previsiones.page.scss'],
+  styleUrls: ['./previsiones.page.scss']
 })
 export class PrevisionesPage {
   /*
@@ -32,6 +42,19 @@ export class PrevisionesPage {
     spl: false
   }
   */
+  tiles: Tile[] = [
+    { text: 'PViv', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'P2', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'P3', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'P4', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'P5', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PT', cols: 1, rows: 2, color: '#45F577' },
+    { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: 'res2', cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: 'res3', cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: 'res4', cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: 'res5', cols: 1, rows: 1, color: '#D9F5D7' },
+  ];
 
   P1: number = 0;
   P2: number = 0;

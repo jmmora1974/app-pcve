@@ -1,6 +1,37 @@
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  )
+));
+body {
+  background-color: var(--ion-color-light);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 30px;
+  height: 100%;
+
+  @include mat.all-component-themes($theme);
+}
+mat-grid-tile {
+  background: lightblue;
+  height:  10px;
+  border-radius: 10px;
+}
+
 :host {
+  
   body {
     background-color: var(--ion-color-light);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 30px;
+    height: 100%;
+  
+    @include mat.all-component-themes($theme);
   }
 
   ion-content {
@@ -97,3 +128,6 @@
 
 
 }
+
+@include mat.core();
+@include mat.color-variants-backwards-compatibility($theme);

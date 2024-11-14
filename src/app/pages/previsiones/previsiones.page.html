@@ -6,7 +6,10 @@
 
 <ion-content [fullscreen]="true">
 
+  
   <ion-item>
+
+
     <ion-grid>
       <div style="display: flexbox;">
         <ion-row class="ion-justify-content-start">
@@ -15,7 +18,7 @@
           <ion-col id="p3" color="tertiary">P3 Locales: {{P3}}</ion-col>
           <ion-col id="p4" color="dark">P4 Garage: {{P4}} </ion-col>
           <ion-col id="p5" color="Warning">P5 Irve:{{P5}} </ion-col>
-          <ion-col id="pt" color="Success">P Total:</ion-col>
+          <ion-col id="pt" >P Total:</ion-col>
         </ion-row>
 
         <ion-row>
@@ -30,32 +33,45 @@
       <ion-row color="danger">
 
       </ion-row>
-      <ion-row>
-        <ion-col class="ion-justify-content-start">
-
-          <ion-label>Esquema:</ion-label>
-          <ion-select aria-label="tipo de esquema" interface="popover" placeholder="tipo de esquema" color="danger"
-            (ionChange)="cambiaEsquema($event.srcElement)">
-            <ion-select-option value="1a">1a</ion-select-option>
-            <ion-select-option value="1b">1b</ion-select-option>
-            <ion-select-option value="1c">1c</ion-select-option>
-            <ion-select-option value="2">2</ion-select-option>
-            <ion-select-option value="3a">3a</ion-select-option>
-            <ion-select-option value="4a">4a</ion-select-option>
-            <ion-select-option value="4b">4b</ion-select-option>
-
-          </ion-select>
-
-        </ion-col>
-        <ion-col>
-          <ion-checkbox (ionChange)="cambiaSPL ($event.target.checked)">¿Tiene SPL?:</ion-checkbox>
-
-        </ion-col>
-      </ion-row>
+      
     </ion-grid>
 
 
   </ion-item>
+  <mat-grid-list cols="6" rowHeight="100px">
+    @for (tile of tiles; track tile) {
+    <mat-grid-tile
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color"
+      >{{tile.text}}</mat-grid-tile
+    >
+    }
+  </mat-grid-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-justify-content-start">
+
+        <ion-label>Esquema:</ion-label>
+        <ion-select aria-label="tipo de esquema" interface="popover" placeholder="tipo de esquema" color="danger"
+          (ionChange)="cambiaEsquema($event.srcElement)">
+          <ion-select-option value="1a">1a</ion-select-option>
+          <ion-select-option value="1b">1b</ion-select-option>
+          <ion-select-option value="1c">1c</ion-select-option>
+          <ion-select-option value="2">2</ion-select-option>
+          <ion-select-option value="3a">3a</ion-select-option>
+          <ion-select-option value="4a">4a</ion-select-option>
+          <ion-select-option value="4b">4b</ion-select-option>
+
+        </ion-select>
+
+      </ion-col>
+      <ion-col>
+        <ion-checkbox (ionChange)="cambiaSPL ($event.target.checked)">¿Tiene SPL?:</ion-checkbox>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-item-group>
     <ion-item-divider color="primary">
       <ion-label>Prevision Viviendas</ion-label>
