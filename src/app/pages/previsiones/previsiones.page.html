@@ -152,8 +152,8 @@
       <ion-label>Prevision Irve</ion-label>
     </ion-item-divider>
     <ion-item *ngFor="let irve of previsionesService.listaIrve()">
-      <ion-label id="lidviv">{{irve.id}}</ion-label>
-      <ion-label>Num viv :{{irve.cantidad}}</ion-label>
+      <ion-label >{{irve.id}}</ion-label>
+      <ion-label>Num Irves :{{irve.cantidad}}</ion-label>
 
       <ion-label>Potencia : {{irve.potencia}}</ion-label>
       <ion-label>Potencia vivienda :{{irve.tipoVivienda.potencia}} kW</ion-label>

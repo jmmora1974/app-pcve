@@ -117,7 +117,7 @@ export class PrevisionesPage {
     this.previsionesService.eliminaVivienda(ev.id);
     console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
     let listaVivTemp =  this.previsionesService.eliminaVivienda(ev.id);
-    this.previsionesService.listaViviendas.update(listaVivTemp);
+    //this.previsionesService.listaViviendas.update(listaVivTemp);
     //this.listaIrve$ = this.previsionesService.obtenListaIrve();
     //this.prevision$ = this.previsionesService.calculaPT();
     
@@ -129,9 +129,13 @@ export class PrevisionesPage {
   actualizaResultados() {
 
     /*let prevTemp= this.previsionesService.calculaPT();
+    
     console.log("actua",prevTemp[0])
     if (this.previsionesService.prevision()){
       this.previsionesService.prevision()= prevTemp[0];*/
+
+      this.previsionesService.calculaPT();
+
       this.tiles[6].text= this.previsionesService.prevision().Pviv.toFixed(2);
       this.tiles[7].text= this.previsionesService.prevision().Psgen!.toFixed(2);
       this.tiles[8].text= this.previsionesService.prevision().Ploc!.toFixed(2);
@@ -150,14 +154,14 @@ export class PrevisionesPage {
   cambiaSPL(argspl: boolean) {
     
     this.previsionesService.prevision().spl = argspl;
-    this.previsionesService.calculaPT();
+    
     this.actualizaResultados();
     //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
   }
 
   cambiaEsquema(arg0: any) {
     this.previsionesService.prevision().esquema = arg0.value;
-    this.previsionesService.calculaPT();
+   // this.previsionesService.calculaPT();
    
     this.actualizaResultados();
     
