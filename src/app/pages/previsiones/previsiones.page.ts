@@ -150,13 +150,15 @@ export class PrevisionesPage {
   cambiaSPL(argspl: boolean) {
     
     this.previsionesService.prevision().spl = argspl;
+    this.previsionesService.calculaPT();
     this.actualizaResultados();
     //console.log('spl', arg0, 'total ', this.PTotal, this.P5);
   }
 
   cambiaEsquema(arg0: any) {
     this.previsionesService.prevision().esquema = arg0.value;
-
+    this.previsionesService.calculaPT();
+   
     this.actualizaResultados();
     
   }
