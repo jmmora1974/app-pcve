@@ -76,7 +76,7 @@ export class PrevisionesService {
     //Agregamos las viviendas con irve a la lista
     if (nuevaViv.conIrve! > 0) {
       this.listaIrve.update((values: IIrve[]) => [...values, {
-        id: this.listaIrve.length,
+        id: this.listaIrve().length,
         cantidad: nuevaViv.conIrve!,
         potencia: nuevaViv.potIrve!,
         tipoVivienda: nuevaViv.tipo
