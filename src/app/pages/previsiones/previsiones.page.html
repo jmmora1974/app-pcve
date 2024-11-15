@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   
-  <mat-grid-list cols="6" rowHeight="40px">
+  <mat-grid-list cols="6" rowHeight="50px">
     @for (tile of tiles; track tile) {
     <mat-grid-tile
       [colspan]="tile.cols"
@@ -43,7 +43,7 @@
   </ion-grid>
   <ion-item-group>
     <ion-item-divider color="primary">
-      <ion-label>Prevision Viviendas  : {{this.previsionesService.prevision().Pviv}}</ion-label>
+      <ion-label>Prevision Viviendas  : {{this.previsionesService.prevision().Pviv.toFixed(2)}}</ion-label>
     </ion-item-divider>
     <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
         shape="round">

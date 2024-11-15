@@ -132,12 +132,12 @@ export class PrevisionesPage {
     console.log("actua",prevTemp[0])
     if (this.previsionesService.prevision()){
       this.previsionesService.prevision()= prevTemp[0];*/
-      this.tiles[6].text= this.previsionesService.prevision().Pviv.toString();
-      this.tiles[7].text= this.previsionesService.prevision().Psgen!.toString();
-      this.tiles[8].text= this.previsionesService.prevision().Ploc!.toString();
-      this.tiles[9].text= this.previsionesService.prevision().Pgar!.toString();
-      this.tiles[10].text= this.previsionesService.prevision().Pirve!.toString();
-      this.tiles[5].text='Prevision Total '+ this.previsionesService.prevision().Ptotal.toString();
+      this.tiles[6].text= this.previsionesService.prevision().Pviv.toFixed(2);
+      this.tiles[7].text= this.previsionesService.prevision().Psgen!.toFixed(2);
+      this.tiles[8].text= this.previsionesService.prevision().Ploc!.toFixed(2);
+      this.tiles[9].text= this.previsionesService.prevision().Pgar!.toFixed(2)
+      this.tiles[10].text= this.previsionesService.prevision().Pirve!.toFixed(2);
+      this.tiles[5].text= "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(2);
     
     console.log('tile ', this.tiles[6].text);
 
