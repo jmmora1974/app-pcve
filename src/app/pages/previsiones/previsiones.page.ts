@@ -53,7 +53,7 @@ export class PrevisionesPage {
     { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Ploc!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Pgar!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
-    { text: this.previsionesService.prevision().Pirve!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
+    { text: this.previsionesService.prevision().Pirve!.toFixed(2), cols: 1, rows: 1, color: '#D9F5D7' },
   ];
 
   P1: number = 0;
@@ -106,7 +106,7 @@ export class PrevisionesPage {
       this.previsionesService.agregraVivienda(data);
       
       this.actualizaResultados();
-      console.log('agregaod ', this.previsionesService.prevision);
+      console.log('agregada vivienda: ', this.previsionesService.prevision);
       
 
     }

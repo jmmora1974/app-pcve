@@ -85,7 +85,7 @@ export class PrevisionesService {
 
 
     console.log('Se ha agregado la vivienda ', nuevaViv);
-    this.calculaPT();
+    //this.calculaPT();
   }
 
 
@@ -146,12 +146,14 @@ export class PrevisionesService {
   sumvivP1 = signal(0);
   sumPotP1sinIrve: number = 0;
   sumPotP1conIrve: number = 0;
-  sumPotP1med = computed(() => this.sumPotP1() / this.sumvivP1());
+  sumPotP1med = signal(0);
+  
   sumPotP1diurna: number = 0;
   sumVivconIrve: number = 0;
   sumPotP1nocturna: number = 0;
   PotP1diurMed: number = 0;
-  cs=computed(()=>this.calculaCoefSimult(this.sumvivP1()));
+  cs=signal(0);
+  
   numIrves: number = 0;
 
   //Calculamos el coeficente CS de la tabla tablaITC10
@@ -160,13 +162,19 @@ export class PrevisionesService {
 
     if (coef> 0) {
       if (coef > 0 && coef < 22) {
-        this.cs=computed (()=> this.tablaITC10[this.sumvivP1() - 1]);
+        //ssthis.cs.update(()=>this.calculaCoefSimult(this.sumvivP1()));
+        
+        this.cs.update((value:number)=>value= this.tablaITC10[this.sumvivP1() - 1]);
+        console.log('CS11: ',this.cs());
       } else if (this.sumvivP1() > 21) {
-        this.cs=computed (()=>  15.3 + (this.sumvivP1() - 21) * 0.5);
+        let value1=0;
+        this.cs.update ( ()=> 15.3 + (this.sumvivP1() - 21) * 0.5);
+        console.log('CS12: ',this.cs());
       }
     } else {
       alert ('Error. Número erroneo para calcular el coeficiente de simulateneedad.');
     }
+    console.log('CS: ',this.cs());
     return this.cs();
   }
 
@@ -188,8 +196,10 @@ export class PrevisionesService {
       //Calculamos las potencias y generamos la potencia media de la vivienda.
       this.sumPotP1.update((values: number) => values + (viviendan.numViviendas * viviendan.tipo.potencia));
       this.sumvivP1.update((values: number) => values + (viviendan.numViviendas));
+      this.cs.update(()=>this.calculaCoefSimult(this.sumvivP1()));
+      this.sumPotP1med.update(() => this.sumPotP1() / this.sumvivP1());
       this.numIrves += viviendan.conIrve!;
-      this.sumPotP1med
+      console.log('Potencia media: ',this.sumPotP1med());
 
       //Comprobamos el tipo de esquema para calcular la opcion
       switch (this.prevision().esquema) {
@@ -213,18 +223,20 @@ export class PrevisionesService {
 
           //Calculamos la previsión tarifa contratada o nocturna.4
           this.sumPotP1nocturna = 0.5 * this.sumPotP1med() * this.cs() + this.sumVivconIrve * 3.68;
-
+          console.log('CS1: ',this.cs());
           console.log('noc', this.sumPotP1nocturna, 'diu', this.PotP1diurMed);
 
           if ((this.PotP1diurMed * this.cs()) >= this.sumPotP1nocturna) {
-            this.sumPotP1med = computed(() => this.PotP1diurMed);
+            this.sumPotP1med.update(() =>   this.PotP1diurMed);
+           
           } else {
-            this.sumPotP1med = computed(() => this.sumPotP1nocturna / this.cs());
+            this.sumPotP1med.update(() => this.sumPotP1nocturna / this.cs());
           }
+          console.log("pot med caso 2:",this.sumPotP1med ());
           break;
         default:
 
-          // this.sumPotP1med *= this.cs;
+         // this.sumPotP1med= this.cs;
           break;
 
       }
@@ -256,7 +268,7 @@ export class PrevisionesService {
 
     this.valorP1 = this.sumPotP1med() * this.cs();
 
-    console.log(" P1 : ", this.valorP1);
+    console.log(" P1 : ", this.valorP1,'cs ', this.cs(), ' pot med ', this.sumPotP1med());
     return this.valorP1;
 
   }
