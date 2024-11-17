@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
-@include mat.core();
+
+//@include mat.core();
+//@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900);
 
 $theme: mat.define-theme((
   color: (
@@ -29,7 +31,9 @@ mat-grid-tile {
   
     @include mat.all-component-themes($theme);
   }
-
+  table {
+    width: 100%;
+  }
   ion-content {
     --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
   }

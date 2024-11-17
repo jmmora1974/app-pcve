@@ -1,11 +1,12 @@
 
 
 import { BehaviorSubject } from 'rxjs';
-import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { ITipoVivienda, IVivienda } from '../models/ivivienda';
 import { IPrevision } from '../models/iprevision';
 import { UtilsService } from './utils.service';
 import { IIrve } from '../models/iirve';
+
 
 
 @Injectable({
@@ -49,7 +50,20 @@ export class PrevisionesService {
   valorP3: number = 0;
   valorP4: number = 0;
   valorP5: number = 0;
+  sumPotP1 = signal(0);
+  sumvivP1 = signal(0);
+  numTotalViviendas=signal(0);
+  sumPotP1sinIrve: number = 0;
+  sumPotP1conIrve: number = 0;
+  sumPotP1med = signal(0);
 
+  sumPotP1diurna: number = 0;
+  sumVivconIrve: number = 0;
+  sumPotP1nocturna: number = 0;
+  PotP1diurMed: number = 0;
+  cs = signal(0);
+
+  numIrves: number = 0;
 
   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
@@ -69,6 +83,8 @@ export class PrevisionesService {
   agregraVivienda(nuevaViv: IVivienda) {
     const numV = this.listaViviendas().length;
     nuevaViv.id = numV;
+    this.numTotalViviendas.update(()=>this.numTotalViviendas()+nuevaViv.numViviendas);
+    console.log('numTotalViviendas',this.numTotalViviendas());
     //Agregamos la vivienda a la lista de viviendas.
     this.listaViviendas.update((values: IVivienda[]) => [...values, nuevaViv]);
     console.log("nueva viv ", nuevaViv);
@@ -142,19 +158,7 @@ export class PrevisionesService {
     return this.listaViviendas.length;
   }
 
-  sumPotP1 = signal(0);
-  sumvivP1 = signal(0);
-  sumPotP1sinIrve: number = 0;
-  sumPotP1conIrve: number = 0;
-  sumPotP1med = signal(0);
-
-  sumPotP1diurna: number = 0;
-  sumVivconIrve: number = 0;
-  sumPotP1nocturna: number = 0;
-  PotP1diurMed: number = 0;
-  cs = signal(0);
-
-  numIrves: number = 0;
+  
 
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PrevisionesPageRoutingModule } from './previsiones-routing.module';
-
+import {MatTableModule} from '@angular/material/table';
 import { PrevisionesPage } from './previsiones.page';
 import { MatGridListModule } from '@angular/material/grid-list';
 
@@ -16,7 +16,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     IonicModule,
     PrevisionesPageRoutingModule,
     ReactiveFormsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTableModule,
+    
     
   ],
   declarations: [PrevisionesPage],

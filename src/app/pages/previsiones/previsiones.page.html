@@ -5,18 +5,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+
   <mat-grid-list cols="6" rowHeight="50px">
     @for (tile of tiles; track tile) {
-    <mat-grid-tile
-      [colspan]="tile.cols"
-      [rowspan]="tile.rows"
-      [style.background]="tile.color"
-      >{{tile.text}}</mat-grid-tile
-    >
+    <mat-grid-tile [colspan]="tile.cols" [rowspan]="tile.rows"
+      [style.background]="tile.color">{{tile.text}}</mat-grid-tile>
     }
   </mat-grid-list>
-  
+
   <ion-grid>
     <ion-row>
       <ion-col class="ion-justify-content-start">
@@ -43,65 +39,99 @@
   </ion-grid>
   <ion-item-group>
     <ion-item-divider color="primary">
-      <ion-label>Prevision Viviendas  : {{this.previsionesService.prevision().Pviv.toFixed(2)}}</ion-label>
+      <ion-label>Prevision Viviendas : {{this.previsionesService.prevision().Pviv.toFixed(2)}}</ion-label>
     </ion-item-divider>
     <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
         shape="round">
         Agregar viviendas
-      </ion-button></ion-col>
-   
+      </ion-button>
+    </ion-col>
+    <!--Creamos la tabla para listar las viviendas -->
+    <table mat-table [dataSource]="this.previsionesService.listaViviendas()" class="mat-elevation-z8">
+      <!-- Columna de ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="numViviendas">
+        <mat-header-cell *matHeaderCellDef> Num Viviendas </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.numViviendas}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="conIrve">
+        <mat-header-cell *matHeaderCellDef> Con Irve </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.conIrve}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo.nombre">
+        <mat-header-cell *matHeaderCellDef> Tipo vivienda </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.tipo.nombre}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo.potencia">
+        <mat-header-cell *matHeaderCellDef> potencia </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.tipo.potencia}}</mat-cell>
+      </ng-container>
       
-         
-          @for (item of previsionesService.listaViviendas(); track item.id) {
-           
-            @if (item.id==0){
-              
-                <div class="titListado">
-                <ion-col >ID</ion-col>
-                <ion-col>Num Viviendas</ion-col>
-                <ion-col>Tipo</ion-col>
-                <ion-col>Potencia</ion-col>
-                <ion-col>Con Irve</ion-col>
-                <ion-col>Sin Irve</ion-col>
-                <ion-col>Pot Irve</ion-col>
-                <ion-col>Total</ion-col>
-                <ion-col>Elimina</ion-col>
-              </div>
-              
-            }
-            <ion-item class="titListado">
-              
-              <ion-label id="viv">{{item.id}}</ion-label>              
-          
-              <ion-label>{{item.numViviendas}}</ion-label>
-           
-              <ion-label>{{item.tipo.nombre}}</ion-label>
-            
-              <ion-label>{{item.tipo.potencia}} kW</ion-label>
-            
-              <ion-label>{{item.conIrve}}</ion-label>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsViv"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsViv;"></tr>
+    </table>
 
-              <ion-label>{{item.numViviendas-item.conIrve!}}</ion-label>
-           
-              <ion-label>{{item.potIrve}} kW</ion-label>
-           
-              <ion-label>{{(item.numViviendas-item.conIrve!)*item.tipo.potencia+(item.conIrve!*(item.tipo.potencia+0.3*item.potIrve!))}}
-                kW</ion-label>
-           
-             
-                  <ion-button class="btnElimina" (click)="eliminaVivienda(item)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
-             
-            </ion-item>
-              
-          } @empty {
-            <li>No hay ninguna vivienda definida.</li>
-            }
-          
 
-       
-        
-       
-    
+
+
+    @for (item of previsionesService.listaViviendas(); track item.id) {
+
+    @if (item.id==0){
+
+    <div class="titListado">
+      <ion-col>ID</ion-col>
+      <ion-col>Num Viviendas</ion-col>
+      <ion-col>Tipo</ion-col>
+      <ion-col>Potencia</ion-col>
+      <ion-col>Con Irve</ion-col>
+      <ion-col>Sin Irve</ion-col>
+      <ion-col>Pot Irve</ion-col>
+      <ion-col>Total</ion-col>
+      <ion-col>Elimina</ion-col>
+    </div>
+
+    }
+    <ion-item class="titListado">
+
+      <ion-label id="viv">{{item.id}}</ion-label>
+
+      <ion-label>{{item.numViviendas}}</ion-label>
+
+      <ion-label>{{item.tipo.nombre}}</ion-label>
+
+      <ion-label>{{item.tipo.potencia}} kW</ion-label>
+
+      <ion-label>{{item.conIrve}}</ion-label>
+
+      <ion-label>{{item.numViviendas-item.conIrve!}}</ion-label>
+
+      <ion-label>{{item.potIrve}} kW</ion-label>
+
+      <ion-label>{{(item.numViviendas-item.conIrve!)*item.tipo.potencia+(item.conIrve!*(item.tipo.potencia+0.3*item.potIrve!))}}
+        kW</ion-label>
+
+
+      <ion-button class="btnElimina" (click)="eliminaVivienda(item)"><ion-icon slot="icon-only"
+          name="trash"></ion-icon></ion-button>
+
+    </ion-item>
+
+    } @empty {
+    <li>No hay ninguna vivienda definida.</li>
+    }
+
+
+
+
+
+
 
 
     <ion-item *ngFor="let viv of previsionesService.listaViviendas()">
@@ -152,7 +182,7 @@
       <ion-label>Prevision Irve</ion-label>
     </ion-item-divider>
     <ion-item *ngFor="let irve of previsionesService.listaIrve()">
-      <ion-label >{{irve.id}}</ion-label>
+      <ion-label>{{irve.id}}</ion-label>
       <ion-label>Num Irves :{{irve.cantidad}}</ion-label>
 
       <ion-label>Potencia : {{irve.potencia}}</ion-label>
