@@ -46,17 +46,18 @@
 
 
  <!--Creamos la tabla para listar las viviendas -->
- <table mat-table [dataSource]="this.previsionesService.listaViviendas()" >
+ <div id="divTabla">
+ <table mat-table [dataSource]="this.previsionesService.listaViviendas()" class="mat-elevation-z8 tablaViv">
   <!-- Columna de ID -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>
     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    <td mat-footer-cell *matFooterCellDef class="columnaResultado">Total Viviendas:   </td>
+    <td mat-footer-cell *matFooterCellDef class="columnaResultado"></td>
   </ng-container>
 
   <ng-container matColumnDef="numViviendas">
     <th  mat-header-cell *matHeaderCellDef> Num Viviendas </th>
-    <td mat-cell *matCellDef="let element">{{element.numViviendas}} </td>
+    <td mat-cell *matCellDef="let element">Total Viviendas:{{element.numViviendas}} </td>
     <td mat-footer-cell *matFooterCellDef class="columnaResultado">{{this.previsionesService.numTotalViviendas()}} </td>
   </ng-container>
 
@@ -74,7 +75,7 @@
 
   <ng-container matColumnDef="conIrve">
     <th mat-header-cell *matHeaderCellDef> Viviendas con Irve </th>
-    <td mat-cell *matCellDef="let element" class="columnaResultado">{{element.conIrve}} </td>
+    <td mat-cell *matCellDef="let element" >{{element.conIrve}} </td>
     <td mat-footer-cell *matFooterCellDef class="columnaResultado"> CS: {{this.previsionesService.cs().toFixed(2)}}</td>
   </ng-container>
 
@@ -104,7 +105,7 @@
   
 
 </table>
-
+ </div>
     @for (item of previsionesService.listaViviendas(); track item.id) {
 
     @if (item.id==0){

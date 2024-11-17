@@ -44,6 +44,7 @@ export class PrevisionesPage {
      spl: false
    }
    */
+  /* Definiciones de la cabecera */
   tiles: Tile[] = [
     { text: 'PViv', cols: 1, rows: 1, color: 'lightgreen' },
     { text: 'PSerGen', cols: 1, rows: 1, color: 'lightgreen' },
@@ -57,11 +58,12 @@ export class PrevisionesPage {
     { text: this.previsionesService.prevision().Pgar!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Pirve!.toFixed(2), cols: 1, rows: 1, color: '#D9F5D7' },
   ];
+
+  /* Definiciones de la tabla de resultados vivienda*/
   displayedColumnsViv: string[] = ['id', 'numViviendas','tipo.nombre','tipo.potencia','conIrve','potIrve','total','ion-button'];
   columnaResultado:string[]=['id','numViviendas','tipo.nombre', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
-  public dataSource: IVivienda[] = [{ id: 0, numViviendas: 11, tipo: { nombre: 'Básica', potencia: 3 }, conIrve: 1, potIrve: 3.68 },
-                                   { id: 1, numViviendas: 5, tipo: { nombre: 'Básica', potencia: 4 }, conIrve: 2, potIrve: 3.68 }];
-
+  
+  
   P1: number = 0;
   P2: number = 0;
   P3: number = 0;
