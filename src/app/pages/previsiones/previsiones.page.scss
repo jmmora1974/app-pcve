@@ -32,8 +32,34 @@ mat-grid-tile {
     @include mat.all-component-themes($theme);
   }
   table {
-    width: 100%;
+    width: 90%;
+    scroll-margin-bottom: 20px;
+    //border: 4px solid currentColor;
   }
+  th{
+    font-size: 1.3em;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+    color: #2834bb;
+    //padding-right: 24px;
+    text-align: center;
+    
+   }
+ td{
+  border: 1px solid rgb(10, 8, 8);
+  border-radius: 4px;
+  //padding-right: 24px;
+    text-align: center;
+ }
+
+ .columnaResultado{
+  border: 2px solid rgb(0, 2, 1);
+  font-size: 1.3em;
+  
+ }
+  
+
+
   ion-content {
     --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
   }

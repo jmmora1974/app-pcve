@@ -106,7 +106,7 @@ export class PrevisionesService {
 
   listaVivTemp = signal<IVivienda[]>([]);
   eliminaVivienda(indice: number) {
-
+    
     this.listaVivTemp.set([]);
     let listaIrveTemp: IIrve[] = [];
     let contId = 0;
@@ -122,7 +122,7 @@ export class PrevisionesService {
 
       } else {
         contId++;
-
+        this.numTotalViviendas.update(()=>this.numTotalViviendas()-element.numViviendas);
         if (encontradoIrve==false) {
           let contIrve = 0;
           this.listaIrve().forEach(irvetemp => {

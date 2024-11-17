@@ -57,7 +57,8 @@ export class PrevisionesPage {
     { text: this.previsionesService.prevision().Pgar!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Pirve!.toFixed(2), cols: 1, rows: 1, color: '#D9F5D7' },
   ];
-  displayedColumnsViv: string[] = ['id', 'numViviendas','conIrve','tipo.nombre','tipo.potencia'];
+  displayedColumnsViv: string[] = ['id', 'numViviendas','tipo.nombre','tipo.potencia','conIrve','potIrve','total','ion-button'];
+  columnaResultado:string[]=['id','numViviendas','tipo.nombre', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
   public dataSource: IVivienda[] = [{ id: 0, numViviendas: 11, tipo: { nombre: 'Básica', potencia: 3 }, conIrve: 1, potIrve: 3.68 },
                                    { id: 1, numViviendas: 5, tipo: { nombre: 'Básica', potencia: 4 }, conIrve: 2, potIrve: 3.68 }];
 
@@ -120,7 +121,7 @@ export class PrevisionesPage {
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
     this.previsionesService.eliminaVivienda(ev.id);
-    console.log("eliminando vivienda ID : ", JSON.stringify(ev.id));
+    console.log("eliminando vivienda ID : ", JSON.stringify(ev));
     let listaVivTemp = this.previsionesService.eliminaVivienda(ev.id);
     //this.previsionesService.listaViviendas.update(listaVivTemp);
     //this.listaIrve$ = this.previsionesService.obtenListaIrve();

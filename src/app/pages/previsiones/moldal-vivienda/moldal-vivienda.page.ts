@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
 import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
 import { PrevisionesService } from '../../../services/previsiones.service';
@@ -34,7 +34,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   
   constructor(
     private modalCtrl: ModalController, 
-    public fb: FormBuilder,navParams: NavParams,  
+    public fb: FormBuilder,  
    
     private loadingController: LoadingController,
     private alertController: AlertController,
@@ -53,7 +53,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
      
     this.formViviendaM = this.fb.group({
       id: [this.numIdVivienda],
-      numViv: [0, [Validators.required]],
+      numViv:  new FormControl (0, [Validators.required]),
       tipoViv: [this.tipoViviendas[0]],
       potViv: [this.tipoViviendas[0].potencia],
       numVivIrve: [0],
