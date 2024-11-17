@@ -88,53 +88,53 @@ export class PrevisionesService {
     //this.calculaPT();
   }
 
-
+  listaVivTemp = signal<IVivienda[]>([]);
   eliminaVivienda(indice: number) {
 
-    let listaVivTemp = signal<IVivienda[]>([]);
+    this.listaVivTemp.set([]);
     let listaIrveTemp: IIrve[] = [];
     let contId = 0;
-    let encontradoIrve:boolean=true;
+    let encontradoIrve: boolean = false;
     // return this.listaViviendas.update((values: any[])=>values.filter((vid:IVivienda)=>vid.id==indice));
-    
+
     this.listaViviendas().forEach((element) => {
       if (element.id != indice) {
         element.id = contId;
         //console.log("No se ha eliminado vivienda ", element.id);
-        listaVivTemp().push(element);
+        this.listaVivTemp().push(element);
         contId++;
 
       } else {
         contId++;
-        
-        if (encontradoIrve!){
+
+        if (encontradoIrve==false) {
           let contIrve = 0;
           this.listaIrve().forEach(irvetemp => {
 
             if (element.conIrve == irvetemp.cantidad && element.potIrve == irvetemp.potencia) {
-              encontradoIrve=true;
+              encontradoIrve = true;
               console.log("Se ha eliminado el irve ", irvetemp.id);
             } else {
-              
+
               irvetemp.id = contIrve;
               listaIrveTemp.push(irvetemp);
               contIrve++;
             }
-            
+
             console.log("Se ha eliminado la vivienda  ", element.id);
-  
+
           });
           this.listaIrve.set(listaIrveTemp);
-  
+
         }
-        
-        
+
+
       }
 
     });
-    this, this.listaViviendas.set([]);
-    this.listaViviendas.update(...[], listaVivTemp);
-    return listaVivTemp;
+    this.listaViviendas.set([]);
+    this.listaViviendas.update(...[], this.listaVivTemp);
+    return this.listaVivTemp;
 
   }
 
@@ -147,45 +147,47 @@ export class PrevisionesService {
   sumPotP1sinIrve: number = 0;
   sumPotP1conIrve: number = 0;
   sumPotP1med = signal(0);
-  
+
   sumPotP1diurna: number = 0;
   sumVivconIrve: number = 0;
   sumPotP1nocturna: number = 0;
   PotP1diurMed: number = 0;
-  cs=signal(0);
-  
+  cs = signal(0);
+
   numIrves: number = 0;
 
   //Calculamos el coeficente CS de la tabla tablaITC10
-  calculaCoefSimult(coef: number):number {
+  calculaCoefSimult(coef: number): number {
 
 
-    if (coef> 0) {
+    if (coef > 0) {
       if (coef > 0 && coef < 22) {
         //ssthis.cs.update(()=>this.calculaCoefSimult(this.sumvivP1()));
-        
-        this.cs.update((value:number)=>value= this.tablaITC10[this.sumvivP1() - 1]);
-        console.log('CS11: ',this.cs());
+
+        this.cs.update((value: number) => value = this.tablaITC10[this.sumvivP1() - 1]);
+        console.log('CS11: ', this.cs());
       } else if (this.sumvivP1() > 21) {
-        let value1=0;
-        this.cs.update ( ()=> 15.3 + (this.sumvivP1() - 21) * 0.5);
-        console.log('CS12: ',this.cs());
+        let value1 = 0;
+        this.cs.update(() => 15.3 + (this.sumvivP1() - 21) * 0.5);
+        console.log('CS12: ', this.cs());
       }
     } else {
-      alert ('Error. Número erroneo para calcular el coeficiente de simulateneedad.');
+      alert('Error. Número erroneo para calcular el coeficiente de simulateneedad.');
     }
-    console.log('CS: ',this.cs());
+    console.log('CS: ', this.cs());
     return this.cs();
   }
 
   //Calcula la prevision de vivienda P1 Viv
   calculaP1(): number {
     //reseteamos valores de los contadores.
+    this.valorP1 = 0;
     this.sumPotP1.set(0);
     this.sumPotP1sinIrve = 0;
     this.sumPotP1conIrve = 0;
     this.sumvivP1.set(0);
-
+    this.sumPotP1med.set(0);
+    this.cs.set(0);
     this.sumPotP1diurna = 0;
     this.sumVivconIrve = 0;
     this.sumPotP1nocturna = 0;
@@ -196,10 +198,10 @@ export class PrevisionesService {
       //Calculamos las potencias y generamos la potencia media de la vivienda.
       this.sumPotP1.update((values: number) => values + (viviendan.numViviendas * viviendan.tipo.potencia));
       this.sumvivP1.update((values: number) => values + (viviendan.numViviendas));
-      this.cs.update(()=>this.calculaCoefSimult(this.sumvivP1()));
+      this.cs.update(() => this.calculaCoefSimult(this.sumvivP1()));
       this.sumPotP1med.update(() => this.sumPotP1() / this.sumvivP1());
       this.numIrves += viviendan.conIrve!;
-      console.log('Potencia media: ',this.sumPotP1med());
+      console.log('Potencia media: ', this.sumPotP1med());
 
       //Comprobamos el tipo de esquema para calcular la opcion
       switch (this.prevision().esquema) {
@@ -223,20 +225,20 @@ export class PrevisionesService {
 
           //Calculamos la previsión tarifa contratada o nocturna.4
           this.sumPotP1nocturna = 0.5 * this.sumPotP1med() * this.cs() + this.sumVivconIrve * 3.68;
-          console.log('CS1: ',this.cs());
+          console.log('CS1: ', this.cs());
           console.log('noc', this.sumPotP1nocturna, 'diu', this.PotP1diurMed);
 
           if ((this.PotP1diurMed * this.cs()) >= this.sumPotP1nocturna) {
-            this.sumPotP1med.update(() =>   this.PotP1diurMed);
-           
+            this.sumPotP1med.update(() => this.PotP1diurMed);
+
           } else {
             this.sumPotP1med.update(() => this.sumPotP1nocturna / this.cs());
           }
-          console.log("pot med caso 2:",this.sumPotP1med ());
+          console.log("pot med caso 2:", this.sumPotP1med());
           break;
         default:
 
-         // this.sumPotP1med= this.cs;
+          // this.sumPotP1med= this.cs;
           break;
 
       }
@@ -268,7 +270,7 @@ export class PrevisionesService {
 
     this.valorP1 = this.sumPotP1med() * this.cs();
 
-    console.log(" P1 : ", this.valorP1,'cs ', this.cs(), ' pot med ', this.sumPotP1med());
+    console.log(" P1 : ", this.valorP1, 'cs ', this.cs(), ' pot med ', this.sumPotP1med());
     return this.valorP1;
 
   }
