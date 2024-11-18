@@ -7,7 +7,53 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">modalServGenerales</ion-title>
+      <ion-title size="large">Servicios Generales</ion-title>
     </ion-toolbar>
   </ion-header>
+  
+  {{ model | json }}
+  <form (ngSubmit)="agregarAscensor()" #formAscensor="ngForm">
+  <div class="form-group">
+    <label for="numAsc">Núm. Ascensores</label>
+    <input type="number" class="form-control" id="numAsc" required [(ngModel)]="model.numAscensores" name="numAsc"
+      class="form-control ng-untouched ng-pristine ng-valid">
+     <div [hidden]="true" class="alert alert-danger">
+      El número de ascensores es necesario
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label for="tipoAsc">Tipo Ascensor</label>
+    <select class="form-control" id="power" required [(ngModel)]="model.tipoMotorAsc" name="tipoAsc">
+      <option *ngFor="let tipoPotAsc of tipoPotAscensor" [value]="tipoPotAsc">{{tipoPotAsc}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+   
+    <label for="potAsc">Potencia ascenso:</label>
+    <input type="text" class="form-control" id="potAsc" [(ngModel)]="model.potenciaMotorAsc" name="potAsc">
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
+  <button type="button" class="btn btn-default" (click)="agregarAscensor(); formAscensor.reset()">borrarDatos</button>
+  </form>
+  <div [hidden]="!submitted">
+    <h2>Ascensor agregado:</h2>
+    <div class="row">
+      <div class="col-xs-3">Num ascensores: </div>
+      <div class="col-xs-9">{{ model.numAscensores }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Tipo ascensor</div>
+      <div class="col-xs-9">{{ model.tipoMotorAsc }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Potencia ascensor:</div>
+      <div class="col-xs-9">{{ model.potenciaMotorAsc }}</div>
+    </div>
+    <br>
+    
+    <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
 </ion-content>
