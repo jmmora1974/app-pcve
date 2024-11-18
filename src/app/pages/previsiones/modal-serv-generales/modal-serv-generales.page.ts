@@ -1,4 +1,5 @@
 
+import { JsonPipe } from '@angular/common';
 import {ChangeDetectionStrategy, Component, signal, OnInit, input, Input} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -13,9 +14,11 @@ import { IAscensor } from 'src/app/models/iascensor';
 export class ModalServGeneralesPage implements OnInit {
   submitted = false;
   public tipoPotAscensor : string[]=['ITA-1','ITA-2','ITA-3','ITA-4','ITA-5','ITA-6','OTRO'];
+  public medidorPotencia: string[]=['kW','W','cV'];
+ 
   model:IAscensor;
-  @Input()  numAsc:any;
-onSubmit() { this.submitted = true; }
+  //@Input()  numAsc:any;
+
 
   constructor() { 
     this.model={
@@ -30,7 +33,12 @@ onSubmit() { this.submitted = true; }
   }
 
   agregarAscensor(){
+    this.submitted = true; 
+    console.log(this.model);
+   }
 
-  }
+   agregarGrupoMotor(){
+    this.submitted = true; 
+   }
 
 }

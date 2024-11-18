@@ -12,18 +12,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
+  <section>
     <ion-form [formGroup]="formViviendaM" (ngSubmit)="agregaVivienda()">
     
       <ion-item>
         <ion-label color="primary" >Núm viviendas:</ion-label>
-        <ion-input formControlName="numViv" type="number" color="danger" class="form-control" required></ion-input>
+        <ion-input formControlName="numViv" type="number" color="danger" class="form-control ng-untouched ng-pristine ng-valid" required></ion-input>
         <ion-label > </ion-label><ion-label > </ion-label>
         
       </ion-item>
       <ion-item>
         <ion-label color="primary" >con Irve?:</ion-label>
-        <ion-input formControlName="numVivIrve" type="number" ></ion-input>
+        <ion-input formControlName="numVivIrve" type="number" class=" form-control ng-untouched ng-pristine ng-valid" ></ion-input>
         <ion-label color="primary" >potencia Irve?:</ion-label>
         <ion-input formControlName="potIrve" type="number" value=3.68></ion-input>
         <ion-label>kW </ion-label>
@@ -60,5 +60,5 @@
       </ion-row>
 
     </ion-form>
-  </ion-list>
+  </section>
 </ion-content>
