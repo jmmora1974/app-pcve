@@ -13,7 +13,7 @@
 
 <ion-content [fullscreen]="true">
   <section>
-    <ion-form [formGroup]="formViviendaM" (ngSubmit)="agregaVivienda()">
+    <ion-form [formGroup]="formViviendaM"  (ngSubmit)="agregaVivienda()">
     
       <ion-item>
         <ion-label color="primary" >Núm viviendas:</ion-label>
@@ -42,7 +42,7 @@
 
         </ion-item>
         <ion-label>Potencia: </ion-label>
-        <ion-input size="10" enabled=false formControlName="potViv" [(ngModel)]="potenciaViv" type="number"></ion-input>
+        <ion-input size="10" enabled=false formControlName="potViv"  [(ngModel)]="potenciaViv" type="number"></ion-input>
         <ion-label>kW </ion-label>
         
 

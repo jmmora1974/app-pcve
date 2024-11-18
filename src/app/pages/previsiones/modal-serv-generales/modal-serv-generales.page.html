@@ -10,14 +10,15 @@
       <ion-title size="large">Servicios Generales</ion-title>
     </ion-toolbar>
   </ion-header>
-  <h3>Ascensores</h3>
+ 
   <section class="flex-container box">
     
     <form (ngSubmit)="agregarAscensor()" #formAscensor="ngForm">
+      <h3>Ascensores</h3>
       <div class="form-group">
         <label for="numAsc">Núm. Ascensores</label>
-        <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numAsc" required
-          [(ngModel)]="model.numAscensores" name="numAsc">
+        <input type="text" class="form-control ng-untouched ng-pristine ng-valid" id="numAsc" required
+          [(ngModel)]="modelAscensor.numAscensores" name="numAsc">
         <div [hidden]="true" class="alert alert-danger">
           El número de ascensores es necesario
         </div>
@@ -25,14 +26,14 @@
       <div class="form-group">
         <div>
         <label for="tipoAsc">Tipo Ascensor</label>
-        <select  id="tipoAsc" required [(ngModel)]="model.tipoMotorAsc" name="tipoAsc">
+        <select  id="tipoAsc" required [(ngModel)]="modelAscensor.tipoMotorAsc" name="tipoAsc">
           <option *ngFor="let tipoPotAsc of tipoPotAscensor" [value]="tipoPotAsc">{{tipoPotAsc}}</option>
         </select>
         </div>
       </div>
         <div class="form-group">
         <label for="potAsc">Potencia ascenso:</label>
-        <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="model.potenciaMotorAsc" name="potAsc">
+        <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc" name="potAsc">
         <select  id="medPotMotor" required  name="selMedPotAsc" class="ng-valid">
           <option *ngFor="let medPot of medidorPotencia" [value]="medPot">{{medPot}}</option>
         </select>
@@ -43,20 +44,28 @@
         (click)="agregarAscensor(); formAscensor.reset()">borrarDatos</button>
     </form>
   </section>
-  {{ model | json }}
+  {{ modelAscensor | json }}
   <div [hidden]="!submitted">
-    <h2>Ascensor agregado:</h2>
+    <h2>Lista ascensores:</h2>
+    <div #listadoAsc class="box">
+    @for (item of listaAscensores(); track item) {
+      <li>{{ item| json }}</li>
+      } @empty {
+      <li>No hay ningún ascensor .</li>
+      }
+  </div>
+
     <div class="row">
       <div class="col-xs-3">Num ascensores: </div>
-      <div class="col-xs-9">{{ model.numAscensores }}</div>
+      <div class="col-xs-9">{{ modelAscensor.numAscensores }}</div>
     </div>
     <div class="row">
       <div class="col-xs-3">Tipo ascensor</div>
-      <div class="col-xs-9">{{ model.tipoMotorAsc }}</div>
+      <div class="col-xs-9">{{ modelAscensor.tipoMotorAsc }}</div>
     </div>
     <div class="row">
       <div class="col-xs-3">Potencia ascensor:</div>
-      <div class="col-xs-9">{{ model.potenciaMotorAsc }}</div>
+      <div class="col-xs-9">{{ modelAscensor.potenciaMotorAsc }}</div>
     </div>
     <br>
 
