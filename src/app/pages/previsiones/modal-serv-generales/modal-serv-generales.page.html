@@ -17,33 +17,39 @@
       <h2>Ascensores</h2>
 
       <div class="form-group">
-      <ion-item>
-        <label for="numAsc">Núm. Ascensores</label>
-        <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numAsc" required
-          [(ngModel)]="modelAscensor.numAscensores" name="numAsc">
-        <div [hidden]="true" class="alert alert-danger">
-          El número de ascensores es necesario
-        </div>
-      </ion-item>
-      <ion-item>
+        <ion-item>
+          <label for="numAsc">Núm. Ascensores</label>
+          <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numAsc" required
+            [(ngModel)]="modelAscensor.numAscensores" name="numAsc">
+          <div [hidden]="true" class="alert alert-danger">
+            El número de ascensores es necesario
+          </div>
+        </ion-item>
+        <ion-item>
           <label for="tipoAsc">Tipo Ascensor</label>
-          <ion-select id="tipoAsc" required [(ngModel)]="modelAscensor.tipoMotorAsc"  interface="popover"
-          name="tipoAsc" onchange="cambiaPotAscensor($event)">
-            <ion-select-option *ngFor="let tipoPotAsc of tipoPotAscensor" [value]="tipoPotAsc">{{tipoPotAsc}}</ion-select-option>
+          <ion-select id="tipoAsc" class="ng-valid" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
+            name="tipoAsc" (ionChange)="cambiaPotAscensor($event.srcElement)" required>
+            <ion-select-option *ngFor="let tipoPotAsc of tipoPotAscensor"
+              [value]="tipoPotAsc">{{tipoPotAsc}}</ion-select-option>
           </ion-select>
         </ion-item>
-          <ion-item>
+        <ion-item>
+
+
           <label for="potAsc">Potencia ascensor:</label>
           <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
-            name="potAsc" disabled readonly>
-          <ion-select id="medPotMotor" required name="selMedPotAsc"  interface="popover"   value="kW" (ionchange)="cambiaPotAscensor($event.srcElement)" >
-            <ion-select-option *ngFor="let medPot of medidorPotencia"[value]="medPot">{{medPot}}</ion-select-option>
+            name="potAsc" readonly required>
+          <ion-select id="medPotMotorAsc" required name="selMedPotAsc" interface="popover"
+            [(ngModel)]="modelAscensor.medidaPotencia" [disabled]=true>
+            <ion-select-option *ngFor="let medPot of medidorPotencia" [value]="medPot">{{medPot}}</ion-select-option>
           </ion-select>
         </ion-item>
       </div>
+
+
       <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
-      <button type="button" class="btn btn-default btnBorrar" 
-        (click)="agregarAscensor(); formAscensor.reset()">Borra datos</button>
+      <button type="button" class="btn btn-default btnBorrar" (click)="agregarAscensor(); formAscensor.reset()">Borra
+        datos</button>
     </form>
   </section>
 
@@ -53,53 +59,56 @@
       <h2>Grupo Motor</h2>
 
       <div class="form-group">
-      <ion-item>
-        <label for="numGMotor">Núm. Motores</label>
-        <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numGMotor" required
-          [(ngModel)]="modelGMotor.numGMotores" name="numGMotor">
-        <div [hidden]="true" class="alert alert-danger">
-          El número de grupo motor es necesario
-        </div>
-      </ion-item>
-      <ion-item>
-      <label for="potGMotor">Potencia Gr Motor:</label>
+        <ion-item>
+          <label for="numGMotor">Núm. Motores</label>
+          <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numGMotor" required
+            [(ngModel)]="modelGMotor.numGMotores" name="numGMotor">
+          <div [hidden]="true" class="alert alert-danger">
+            El número de grupo motor es necesario
+          </div>
+        </ion-item>
+        <ion-item>
+          <label for="potGMotor">Potencia Gr Motor:</label>
           <input type="number" class="form-control ng-valid" id="potGMotor" [(ngModel)]="modelGMotor.potenciaGMotor"
-            name="potGMotor" >
-          <ion-select id="medPotMotorGM" required name="medPotMotorGM"  interface="popover" value="kW" (ionchange)="cambiaPotGMotor($event.srcElement)" >
-            <ion-select-option *ngFor="let medPot of medidorPotencia"  [value]="medPot">{{medPot}}</ion-select-option>
+            name="potGMotor">
+          <ion-select id="medPotMotorGM" required name="medPotMotorGM" interface="popover"
+            (ionchange)="cambiaPotGMotor($event.srcElement)">
+            <ion-select-option *ngFor="let medPotGM of medidorPotencia"
+              [value]="medPotGM">{{medPotGM}}</ion-select-option>
           </ion-select>
         </ion-item>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!formGrupoMotor.form.valid">Agregar grupo motor</button>
-      <button type="button" class="btn btn-default btnBorrar"
-        (click)="agregarAscensor(); formGrupoMotor.reset()">Borra datos</button>
+      <button type="button" class="btn btn-default btnBorrar" (click)="agregarAscensor(); formGrupoMotor.reset()">Borra
+        datos</button>
     </form>
   </section>
-  {{ modelAscensor | json }}
+
   <div [hidden]="!submitted">
     <h2>Lista ascensores:</h2>
     <div #listadoAsc class="box">
-      @for (item of listaAscensores(); track item) {
-      <li>{{ item| json }}</li>
+      @for (ascItem of this.listaAscensores(); track ascItem.id) {
+      <li>{{ ascItem.id }}
+      <div class="row flex-container boxAsc ">
+        <div class="row ">
+          Num ascensores:{{ ascItem.numAscensores }}
+          
+        
+          Tipo ascensor: {{ ascItem.tipoMotorAsc }}
+        
+          <div class="col-xs-3">Potencia ascensor:{{ ascItem.potenciaMotorAsc }}</div>
+        </div>
+        <br>
+      </div>
+    </li>
       } @empty {
       <li>No hay ningún ascensor .</li>
       }
-    </div>
 
-    <div class="row">
-      <div class="col-xs-3">Num ascensores: </div>
-      <div class="col-xs-9">{{ modelAscensor.numAscensores }}</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">Tipo ascensor</div>
-      <div class="col-xs-9">{{ modelAscensor.tipoMotorAsc }}</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">Potencia ascensor:</div>
-      <div class="col-xs-9">{{ modelAscensor.potenciaMotorAsc }}</div>
-    </div>
-    <br>
 
-    <button type="button" class="btn btn-primary" (click)="submitted=false">Resetear</button>
+
+
+      <button type="button" class="btn btn-primary" (click)="submitted=false">Resetear</button>
+    </div>
   </div>
 </ion-content>

@@ -3,4 +3,5 @@ export interface IGMotor {
     numGMotores: number;
     potenciaGMotor:number;
     descripcion?:string;
+    medidaPotencia?:string;
 }

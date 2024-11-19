@@ -3,5 +3,5 @@ export interface IAscensor {
     numAscensores: number;
     tipoMotorAsc:string;
     potenciaMotorAsc:number;
-    
+    medidaPotencia?:string;
 }

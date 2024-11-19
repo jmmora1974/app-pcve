@@ -1,10 +1,13 @@
 
-import { JsonPipe } from '@angular/common';
-import { Component, signal, OnInit,  WritableSignal} from '@angular/core';
+
+import { Component, signal, OnInit, WritableSignal, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IonSelect } from '@ionic/angular';
+
 
 import { IAscensor } from 'src/app/models/iascensor';
 import { IGMotor } from 'src/app/models/igmotor';
+import { UtilsService } from 'src/app/services/utils.service';
 
 
 @Component({
@@ -14,62 +17,138 @@ import { IGMotor } from 'src/app/models/igmotor';
 })
 export class ModalServGeneralesPage implements OnInit {
   submitted = false;
-  public tipoPotAscensor : string[]=['ITA-1','ITA-2','ITA-3','ITA-4','ITA-5','ITA-6','OTRO'];
-  public medidorPotencia: string[]=['kW','W','cV'];
+  public tipoPotAscensor: string[] = ['ITA-1', 'ITA-2', 'ITA-3', 'ITA-4', 'ITA-5', 'ITA-6', 'OTRO'];
+  public medidorPotencia: string[] = ['kW', 'W', 'cV'];
   formAscensor!: FormGroup;
-  modelAscensor!:IAscensor;
-  modelGMotor!:IGMotor;
+  modelAscensor!: IAscensor;
+  modelGMotor!: IGMotor;
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
   listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
-
+  medPotMotorGM: string = 'kW';
+  
   //@Input()  numAsc:any;
 
+  //Injectamos el servicio de alertas
+  utilService = inject(UtilsService);
 
-  constructor(private fbAsc:FormBuilder) { 
-    this.modelAscensor={
+  constructor(private fbAsc: FormBuilder) {
+    
+
+    this.modelGMotor = {
       id: 0,
-      numAscensores: 2,
-      tipoMotorAsc:'ITA-1',
-      potenciaMotorAsc: 2
-      } ;
+      numGMotores: 3,
+      potenciaGMotor: 2,
+      medidaPotencia: 'kW'
 
-      this.modelGMotor={
-        id: 0,
-        numGMotores: 3,
-       potenciaGMotor: 2
-        
-      };
+    };
 
-      this.formAscensor = this.fbAsc.group({
-        id: new FormControl(0, Validators.required),
-        numAscensores: new FormControl(0, Validators.required),
-        tipoMotorAsc: new FormControl('ITA-1', Validators.required),
-        potenciaMotorAsc: new FormControl(0, Validators.required),
-       
-      });
+    this.formAscensor = this.fbAsc.group({
+      id: new FormControl(0, Validators.required),
+      numAscensores: new FormControl(0, Validators.required),
+      tipoMotorAsc: new FormControl('ITA-1', Validators.required),
+      potenciaMotorAsc: new FormControl(0, Validators.required),
+
+    });
   }
 
   ngOnInit() {
+    this.modelAscensor = {
+      id: 0,
+      numAscensores: 0,
+      tipoMotorAsc: 'ITA-1',
+      potenciaMotorAsc: 4.5,
+      medidaPotencia: 'kW'
+    };
   }
 
-  agregarAscensor(){
-    this.submitted = true; 
-    console.log('Formascen ',this.formAscensor.value);
-    console.log('modelasc',this.modelAscensor);
-    this.modelAscensor.id=this.listaAscensores().length;
-    this.listaAscensores.update((values:IAscensor[])=>[...values,this.modelAscensor]);
-   }
+  /*Funcion para agregar ascensores a la previsión de servicios generales*/
+  agregarAscensor() {
+    //Comprobamos que el número de ascensores y potencia es positivo.
+    if (this.modelAscensor.numAscensores < 1) {
+      this.utilService.showAlert('Error num ascensor', 'El número de ascensores ha de ser positivo.')
 
-   cambiaPotAscensor(elemen:any){
-    console.log('selmedpotasc',JSON.stringify(elemen.value));
+    } if (this.modelAscensor.potenciaMotorAsc < 0.1) {
+      this.utilService.showAlert('Error potencia ascensor.','La potencia del ascensores ha de ser superior a 0.1.')
 
-   }
+    } else {
+      this.submitted = true;
+      //Colocamos el id que corresponde al nuevo ascensor
+      //this.modelAscensor.id = this.listaAscensores().length;
+      
+      //calculamos y pasamos la potencia a kW según el valor del selector
+      let potenciaConvertidaAsc = this.pasarakW("medPotMotorAsc", this.modelAscensor.potenciaMotorAsc);
+      
 
-   agregarGrupoMotor(){
-    this.submitted = true; 
-   }
-   cambiaPotGMotor (elemen:any){
-    console.log('selmedpotGMOotor',JSON.stringify(elemen.value));
+    }
 
-   }
+    this.listaAscensores.update((values: IAscensor[]) => [...values,{
+      id: this.listaAscensores().length,
+      numAscensores: this.modelAscensor.numAscensores,
+      tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
+      potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
+      medidaPotencia: this.modelAscensor.medidaPotencia
+    }]);
+    console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
+    console.log('lista asc',this.listaAscensores());
+  }
+
+
+  pasarakW(idElem: string, poten: number): number {
+    //calculamos y pasamos la potencia a kW según el valor del selector
+    const valorElem: IonSelect = document.getElementById(idElem)! as unknown as IonSelect;
+    console.log('poten pasara kw', poten, 'ideelm', idElem, 'leido', valorElem.value, '.', this.medPotMotorGM);
+    if (valorElem.value == 'W') {
+      return poten / 1000;
+    }
+    if (valorElem.value == 'cV') {
+      return poten * 0.736;
+    }
+    if (valorElem.value == 'kW') {
+      return poten;
+    }
+    console.log('Valor no reconocido en ' + idElem + ' con valor ' + valorElem)
+    return 0;
+  }
+
+  cambiaPotAscensor(tipoMotor: any) {
+    console.log('selmedpotasc', tipoMotor.value);
+    const potAsc = document.getElementById("potAsc");
+    document.getElementById("medPotMotorAsc")?.setAttribute("disabled","true");
+    potAsc?.contentEditable;
+    potAsc?.setAttribute('readonly', 'true');
+    switch (tipoMotor.value) {
+      case "ITA-1":
+        this.modelAscensor.potenciaMotorAsc = 4.5;
+        return "4.5";
+      case "ITA-2":
+        this.modelAscensor.potenciaMotorAsc = 7.5;
+        return "7.5";
+      case "ITA-3":
+        this.modelAscensor.potenciaMotorAsc = 11.5;
+        return "11.5";
+      case "ITA-4":
+        this.modelAscensor.potenciaMotorAsc = 18.5;
+        return "18.5";
+      case "ITA-5":
+        this.modelAscensor.potenciaMotorAsc = 29.5;
+        return "29.5";
+      case "ITA-6":
+        this.modelAscensor.potenciaMotorAsc = 46;
+        return "46";
+      default:
+        this.modelAscensor.potenciaMotorAsc = 0;
+        potAsc?.removeAttribute('readonly');
+        document.getElementById("medPotMotorAsc")?.setAttribute("disabled","false");
+        return "0";
+    }
+
+  }
+
+  agregarGrupoMotor() {
+    this.submitted = true;
+  }
+  cambiaPotGMotor(elemen: any) {
+    console.log('selmedpotGMOotor', JSON.stringify(elemen.value));
+
+  }
 }
