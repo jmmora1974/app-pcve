@@ -12,6 +12,7 @@ section{
   align-items: center;
   vertical-align: middle;
 }
+
 .box > * {
   border: 2px solid rgb(96 139 168);
   border-radius: 5px;
@@ -19,7 +20,7 @@ section{
   
 }
 
-.box {
+.boxAsc {
   border: 2px dotted rgb(96 139 168);
   //display: flex;
   flex-wrap: wrap;
@@ -27,6 +28,15 @@ section{
   text-align: center;
   align-items: center;
 }
+.boxGMotor {
+  border: 2px dotted rgb(96, 168, 108);
+  //display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+
  ion-item{
   background-color: transparent;
   border: 2px solid rgb(140, 0, 255);
