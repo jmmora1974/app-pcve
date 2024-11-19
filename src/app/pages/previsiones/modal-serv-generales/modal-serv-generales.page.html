@@ -14,7 +14,7 @@
   <section class="flex-container boxAsc">
 
     <form (ngSubmit)="agregarAscensor()" #formAscensor="ngForm">
-      <h3>Ascensores</h3>
+      <h2>Ascensores</h2>
 
       <div class="form-group">
       <ion-item>
@@ -36,50 +36,43 @@
           <label for="potAsc">Potencia ascensor:</label>
           <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
             name="potAsc" disabled readonly>
-          <ion-select id="medPotMotor" required name="selMedPotAsc"  interface="popover" (ionchange)="cambiaPotAscensor($event.srcElement)" >
-            <ion-select-option *ngFor="let medPot of medidorPotencia" [value]="medPot">{{medPot}}</ion-select-option>
+          <ion-select id="medPotMotor" required name="selMedPotAsc"  interface="popover"   value="kW" (ionchange)="cambiaPotAscensor($event.srcElement)" >
+            <ion-select-option *ngFor="let medPot of medidorPotencia"[value]="medPot">{{medPot}}</ion-select-option>
           </ion-select>
         </ion-item>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
-      <button type="button" class="btn btn-default"
-        (click)="agregarAscensor(); formAscensor.reset()">borrarDatos</button>
+      <button type="button" class="btn btn-default btnBorrar" 
+        (click)="agregarAscensor(); formAscensor.reset()">Borra datos</button>
     </form>
   </section>
 
   <section class="flex-container boxGMotor" color="secondary">
 
     <form (ngSubmit)="agregarGrupoMotor()" #formGrupoMotor="ngForm">
-      <h3>Grupo Motor</h3>
+      <h2>Grupo Motor</h2>
 
       <div class="form-group">
       <ion-item>
         <label for="numGMotor">Núm. Motores</label>
         <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numGMotor" required
-          [(ngModel)]="modelAscensor.numAscensores" name="numGMotor">
+          [(ngModel)]="modelGMotor.numGMotores" name="numGMotor">
         <div [hidden]="true" class="alert alert-danger">
-          El número de ascensores es necesario
+          El número de grupo motor es necesario
         </div>
       </ion-item>
       <ion-item>
-          <label for="tipoGMotor">Tipo Ascensor</label>
-          <ion-select id="tipoGMotor" required [(ngModel)]="modelAscensor.tipoMotorAsc"  interface="popover"
-          name="tipoGMotor" onchange="cambiaPotAscensor($event)">
-            <ion-select-option *ngFor="let tipoGMotor of tipoPotAscensor" [value]="tipoGMotor">{{tipoGMotor}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-          <ion-item>
-          <label for="potGMotor">Potencia Motor:</label>
-          <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
-            name="potAsc" disabled readonly>
-          <ion-select id="medPotMotor" required name="selMedPotAsc"  interface="popover" (ionchange)="cambiaPotAscensor($event.srcElement)" >
-            <ion-select-option *ngFor="let medPot of medidorPotencia" [value]="medPot">{{medPot}}</ion-select-option>
+      <label for="potGMotor">Potencia Gr Motor:</label>
+          <input type="number" class="form-control ng-valid" id="potGMotor" [(ngModel)]="modelGMotor.potenciaGMotor"
+            name="potGMotor" >
+          <ion-select id="medPotMotorGM" required name="medPotMotorGM"  interface="popover" value="kW" (ionchange)="cambiaPotGMotor($event.srcElement)" >
+            <ion-select-option *ngFor="let medPot of medidorPotencia"  [value]="medPot">{{medPot}}</ion-select-option>
           </ion-select>
         </ion-item>
       </div>
-      <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
-      <button type="button" class="btn btn-default"
-        (click)="agregarAscensor(); formAscensor.reset()">borrarDatos</button>
+      <button type="submit" class="btn btn-success" [disabled]="!formGrupoMotor.form.valid">Agregar grupo motor</button>
+      <button type="button" class="btn btn-default btnBorrar"
+        (click)="agregarAscensor(); formGrupoMotor.reset()">Borra datos</button>
     </form>
   </section>
   {{ modelAscensor | json }}

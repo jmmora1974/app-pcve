@@ -1,6 +1,6 @@
 export interface IGMotor {
     id:number;
-    numMotores: number;
-    potenciaMotor:number;
+    numGMotores: number;
+    potenciaGMotor:number;
     descripcion?:string;
 }

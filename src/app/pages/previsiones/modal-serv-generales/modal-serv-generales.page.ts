@@ -4,6 +4,7 @@ import { Component, signal, OnInit,  WritableSignal} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IAscensor } from 'src/app/models/iascensor';
+import { IGMotor } from 'src/app/models/igmotor';
 
 
 @Component({
@@ -17,7 +18,9 @@ export class ModalServGeneralesPage implements OnInit {
   public medidorPotencia: string[]=['kW','W','cV'];
   formAscensor!: FormGroup;
   modelAscensor!:IAscensor;
+  modelGMotor!:IGMotor;
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
+  listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
 
   //@Input()  numAsc:any;
 
@@ -29,6 +32,13 @@ export class ModalServGeneralesPage implements OnInit {
       tipoMotorAsc:'ITA-1',
       potenciaMotorAsc: 2
       } ;
+
+      this.modelGMotor={
+        id: 0,
+        numGMotores: 3,
+       potenciaGMotor: 2
+        
+      };
 
       this.formAscensor = this.fbAsc.group({
         id: new FormControl(0, Validators.required),
@@ -58,5 +68,8 @@ export class ModalServGeneralesPage implements OnInit {
    agregarGrupoMotor(){
     this.submitted = true; 
    }
+   cambiaPotGMotor (elemen:any){
+    console.log('selmedpotGMOotor',JSON.stringify(elemen.value));
 
+   }
 }
