@@ -3,13 +3,14 @@
 
 
 section{
-  display: flex;
+  //display: flex;
   min-width: 90px;
   width: 100%;
   background-color: aqua;
   
   text-align: center;
   align-items: center;
+  vertical-align: middle;
 }
 .box > * {
   border: 2px solid rgb(96 139 168);
@@ -20,11 +21,16 @@ section{
 
 .box {
   border: 2px dotted rgb(96 139 168);
-  display: flex;
+  //display: flex;
   flex-wrap: wrap;
   width: 100%;
   text-align: center;
   align-items: center;
+}
+ ion-item{
+  background-color: transparent;
+  border: 2px solid rgb(140, 0, 255);
+  border-radius: 7px;
 }
 
 .form-group {
@@ -33,10 +39,18 @@ section{
   flex-wrap: wrap;
   min-width: 80px;
   
+
 }
-select{
+ion-select{
   min-width: 20px;
   max-width: 90px;
+}
+ion-select>*{
+  min-width: 20px;
+  max-width: 90px;
+  background-color: #42A948;
+  border-radius: 4px;
+  text-align: center;
 }
 
 label{
@@ -58,8 +72,9 @@ input[type="submit"]{
 }
 /*Inputs que no sean de tipo submit*/
 input:not([type="submit"]){
-  width: 100px;
-  text-align: right;
+  width: 80px;
+  text-align: center;
+  justify-content: center;
 }
 
 .ng-valid[required], .ng-valid.required  {

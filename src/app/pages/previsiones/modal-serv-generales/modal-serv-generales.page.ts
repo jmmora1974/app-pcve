@@ -50,6 +50,11 @@ export class ModalServGeneralesPage implements OnInit {
     this.listaAscensores.update((values:IAscensor[])=>[...values,this.modelAscensor]);
    }
 
+   cambiaPotAscensor(elemen:any){
+    console.log('selmedpotasc',JSON.stringify(elemen.value));
+
+   }
+
    agregarGrupoMotor(){
     this.submitted = true; 
    }
