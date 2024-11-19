@@ -1,6 +1,17 @@
 
+
+.ng-valid[required], .ng-valid.required  {
+  border-bottom: 5px solid #4ea942; /* green */
+}
+.ng-invalid {
+  border-bottom: 5px solid #e20b07; /* red */
+}
+.ng-invalid:not(form)  {
+  border-bottom: 5px solid #a94442; /* red */
+}
 section{
-  //display: flex;
+  display: flex;
+  flex-wrap: wrap;
   min-width: 90px;
   width: 100%;
   background-color: aqua;
@@ -13,20 +24,26 @@ section{
 
 .boxAsc {
   border: 2px dotted rgb(96 139 168);
-  //display: flex;
+  display: flex;
   flex-wrap: wrap;
   width: 100%;
   text-align: center;
   align-items: center;
   background-color: aqua;
+  //font-size: 0.69em;
   
 }
 .boxAsc > * {
+  
   border: 2px solid rgb(96 139 168);
   border-radius: 5px;
-  
+  flex-wrap: wrap;
   margin: 5px;
  
+}
+#numAsc{
+  width: 50px;
+  font-size: small;
 }
 
 .boxGMotor {
@@ -39,28 +56,29 @@ section{
   background-color: rgba(73, 175, 244, 0.2);
 }
 
- ion-item{
-  background-color: transparent;
-  border: 1px solid rgb(140, 0, 255);
-  border-radius: 7px;
-  margin: 5px;
-}
+ 
 
 .form-group {
   width: 100%;
-  display: flex;
+  display: inline;
   flex-wrap: wrap;
   min-width: 80px;
-  
+  text-align: center;
+  margin: auto
 
 }
 ion-select{
-  min-width: 20px;
-  max-width: 90px;
+  min-width: 80px;
+  max-width: 99px;
+  //max-height:35px;
+  margin: 10px;
+  padding: auto;
+  font-size: small;
 }
+
 ion-select>*{
-  min-width: 20px;
-  max-width: 90px;
+  min-width: 90px;
+  max-width: 120px;
   background-color: #130a98;
   border-radius: 4px;
   text-align: center;
@@ -68,9 +86,10 @@ ion-select>*{
 
 label{
   display: inline-block;
-  min-width: 80px;
+  min-width: 70px;
   max-width: 90px;
   text-align: center;
+  font-size: 0.8em;
 }
 
 input{
@@ -95,10 +114,11 @@ input:not([type="submit"]){
   background-color: #cd6866;
   margin-left: 20px;
 }
-.ng-valid[required], .ng-valid.required  {
-  border-bottom: 5px solid #42A948; /* green */
-}
-
-.ng-invalid:not(form)  {
-  border-bottom: 5px solid #a94442; /* red */
+ion-item{
+  display: inline-flex;
+  flex-wrap: wrap;
+  background-color: transparent;
+  border: 1px solid rgb(140, 0, 255);
+  border-radius: 7px;
+  margin: 5px;
 }

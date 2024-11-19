@@ -27,16 +27,12 @@
         </ion-item>
         <ion-item>
           <label for="tipoAsc">Tipo Ascensor</label>
-          <ion-select id="tipoAsc" class="ng-valid" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
+          <ion-select id="tipoAsc" class="form-control ng-valid ng-pristine" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
             name="tipoAsc" (ionChange)="cambiaPotAscensor($event.srcElement)" required>
             <ion-select-option *ngFor="let tipoPotAsc of tipoPotAscensor"
               [value]="tipoPotAsc">{{tipoPotAsc}}</ion-select-option>
           </ion-select>
-        </ion-item>
-        <ion-item>
-
-
-          <label for="potAsc">Potencia ascensor:</label>
+        
           <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
             name="potAsc" readonly required>
           <ion-select id="medPotMotorAsc" required name="selMedPotAsc" interface="popover"
@@ -96,7 +92,7 @@
               
           Tipo ascensor: {{ ascItem.tipoMotorAsc }}
         
-          Potencia ascensor:{{ ascItem.potenciaMotorAsc }}-{{ ascItem.medidaPotencia }}</div>
+          Potencia ascensor:{{ ascItem.potenciaMotorAsc }}-{{ ascItem.medidaPotencia }}
         </div>
         <br>
       </div>
