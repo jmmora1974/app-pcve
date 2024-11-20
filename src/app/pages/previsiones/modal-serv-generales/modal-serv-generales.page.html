@@ -14,7 +14,7 @@
   <section class="flex-container boxAsc">
 
     <form (ngSubmit)="agregarAscensor()" #formAscensor="ngForm">
-      <h2>Ascensores</h2>
+      <fieldset><legend>Ascensores</legend>
 
       <div class="form-group">
         <ion-item>
@@ -24,12 +24,12 @@
           <div [hidden]="true" class="alert alert-danger">
             El número de ascensores es necesario
           </div>
-        </ion-item>
-        <ion-item>
-          <label for="tipoAsc">Tipo Ascensor</label>
-          <ion-select id="tipoAsc" class="form-control ng-valid ng-pristine ng-untouched" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
+        
+          <label for="tipoAsc">Tipo </label>
+          
+          <ion-select id="tipoAsc" class="select form-control ng-valid ng-pristine ng-untouched" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
             name="tipoAsc" (ionChange)="cambiaPotAscensor($event.srcElement)" required>
-            <ion-select-option *ngFor="let tipoPotAsc of tipoPotAscensor"
+            <ion-select-option class="option" *ngFor="let tipoPotAsc of tipoPotAscensor"
               [value]="tipoPotAsc">{{tipoPotAsc}}</ion-select-option>
           </ion-select>
         
@@ -41,11 +41,12 @@
           </ion-select>
         </ion-item>
       </div>
-
+    </fieldset>
 
       <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
       <button type="button" class="btn btn-default btnBorrar" (click)="agregarAscensor(); formAscensor.reset()">Borra
         datos</button>
+
     </form>
   </section>
 
@@ -81,6 +82,7 @@
   </section>
 
   <div [hidden]="!submitted">
+    
     <h2>Lista ascensores:</h2>
     <div #listadoAsc class="box">
       @for (ascItem of this.listaAscensores(); track ascItem.id) {

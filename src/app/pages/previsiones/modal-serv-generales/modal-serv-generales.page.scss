@@ -80,6 +80,7 @@ section{
 
 }
 ion-select{
+  //position: relative;
   min-width: 80px;
   max-width: 99px;
   //max-height:35px;
@@ -88,14 +89,32 @@ ion-select{
   font-size: small;
 }
 
-ion-select>*{
-  min-width: 90px;
-  max-width: 120px;
-  padding: 1px 1px 2px 2px;
-  background-color: #130a98;
-  border-radius: 4px;
-  text-align: center;
+ion-select-option  {
+  padding: 0.2em 0.3em; /* 2px 3px */
+  font-size: smaller;
+  background: #000;
+  color: #821818;
 }
+
+ion-select-option .highlight {
+  background: #000000;
+  color: #183382;
+}
+
+fieldset {
+  border:6px groove #ccc; /* Borde */
+  background:#F8ECE0; /* Color de fondo */
+  color:#000; /* Color del texto de todo el contenido */
+  }
+  legend {
+  text-align:left; /* Puedes cambiarlo por center o right */
+  font-weight:bold; /* Estilo de la fuente del título */
+  color:#61380B; /* Color del título */
+  }
+
+
+
+
 
 label{
   display: inline-block;
