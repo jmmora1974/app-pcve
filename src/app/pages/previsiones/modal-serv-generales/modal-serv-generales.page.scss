@@ -1,13 +1,25 @@
 
 
-.ng-valid[required], .ng-valid.required  {
-  border-bottom: 5px solid #4ea942; /* green */
+/* RESET ESTILOS */
+
+* {
+  box-sizing: border-box;
+  font-family: Roboto, arial, helvetica;
+  margin:0;
+  padding: 0;
+}
+
+.ng-valid {
+  border: 5px solid none; /* green */
+}
+.ng-invalid[required], .ng-valid.required  {
+  border-bottom: 5px solid #eb1b10; /* orange */
 }
 .ng-invalid {
   border-bottom: 5px solid #e20b07; /* red */
 }
 .ng-invalid:not(form)  {
-  border-bottom: 5px solid #a94442; /* red */
+  border: 5px solid #a94442; /* red */
 }
 section{
   display: flex;
@@ -79,6 +91,7 @@ ion-select{
 ion-select>*{
   min-width: 90px;
   max-width: 120px;
+  padding: 1px 1px 2px 2px;
   background-color: #130a98;
   border-radius: 4px;
   text-align: center;

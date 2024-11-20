@@ -19,7 +19,7 @@
       <div class="form-group">
         <ion-item>
           <label for="numAsc">Núm. Ascensores</label>
-          <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numAsc" required
+          <input type="number" class="form-control ng-untouched ng-pristine ng-valid" min="0" id="numAsc" required
             [(ngModel)]="modelAscensor.numAscensores" name="numAsc">
           <div [hidden]="true" class="alert alert-danger">
             El número de ascensores es necesario
@@ -27,14 +27,14 @@
         </ion-item>
         <ion-item>
           <label for="tipoAsc">Tipo Ascensor</label>
-          <ion-select id="tipoAsc" class="form-control ng-valid ng-pristine" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
+          <ion-select id="tipoAsc" class="form-control ng-valid ng-pristine ng-untouched" [(ngModel)]="modelAscensor.tipoMotorAsc" interface="popover"
             name="tipoAsc" (ionChange)="cambiaPotAscensor($event.srcElement)" required>
             <ion-select-option *ngFor="let tipoPotAsc of tipoPotAscensor"
               [value]="tipoPotAsc">{{tipoPotAsc}}</ion-select-option>
           </ion-select>
         
-          <input type="number" class="form-control ng-valid" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
-            name="potAsc" readonly required>
+          <input type="number" class="form-control ng-valid ng-untouched" id="potAsc" [(ngModel)]="modelAscensor.potenciaMotorAsc"
+            name="potAsc" min="0" readonly required>
           <ion-select id="medPotMotorAsc" required name="selMedPotAsc" interface="popover"
             [(ngModel)]="modelAscensor.medidaPotencia" [disabled]=true>
             <ion-select-option *ngFor="let medPot of medidorPotencia" [value]="medPot">{{medPot}}</ion-select-option>
@@ -57,17 +57,17 @@
       <div class="form-group">
         <ion-item>
           <label for="numGMotor">Núm. Motores</label>
-          <input type="number" class="form-control ng-untouched ng-pristine ng-valid" id="numGMotor" required
+          <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numGMotor" required
             [(ngModel)]="modelGMotor.numGMotores" name="numGMotor">
           <div [hidden]="true" class="alert alert-danger">
             El número de grupo motor es necesario
           </div>
         </ion-item>
-        <ion-item>
+        <ion-item >
           <label for="potGMotor">Potencia Gr Motor:</label>
-          <input type="number" class="form-control ng-valid" id="potGMotor" [(ngModel)]="modelGMotor.potenciaGMotor"
-            name="potGMotor">
-          <ion-select id="medPotMotorGM" required name="medPotMotorGM" interface="popover"
+          <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="potGMotor" [(ngModel)]="modelGMotor.potenciaGMotor"
+            name="potGMotor" required>
+          <ion-select id="medPotMotorGM" class="form-control ng-valid ng-pristine ng-untouched" required name="medPotMotorGM" interface="popover"
             (ionchange)="cambiaPotGMotor($event.srcElement)">
             <ion-select-option *ngFor="let medPotGM of medidorPotencia"
               [value]="medPotGM">{{medPotGM}}</ion-select-option>
