@@ -7,6 +7,7 @@ import { IonSelect } from '@ionic/angular';
 
 import { IAscensor } from 'src/app/models/iascensor';
 import { IGMotor } from 'src/app/models/igmotor';
+import { PrevisionesService } from 'src/app/services/previsiones.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 
@@ -22,14 +23,16 @@ export class ModalServGeneralesPage implements OnInit {
   formAscensor!: FormGroup;
   modelAscensor!: IAscensor;
   modelGMotor!: IGMotor;
-  listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
-  listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
+
   medPotMotorGM: string = 'kW';
   
   //@Input()  numAsc:any;
 
   //Injectamos el servicio de alertas
   utilService = inject(UtilsService);
+
+  //Injectamos el servicio de previsiones para los calculos
+  previsionesService=inject(PrevisionesService);
 
   constructor(private fbAsc: FormBuilder) {
     
@@ -47,7 +50,7 @@ export class ModalServGeneralesPage implements OnInit {
       numAscensores: new FormControl(0, Validators.required),
       tipoMotorAsc: new FormControl('ITA-1', Validators.required),
       potenciaMotorAsc: new FormControl(0, Validators.required),
-
+      selMedPotAsc: new FormControl(0, Validators.required),
     });
   }
 
@@ -76,39 +79,24 @@ export class ModalServGeneralesPage implements OnInit {
       //this.modelAscensor.id = this.listaAscensores().length;
       
       //calculamos y pasamos la potencia a kW según el valor del selector
-      let potenciaConvertidaAsc = this.pasarakW("medPotMotorAsc", this.modelAscensor.potenciaMotorAsc);
+      let potenciaConvertidaAsc = this.previsionesService.pasarakW( this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
       
 
     }
 
-    this.listaAscensores.update((values: IAscensor[]) => [...values,{
-      id: this.listaAscensores().length,
+    this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values,{
+      id: this.previsionesService.listaAscensores().length,
       numAscensores: this.modelAscensor.numAscensores,
       tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
       potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
       medidaPotencia: this.modelAscensor.medidaPotencia
     }]);
     console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
-    console.log('lista asc',this.listaAscensores());
+    console.log('lista asc',this.previsionesService.listaAscensores());
   }
 
 
-  pasarakW(idElem: string, poten: number): number {
-    //calculamos y pasamos la potencia a kW según el valor del selector
-    const valorElem: IonSelect = document.getElementById(idElem)! as unknown as IonSelect;
-    console.log('poten pasara kw', poten, 'ideelm', idElem, 'leido', valorElem.value, '.', this.medPotMotorGM);
-    if (valorElem.value == 'W') {
-      return poten / 1000;
-    }
-    if (valorElem.value == 'cV') {
-      return poten * 0.736;
-    }
-    if (valorElem.value == 'kW') {
-      return poten;
-    }
-    console.log('Valor no reconocido en ' + idElem + ' con valor ' + valorElem)
-    return 0;
-  }
+ 
 
   cambiaPotAscensor(tipoMotor: any) {
     console.log('selmedpotasc', tipoMotor.value);
@@ -116,6 +104,7 @@ export class ModalServGeneralesPage implements OnInit {
     document.getElementById("medPotMotorAsc")?.setAttribute("disabled","true");
     potAsc?.contentEditable;
     potAsc?.setAttribute('readonly', 'true');
+    document.getElementById("medPotMotorAsc")?.setAttribute('value', 'kW');
     switch (tipoMotor.value) {
       case "ITA-1":
         this.modelAscensor.potenciaMotorAsc = 4.5;

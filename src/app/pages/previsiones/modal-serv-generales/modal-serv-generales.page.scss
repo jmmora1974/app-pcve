@@ -7,6 +7,7 @@
   font-family: Roboto, arial, helvetica;
   margin:0;
   padding: 0;
+  line-height: normal;
 }
 
 .ng-valid {
@@ -34,6 +35,11 @@ section{
   
 }
 
+form {
+  width: 100%;
+  
+}
+
 .boxAsc {
   border: 2px dotted rgb(96 139 168);
   display: flex;
@@ -43,7 +49,7 @@ section{
   align-items: center;
   background-color: aqua;
   //font-size: 0.69em;
-  
+  overflow-x: scroll;
 }
 .boxAsc>*, .boxGMotor > * {
   
@@ -66,6 +72,7 @@ section{
   text-align: center;
   align-items: center;
   background-color: rgb(0, 255, 140);
+  overflow-x: scroll;
 }
 
  
@@ -79,78 +86,115 @@ section{
   margin: auto
 
 }
+
 ion-select{
   //position: relative;
-  min-width: 80px;
+  min-width: 50px;
   max-width: 99px;
   //max-height:35px;
-  margin: 10px;
+  margin: auto;
   padding: auto;
   font-size: small;
+  text-align: center;
+  vertical-align: center;
+  justify-content: center;
 }
-
-ion-select-option  {
-  padding: 0.2em 0.3em; /* 2px 3px */
-  font-size: smaller;
-  background: #000;
-  color: #821818;
-}
-
-ion-select-option .highlight {
-  background: #000000;
-  color: #183382;
+ion-select *{
+  font-size: 5em;
+  justify-content: center;
+  text-align: center;
 }
 
 fieldset {
+  
   border:6px groove #ccc; /* Borde */
   background:#F8ECE0; /* Color de fondo */
   color:#000; /* Color del texto de todo el contenido */
-  }
+  
   legend {
-  text-align:left; /* Puedes cambiarlo por center o right */
+    
+  text-align:center; /* Puedes cambiarlo por center o right */
   font-weight:bold; /* Estilo de la fuente del título */
   color:#61380B; /* Color del título */
+  position: relative;
   }
-
-
-
-
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    vertical-align: middle;
+    margin-top: 10px;
+    padding: auto;
+    text-align: center;
+  }
+ 
+}
 
 label{
   display: inline-block;
   min-width: 70px;
   max-width: 90px;
+  padding-left: 5px;
   text-align: center;
   font-size: 0.8em;
+  vertical-align: middle;
+  
+  
 }
 
 input{
-  padding: 1px 2px ;
+ 
+  padding: 3px 3px ;
   margin: 1px;
   
  
 }
 
-input[type="submit"]{
-  display: block;
-  margin: 10px auto;
+input[type="submit"], .btn-success{
+  padding: 10px 10px;
+  margin: 10px;
+  border: 3px inset #121213;
 }
 /*Inputs que no sean de tipo submit*/
 input:not([type="submit"]){
   width: 80px;
   text-align: center;
   justify-content: center;
+  
+  
 }
+
+  
 .btnBorrar{
-  border: 1px inside #130a98;
+  border: 5px outset #19191b;
   background-color: #cd6866;
   margin-left: 20px;
+  padding: 10px 10px;
 }
 ion-item{
   display: inline-flex;
   flex-wrap: wrap;
+  width: 100%;
   background-color: transparent;
   border: 1px solid rgb(140, 0, 255);
   border-radius: 7px;
   margin: 5px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+ion-popover {
+  --background: rgba(40, 173, 218, 0.6);
+  --backdrop-opacity: 0.6;
+  --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
+  --color: white;
+  --width: 300px;
+}
+
+ion-popover ion-content {
+  --background: rgba(40, 173, 218, 0.6);
+}
+
+ion-popover::part(backdrop) {
+  background-color: rgb(6, 14, 106);
 }

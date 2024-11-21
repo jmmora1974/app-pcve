@@ -28,6 +28,7 @@ mat-grid-tile {
     margin: 0;
     padding: 30px;
     height: 100%;
+    
   
     @include mat.all-component-themes($theme);
   }
@@ -37,7 +38,7 @@ mat-grid-tile {
     overflow-y:auto;
     //overflow: auto;
     overflow-x: visible;
-    font-size: 0.5em;
+    
     //border: 4px solid currentColor;
   }
   .tablaViv {
@@ -45,12 +46,13 @@ mat-grid-tile {
     overflow-y:auto;
     scroll-behavior:smooth;
     overflow-x: visible;
+    
     //border: 4px solid currentColor;
   }
   th{
     //font-size: 1.3em;
     border: 2px solid currentColor;
-    
+    font-size: 0.8;
     color: #2834bb;
     //padding-right: 24px;
     text-align: center;

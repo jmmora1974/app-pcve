@@ -135,6 +135,28 @@
     <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
         Agregar Serv Grales
       </ion-button></ion-col>
+      <ion-col>
+        <div #listadoAsc class="box">
+          @for (ascItem of this.previsionesService.listaAscensores(); track ascItem.id) {
+          <li>
+            <div class="row flex-container boxAsc ">
+              <div class="row ">
+                <div class="col-xs-3"></div>
+                ID: {{ ascItem.id }} Num ascensores:{{ ascItem.numAscensores }}
+    
+                Tipo  {{ ascItem.tipoMotorAsc }} de {{ ascItem.potenciaMotorAsc }}-{{ ascItem.medidaPotencia }}
+                <input type="button" class="btn ion-button"><ion-icon name="trash"></ion-icon>
+              </div>
+              <br>
+            </div>
+          </li>
+          } @empty {
+          <li>No hay ningún ascensor .</li>
+          }
+    
+    
+        </div>
+      </ion-col>
 
   </ion-item-group>
 

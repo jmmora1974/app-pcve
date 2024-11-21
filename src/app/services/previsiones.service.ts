@@ -6,6 +6,8 @@ import { ITipoVivienda, IVivienda } from '../models/ivivienda';
 import { IPrevision } from '../models/iprevision';
 import { UtilsService } from './utils.service';
 import { IIrve } from '../models/iirve';
+import { IAscensor } from '../models/iascensor';
+import { IGMotor } from '../models/igmotor';
 
 
 
@@ -26,7 +28,9 @@ export class PrevisionesService {
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
-
+  listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
+  listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
+  
   prevision: WritableSignal<IPrevision> = signal<IPrevision>({
     id: 0,
     Pviv: 0,
@@ -340,6 +344,23 @@ export class PrevisionesService {
   }
   agregraServiciosGenerales(data: any) {
 
+  }
+
+  pasarakW(poten: number, idmedida: string): number {
+    //calculamos y pasamos la potencia a kW según el valor del selector
+    //const valorElem: IonSelect = document.getElementById(idElem)! as unknown as IonSelect;
+    console.log('poten pasara kw', poten, 'ideelm', idmedida, 'leido.');
+    if (idmedida == 'W') {
+      return poten / 1000;
+    }
+    if (idmedida == 'cV') {
+      return poten * 0.736;
+    }
+    if (idmedida == 'kW') {
+      return poten;
+    }
+    console.log('Valor no reconocido en ' + idmedida + ' con valor ' + poten);
+    return 0;
   }
 
 }
