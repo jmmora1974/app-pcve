@@ -41,8 +41,8 @@ export class ModalServGeneralesPage implements OnInit {
       id: 0,
       numGMotores: 3,
       potenciaGMotor: 2,
-      medidaPotencia: 'kW'
-
+      medidaPotencia: 'kW',
+      totalpotenciakw: 0
     };
 
     this.formAscensor = this.fbAsc.group({
@@ -60,7 +60,8 @@ export class ModalServGeneralesPage implements OnInit {
       numAscensores: 0,
       tipoMotorAsc: 'ITA-1',
       potenciaMotorAsc: 4.5,
-      medidaPotencia: 'kW'
+      medidaPotencia: 'kW',
+      totalpotenciakw: 0
     };
   }
 
@@ -80,12 +81,17 @@ export class ModalServGeneralesPage implements OnInit {
       
       //calculamos y pasamos la potencia a kW según el valor del selector
       let potenciaConvertidaAsc = this.previsionesService.pasarakW( this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
+      this.previsionesService.Pasc.update ((value: number)=>value +  this.modelAscensor.numAscensores*potenciaConvertidaAsc*1.3);
+
+
       this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values,{
         id: this.previsionesService.listaAscensores().length,
         numAscensores: this.modelAscensor.numAscensores,
         tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
         potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
-        medidaPotencia: this.modelAscensor.medidaPotencia
+        medidaPotencia: this.modelAscensor.medidaPotencia,
+        totalpotenciakw: (this.modelAscensor.numAscensores*potenciaConvertidaAsc*1.3)
+
       }]);
       console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
       console.log('lista asc',this.previsionesService.listaAscensores());

@@ -28,8 +28,7 @@ export class PrevisionesService {
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
-  listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
-  listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
+ 
   
   prevision: WritableSignal<IPrevision> = signal<IPrevision>({
     id: 0,
@@ -54,6 +53,8 @@ export class PrevisionesService {
   valorP3: number = 0;
   valorP4: number = 0;
   valorP5: number = 0;
+
+  /* Variables necesarias para el calculo de P vivienda */
   sumPotP1 = signal(0);
   sumvivP1 = signal(0);
   numTotalViviendas=signal(0);
@@ -77,7 +78,10 @@ export class PrevisionesService {
   ];
   numPlazasPkn = signal(0);
 
-
+  /* Variables necesarias para calcular  P Servicios gnerales */
+  listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
+  listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
+  Pasc=signal(0);  //Prevision ascensor
 
   constructor(utilsService: UtilsService) {
 
@@ -162,7 +166,18 @@ export class PrevisionesService {
     return this.listaViviendas.length;
   }
 
-  
+  /*--- Funcion para eliminar ascensor --*/
+  eliminaAscensor (idAsc:IAscensor){
+    let listaAscTemp:IAscensor[]=[];
+    this.listaAscensores().forEach((item)=>{
+
+        let contAsc =0;
+        
+      console.log ('eliminando ', idAsc, 'vamos por el ',item.id);
+    })
+
+
+  }
 
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {

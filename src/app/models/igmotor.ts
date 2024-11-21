@@ -4,6 +4,7 @@ export interface IGMotor {
     potenciaGMotor:number;
     medidaPotencia?:string;
     descripcion?:string;
+    totalpotenciakw?:number;
 }
    
     

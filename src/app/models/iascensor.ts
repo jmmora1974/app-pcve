@@ -4,4 +4,5 @@ export interface IAscensor {
     tipoMotorAsc:string;
     potenciaMotorAsc:number;
     medidaPotencia?:string;
+    totalpotenciakw?:number;
 }

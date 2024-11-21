@@ -128,46 +128,11 @@ mat-grid-tile {
     width: 20px;
   }
   
-  #p1, rp1 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
-
-  }
-
-  #p2 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
-
-  }
-
-  #p3 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
-
-  }
-
-  #p4 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
-
-  }
-
-  #p5 {
-    background-color: #c8e232;
-    border: solid 1px #2b51b9;
-    color: #070101;
-
-  }
-
-  #pt {
-    background-color: #41e232;
-    border: solid 2px #b6351e;
-    color: #010702;
-
+  .btnBorrar{
+    border: 5px outset #19191b;
+    background-color: #cd6866;
+    margin-left: 20px;
+    padding: 10px 10px;
   }
 
 

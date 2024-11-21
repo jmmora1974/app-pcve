@@ -51,10 +51,11 @@
         </div>
       </fieldset>
 
-      <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
+      <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar
+        Ascensor<ion-ripple-effect></ion-ripple-effect></button>
       <button type="button" class="btn btn-default btnBorrar" (click)=" formAscensor.reset()">Borrar datos</button>
-      
-      <ion-button  id="click-trigger" slot="end"><ion-icon name="information"></ion-icon></ion-button>
+
+      <ion-button id="click-trigger" slot="end"><ion-icon name="information"></ion-icon></ion-button>
       <ion-popover trigger="click-trigger" triggerAction="click">
         <ng-template>
           <ion-content class="ion-padding"><ion-img src="../../../../assets/Psergen.png"> </ion-img></ion-content>
@@ -88,7 +89,7 @@
         </div>
       </fieldset>
       <button type="submit" class="btn btn-success" [disabled]="!formGrupoMotor.form.valid">Agregar grupo motor</button>
-      <button type="button" class="btn btn-default btnBorrar" (click)="agregarAscensor(); formGrupoMotor.reset()">Borra
+      <button type="button" class="btn btn-default btnBorrar" (click)="formGrupoMotor.reset()">Borra
         datos</button>
     </form>
   </section>
@@ -96,33 +97,27 @@
   <div [hidden]="!submitted">
 
     <h2>Lista ascensores:</h2>
-    <ion-button id="hover-trigger"><ion-icon name="information"></ion-icon></ion-button>
-    <ion-popover trigger="hover-trigger" triggerAction="hover">
-      <ng-template>
-        <ion-content class="ion-padding"><ion-img src="../../../../assets/Psergen.png"> </ion-img></ion-content>
-      </ng-template>
-    </ion-popover>
-    <div #listadoAsc class="box">
-      @for (ascItem of this.previsionesService.listaAscensores(); track ascItem.id) {
-      <li>
-        <div class="row flex-container boxAsc ">
-          <div class="row ">
-            <div class="col-xs-3"></div>
-            ID: {{ ascItem.id }} Num ascensores:{{ ascItem.numAscensores }}
-
-            Tipo  {{ ascItem.tipoMotorAsc }} de {{ ascItem.potenciaMotorAsc }}-{{ ascItem.medidaPotencia }}
-            <input type="button" class="btn ion-button"><ion-icon name="trash"></ion-icon>
-          </div>
-          <br>
-        </div>
-      </li>
-      } @empty {
-      <li>No hay ningún ascensor .</li>
-      }
+    
+    
+      <ion-grid>
+        <ion-row>
+          @for (ascItem of this.previsionesService.listaAscensores(); track ascItem.id) {
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
+            <img alt="Icono Ascensor" src="../../../assets/icon/ascensor.png" height="50px" class="ion-float-right" />
+            {{ascItem.numAscensores}} ascensores tipo {{ascItem.tipoMotorAsc}} de {{ascItem.potenciaMotorAsc}}.
+            Total {{ascItem.totalpotenciakw |number}} kW.
+            <div class="btn ion-button btnBorrar" (click)="this.previsionesService.eliminaAscensor(ascItem)"><ion-icon
+                name="trash"></ion-icon>
+            </div>
+          </ion-col>
+          } @empty {
+          <li>No hay ningún ascensor definido.</li>
+          }
+        </ion-row>
+      </ion-grid>
 
 
-
-
+<div #listadoAsc >
       <button type="button" class="btn btn-primary" (click)="submitted=false">Resetear</button>
     </div>
   </div>

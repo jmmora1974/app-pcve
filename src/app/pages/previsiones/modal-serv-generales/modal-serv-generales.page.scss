@@ -8,6 +8,9 @@
   margin:0;
   padding: 0;
   line-height: normal;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
 }
 
 .ng-valid {
@@ -38,6 +41,31 @@ section{
 form {
   width: 100%;
   
+}
+ion-grid {
+  --ion-grid-width: 50%;
+
+  --ion-grid-width-xs: 50%;
+  --ion-grid-width-sm: 576px;
+  --ion-grid-width-md: 768px;
+  --ion-grid-width-lg: 992px;
+  --ion-grid-width-xl: 1200px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+ion-col {
+  //background-color: #3ea3b1;
+  background-color: #28bbaa;
+  border: solid 1px #d7dbe7;
+  color: #fcfcfc;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .boxAsc {
