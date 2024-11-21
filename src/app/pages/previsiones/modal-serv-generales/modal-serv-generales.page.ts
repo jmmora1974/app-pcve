@@ -70,7 +70,7 @@ export class ModalServGeneralesPage implements OnInit {
     if (this.modelAscensor.numAscensores < 1) {
       this.utilService.showAlert('Error num ascensor', 'El número de ascensores ha de ser positivo.')
 
-    } if (this.modelAscensor.potenciaMotorAsc < 0.1) {
+    } else if (this.modelAscensor.potenciaMotorAsc < 0.1) {
       this.utilService.showAlert('Error potencia ascensor.','La potencia del ascensores ha de ser superior a 0.1.')
 
     } else {
@@ -80,19 +80,19 @@ export class ModalServGeneralesPage implements OnInit {
       
       //calculamos y pasamos la potencia a kW según el valor del selector
       let potenciaConvertidaAsc = this.previsionesService.pasarakW( this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
-      
+      this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values,{
+        id: this.previsionesService.listaAscensores().length,
+        numAscensores: this.modelAscensor.numAscensores,
+        tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
+        potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
+        medidaPotencia: this.modelAscensor.medidaPotencia
+      }]);
+      console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
+      console.log('lista asc',this.previsionesService.listaAscensores());
 
     }
 
-    this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values,{
-      id: this.previsionesService.listaAscensores().length,
-      numAscensores: this.modelAscensor.numAscensores,
-      tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
-      potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
-      medidaPotencia: this.modelAscensor.medidaPotencia
-    }]);
-    console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
-    console.log('lista asc',this.previsionesService.listaAscensores());
+   
   }
 
 
