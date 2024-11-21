@@ -53,7 +53,8 @@
 
       <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar Ascensor</button>
       <button type="button" class="btn btn-default btnBorrar" (click)=" formAscensor.reset()">Borrar datos</button>
-      <ion-button id="click-trigger"><ion-icon name="information"></ion-icon></ion-button>
+      
+      <ion-button  id="click-trigger" slot="end"><ion-icon name="information"></ion-icon></ion-button>
       <ion-popover trigger="click-trigger" triggerAction="click">
         <ng-template>
           <ion-content class="ion-padding"><ion-img src="../../../../assets/Psergen.png"> </ion-img></ion-content>

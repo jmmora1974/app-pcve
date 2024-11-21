@@ -189,12 +189,23 @@ ion-popover {
   --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
   --color: white;
   --width: 300px;
+
 }
 
 ion-popover ion-content {
   --background: rgba(40, 173, 218, 0.6);
+  
+  
 }
 
 ion-popover::part(backdrop) {
-  background-color: rgb(6, 14, 106);
+  background-color: rgb(25, 39, 53);
+}
+
+#click-trigger{
+  background-color: #636f51;
+  ion-icon{
+    padding: 1px 10px;
+    margin: 1px 1px;
+  }
 }
