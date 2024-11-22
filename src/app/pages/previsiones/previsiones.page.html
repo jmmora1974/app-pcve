@@ -40,7 +40,13 @@
   <ion-item-group>
     <ion-item-divider color="primary">
       <ion-label>Prevision Viviendas </ion-label><ion-label slot="end">
-        {{this.previsionesService.prevision().Pviv.toFixed(3)}} kW</ion-label>
+        {{this.previsionesService.prevision().Pviv.toFixed(3)}} kW </ion-label>
+        <ion-button id="click-triggertv" slot="end"><ion-icon name="information"></ion-icon></ion-button>
+      <ion-popover  trigger="click-triggertv" triggerAction="click">
+        <ng-template id="contentpop">
+          <ion-content   class="ion-padding"><ion-img src="../../../assets/tipoVivienda2.png"  > </ion-img></ion-content>
+        </ng-template>
+      </ion-popover>
     </ion-item-divider>
 
 
@@ -141,7 +147,7 @@
       <ion-button id="click-trigger" slot="end"><ion-icon name="information"></ion-icon></ion-button>
       <ion-popover trigger="click-trigger" triggerAction="click">
         <ng-template>
-          <ion-content class="ion-padding"><ion-img src="../../../../assets/Psergen.png"> </ion-img></ion-content>
+          <ion-content class="ion-padding"><ion-img src="../../../assets//Psergen.png"> </ion-img></ion-content>
         </ng-template>
       </ion-popover>
     </ion-item-divider>
@@ -183,7 +189,7 @@
         <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
           >
           <img alt="Icono Ascensor" src="../../../assets/icon/ascensor.png" height="50px" class="ion-float-right" />
-          {{ascItem.numAscensores}} ascensores tipo {{ascItem.tipoMotorAsc}} de {{ascItem.potenciaMotorAsc}}{{ascItem.medidaPotencia}}.
+          {{ascItem.numAscensores}} ascensores tipo {{ascItem.tipoMotorAsc}} de {{ascItem.potenciaMotorAsc}} {{ascItem.medidaPotencia}}.
           Total {{ascItem.totalpotenciakw |number}} kW.
           <div class="btn ion-button btnBorrar"
               (click)="this.previsionesService.eliminaAscensor(ascItem)"><ion-icon name="trash"></ion-icon>

@@ -138,5 +138,13 @@ mat-grid-tile {
 
 }
 
+
+
+#contentpop, .popover-content {
+  border:5px solid #2b51b9;
+  width: 500px;
+  
+}
+
 @include mat.core();
 @include mat.color-variants-backwards-compatibility($theme);
