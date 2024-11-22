@@ -94,7 +94,7 @@ export class ModalServGeneralesPage implements OnInit {
 
       }]);
       console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
-      console.log('lista asc',this.previsionesService.listaAscensores());
+     
 
     }
 
