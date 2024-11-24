@@ -241,6 +241,25 @@
         </ion-row>
       </ion-grid> 
       --->
+
+     <!---Listado de guupo motor  -->
+      <ion-grid>
+        <ion-row>
+          @for (gmItem of this.previsionesService.listaGMotor(); track gmItem.id) {
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
+            >
+            <img alt="Icono Grupo Motor" src="../../../assets/icon/grupomotor3.png" height="50px" class="ion-float-right" />
+            {{gmItem.numGMotores}} grupo motor  de {{gmItem.potenciaGMotor}} {{gmItem.medidaPotencia}}.
+            Total {{gmItem.totalpotenciakw |number}} kW.
+            <div class="btn ion-button btnBorrar"
+                (click)="this.previsionesService.eliminaGrupoMotor(gmItem)"><ion-icon name="trash"></ion-icon>
+            </div>
+          </ion-col>
+        } @empty {
+          <li>No hay ningún ascensor definido.</li>
+          }
+        </ion-row>
+      </ion-grid>
   </ion-item-group>
 
   <ion-item-group>

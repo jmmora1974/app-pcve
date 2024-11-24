@@ -140,6 +140,35 @@ export class ModalServGeneralesPage implements OnInit {
   }
 
   agregarGrupoMotor() {
+
+     //Comprobamos que el número de ascensores y potencia es positivo.
+     if (this.modelGMotor.numGMotores < 1) {
+      this.utilService.showAlert('Error num de motores', 'El número de motores ha de ser positivo.')
+
+    } else if (this.modelGMotor.potenciaGMotor < 0.1) {
+      this.utilService.showAlert('Error potencia motor.','La potencia del motor ha de ser superior a 0.1.')
+
+    } else {
+      this.submitted = true;
+      //Colocamos el id que corresponde al nuevo ascensor
+      //this.modelAscensor.id = this.listaAscensores().length;
+      
+      this.modelGMotor.totalpotenciakw=this.modelGMotor.numGMotores*(this.previsionesService.pasarakW (this.modelGMotor.potenciaGMotor,this.modelGMotor.medidaPotencia));
+
+
+
+      this.previsionesService.listaGMotor.update((values: IGMotor[]) => [...values,{
+        id: this.previsionesService.listaGMotor().length,
+        numGMotores: this.modelGMotor.numGMotores,
+        potenciaGMotor: this.modelGMotor.potenciaGMotor,
+        medidaPotencia: this.modelGMotor.medidaPotencia,
+        totalpotenciakw: this.modelGMotor.totalpotenciakw
+      }]);
+      console.log('Agregado grupo motor', this.modelGMotor.id, ' ', this.modelGMotor.numGMotores, ' x ', this.modelGMotor.potenciaGMotor,
+      this.modelGMotor.medidaPotencia, 'Total : ',this.modelGMotor.totalpotenciakw,'kW.');
+     
+
+    }
     this.submitted = true;
   }
   cambiaPotGMotor(elemen: any) {

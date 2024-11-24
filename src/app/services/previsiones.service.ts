@@ -18,12 +18,6 @@ import { IGMotor } from '../models/igmotor';
 
 export class PrevisionesService {
 
-  /*
-  private viviendas = new BehaviorSubject<IVivienda[]>([]);
-  private previsiones = new BehaviorSubject<IPrevision[]>([]);
-  private prevision = new BehaviorSubject<IPrevision[]>([]);
-  private irves = new BehaviorSubject<IIrve[]>([]);
-  */
 
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
@@ -43,11 +37,7 @@ export class PrevisionesService {
   }
 
   );
-  //viviendas$ = this.viviendas.asObservable();
-  //irves$ = this.irves.asObservable();
-
-  //previsiones$ = this.previsiones.asObservable();
-  //prevision$ = this.previsiones.asObservable();
+ 
   valorP1: number = 0;
   valorP2: number = 0;
   valorP3: number = 0;
@@ -174,6 +164,20 @@ export class PrevisionesService {
         let contAsc =0;
         
       console.log ('eliminando ', idAsc, 'vamos por el ',item.id);
+    })
+
+
+  }
+
+  /* Funcion para eliminar grupo motor.*/
+  eliminaGrupoMotor(idGM:IGMotor){
+
+    let listaGMTemp:IGMotor[]=[];
+    this.listaGMotor().forEach((item)=>{
+
+        let contAsc =0;
+        
+      console.log ('eliminando ', idGM, 'vamos por el ',item.id);
     })
 
 
@@ -361,7 +365,7 @@ export class PrevisionesService {
 
   }
 
-  pasarakW(poten: number, idmedida: string): number {
+  pasarakW(poten: number, idmedida: string='kW'): number {
     //calculamos y pasamos la potencia a kW según el valor del selector
     //const valorElem: IonSelect = document.getElementById(idElem)! as unknown as IonSelect;
     console.log('poten pasara kw', poten, 'ideelm', idmedida, 'leido.');
