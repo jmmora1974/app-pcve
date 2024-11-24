@@ -2,7 +2,7 @@
 
 import { Component, signal, OnInit, WritableSignal, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonSelect } from '@ionic/angular';
+import { IonSelect, ModalController } from '@ionic/angular';
 
 
 import { IAscensor } from 'src/app/models/iascensor';
@@ -34,7 +34,7 @@ export class ModalServGeneralesPage implements OnInit {
   //Injectamos el servicio de previsiones para los calculos
   previsionesService=inject(PrevisionesService);
 
-  constructor(private fbAsc: FormBuilder) {
+  constructor(private fbAsc: FormBuilder, private modalCtrl: ModalController, ) {
     
 
     this.modelGMotor = {
@@ -53,7 +53,9 @@ export class ModalServGeneralesPage implements OnInit {
       selMedPotAsc: new FormControl(0, Validators.required),
     });
   }
-
+  cancel() {
+    return this.modalCtrl.dismiss(null, 'cancel');
+  }
   ngOnInit() {
     this.modelAscensor = {
       id: 0,

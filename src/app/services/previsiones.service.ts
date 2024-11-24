@@ -355,12 +355,11 @@ export class PrevisionesService {
 
   }
 
-  obtenListaViviendas(): IVivienda[] {
-    return this.listaViviendas();
-  }
+ 
   obtenListaIrve(): IIrve[] {
     return this.listaIrve();
   }
+  
   agregraServiciosGenerales(data: any) {
 
   }
