@@ -155,7 +155,28 @@ export class ModalServGeneralesPage implements OnInit {
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
       
-      this.modelGMotor.totalpotenciakw=this.modelGMotor.numGMotores*(this.previsionesService.pasarakW (this.modelGMotor.potenciaGMotor,this.modelGMotor.medidaPotencia));
+      //calculamos y pasamos la potencia a kW según el valor del selector
+      let potenciaConvertidaGM = this.previsionesService.pasarakW(this.modelGMotor.potenciaGMotor,this.modelGMotor.medidaPotencia);
+      let potenciaConvertidaGMMayor = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor,this.previsionesService.PgmmaxPot.medidaPotencia);
+      this.previsionesService.PgmmaxPot.totalpotenciakw= potenciaConvertidaGMMayor;
+      console.log('potrcomnve max', potenciaConvertidaGMMayor, 'conver', potenciaConvertidaGM);
+      if(potenciaConvertidaGMMayor<  potenciaConvertidaGM){
+        console.log('potrcomnve max', potenciaConvertidaGMMayor, 'valoe ',this.previsionesService.Pgm() );
+        this.previsionesService.Pgm.update((value: number)=>value - ( potenciaConvertidaGMMayor*0.25));
+        console.log('potrcomnve max desp', potenciaConvertidaGMMayor, 'valoe ',this.previsionesService.Pgm() );
+        this.previsionesService.PgmmaxPot=this.modelGMotor;
+        this.previsionesService.PgmmaxPot.numGMotores=1;
+        this.previsionesService.PgmmaxPot.totalpotenciakw=potenciaConvertidaGM;
+        
+      };
+
+      // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
+      let difGMMax = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor,this.previsionesService.PgmmaxPot.medidaPotencia);
+
+
+      this.previsionesService.Pgm.update((value: number)=>value + ( this.modelGMotor.numGMotores*potenciaConvertidaGM+difGMMax*0.25));
+
+      this.modelGMotor.totalpotenciakw=this.modelGMotor.numGMotores*potenciaConvertidaGM;
 
 
 

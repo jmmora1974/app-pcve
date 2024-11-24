@@ -99,6 +99,7 @@ export class PrevisionesPage {
 
 
     }
+    this.actualizaResultados();
   }
 
 

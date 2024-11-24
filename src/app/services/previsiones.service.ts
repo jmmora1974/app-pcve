@@ -72,6 +72,14 @@ export class PrevisionesService {
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
   listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
   Pasc=signal(0);  //Prevision ascensor
+  Pgm=signal(0); //Pervision grupo motor
+  PgmmaxPot:IGMotor={
+    id:0,
+    numGMotores: 0,
+    potenciaGMotor: 0,
+    medidaPotencia:'kW',
+    totalpotenciakw:0
+  };
 
   constructor(utilsService: UtilsService) {
 
@@ -303,7 +311,8 @@ export class PrevisionesService {
   }
   //Calcula prevision servicios generales
   calculaP2(): number {
-    return 0;
+
+    return this.Pasc()+this.Pgm();
   }
   //Calcula prevision locales
   calculaP3(): number {
@@ -359,7 +368,7 @@ export class PrevisionesService {
   obtenListaIrve(): IIrve[] {
     return this.listaIrve();
   }
-  
+
   agregraServiciosGenerales(data: any) {
 
   }
