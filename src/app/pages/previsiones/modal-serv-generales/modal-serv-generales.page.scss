@@ -118,43 +118,72 @@ ion-col {
 }
 
 ion-select{
-  //position: relative;
-  min-width: 50px;
-  max-width: 80px;
-  //max-height:35px;
-  margin: auto;
-  padding: auto;
+  --placeholder-color: #e88d25;
+  --placeholder-opacity: 1;
+ 
+  justify-content: center;
+  -ms-flex-align: start;
+  
   font-size: small;
-  text-align: center;
-  vertical-align: center;
-  justify-content: center;
-}
-ion-select *{
-  font-size: 5em;
-  justify-content: center;
-  text-align: center;
-}
+  
 
-#divAlumbrado {
-  ion-select {
-    //position: relative;
-    min-width: 150px;
-    max-width: 180px;
-    //max-height:35px;
-    margin: auto;
-    padding: auto;
-    font-size:x-small;
-    text-align:justify;
-    vertical-align:auto;
-    justify-content:space-around;
-  }
-  ion-select *{
-    font-size: 1em;
-    justify-content: center;
-    text-align:center;
-  }
+}
+ion-select::part(text) {
+  color: rgb(27, 207, 105);
   
 }
+
+ion-list{
+  justify-content: center;
+}
+
+#divAlumbrado ion-select {
+    //position: relative;
+    display: contents;
+    min-width: none;
+    max-width: none;
+    //max-height:35px;
+    margin: auto;
+    
+    font-size:x-small;
+    text-align:center;
+    vertical-align:auto;
+    justify-content:center;
+  }
+
+  #divAlumbrado>ion-item>input{
+    width: 30%;
+    font-size: small;
+    
+
+  }
+
+  #ion-select::part(label) {
+    border:12px solid rgb(23, 35, 4);
+
+  }
+
+ 
+  
+  
+
+
+#medPotMotorAlum{
+  padding: 3px 3px 3px 3px;
+  min-width: none;
+  width: 20px;
+  border-radius: 15px;
+  justify-content:center;
+}
+#medPotMotorAlum label{
+  justify-content:center;
+}
+
+#medPotMotorAlum label{
+  justify-content:center;
+}
+
+
 
 fieldset {
   

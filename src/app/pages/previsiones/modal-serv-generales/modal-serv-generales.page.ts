@@ -22,19 +22,19 @@ export class ModalServGeneralesPage implements OnInit {
   public tipoPotAscensor: string[] = ['ITA-1', 'ITA-2', 'ITA-3', 'ITA-4', 'ITA-5', 'ITA-6', 'OTRO'];
   public medidorPotencia: string[] = ['kW', 'W', 'cV'];
   public potenciasAlumbradoPortal = [{
-    tipo: "15W/m2 Incandescia Portal y comunes  ",
+    tipo: "15W/m2 Incandescia Portal y comunes",
     potencia: 0.015
   },
   {
-    tipo: "8W/m2 FLuorescencia Portal y comunes ",
+    tipo: "8W/m2 FLuorescencia Portal y comunes",
     potencia: 0.008
   },
   {
-    tipo: "7W/m2 Incandescencia Caja Escalera ",
+    tipo: "7W/m2 Incandescencia Caja Escalera",
     potencia: 0.007
   },
   {
-    tipo: "4W/m2 FLuorescencia Caja Escalera ",
+    tipo: "4W/m2 FLuorescencia Caja Escalera",
     potencia: 0.004
 
 
@@ -58,11 +58,15 @@ export class ModalServGeneralesPage implements OnInit {
 
   constructor(private fbAsc: FormBuilder, private modalCtrl: ModalController,) {
     this.modelAlumbrado = {
-      id:0,
+      id: 0,
       numAlumPortal: 0,
       potAlumPortal: 0,
       numAlumEsc: 0,
-      potAlumEsc: 0
+      potAlumEsc: 0,
+      numLamparas: 0,
+      potLamparas: 0,
+      medidaPotencia: 'W',
+      totalPotenciaAlumkW: 0,
 
     }
 
@@ -235,11 +239,11 @@ export class ModalServGeneralesPage implements OnInit {
 
   }
 
-  agregarAlumbrado(){
+  agregarAlumbrado() {
 
   }
 
-  cambiaPotAlumPortal(ev:any){
+  cambiaPotAlumPortal(ev: any) {
 
   }
 }

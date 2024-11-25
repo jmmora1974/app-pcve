@@ -2,6 +2,7 @@
  
   <ion-toolbar>
     <ion-buttons slot="start">
+      <ion-icon class="fa fa-back"></ion-icon>
       <ion-button color="danger" (click)="cancel()">Volver atras</ion-button>
     </ion-buttons>
         <ion-title>Previsión Servicios Generales </ion-title>
@@ -84,8 +85,8 @@
             <label for="potGMotor">Potencia Gr Motor:</label>
             <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="potGMotor"
               [(ngModel)]="modelGMotor.potenciaGMotor" name="potGMotor" required>
-            <ion-select id="medPotMotorGM" class="form-control ng-valid ng-pristine ng-untouched" value="kW" required
-            [(ngModel)]="modelGMotor.medidaPotencia" name="medPotMotorGM" interface="popover" (ionchange)="cambiaPotGMotor($event.srcElement)">
+            <ion-select id="medPotMotorGM" class="form-control ng-valid ng-pristine ng-untouched" placeholder="kW" required
+            [(ngModel)]="modelGMotor.medidaPotencia" name="medPotMotorGM" interface="popover" >
               <ion-select-option *ngFor="let medPotGM of medidorPotencia"
                 [value]="medPotGM">{{medPotGM}}</ion-select-option>
             </ion-select>
@@ -108,27 +109,33 @@
           <ion-item>
             <label for="numAlumPortal">M2 Alumbrado:</label>
             <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numAlumPortal" required
-              [(ngModel)]="modelAlumbrado.numAlumPortal" name="numAlumPortal" valu="Indica el tipo de alumbrado">
-              <ion-select id="selAlumbrado" class="form-control ng-valid ng-pristine ng-untouched" 
+              [(ngModel)]="modelAlumbrado.numAlumPortal" name="numAlumPortal" placeholder="Indica el tipo de alumbrado">
+            
+            
+          <ion-select id="selAlumbrado" class="form-control ng-valid ng-pristine ng-untouched"  placeholder="15W/m2 Incandescia Portal y comunes"
             [(ngModel)]="modelAlumbrado.potAlumPortal" name="potAlumPortal" interface="popover" (ionchange)="cambiaPotAlumPortal($event.srcElement)">
               <ion-select-option *ngFor="let potAlumP of potenciasAlumbradoPortal"
                 [value]="potAlumP.potencia">{{potAlumP.tipo}}</ion-select-option>
             </ion-select>
           </ion-item>
+
           <ion-item >
             <label for="numLamp">Num Lamparas:</label>
-            <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="numLamp"
-           name="numLamp" >
-           <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="potLamp" placeholder="potencia lampara"
-           name="potLamp" >
-            <ion-select id="medPotMotorAlum" class="form-control ng-valid ng-pristine ng-untouched" value="W" required
+            <input type="number" class="form-control ng-valid ng-pristine ng-untouched" value="0" min="0" id="numLamp" [(ngModel)]="modelAlumbrado.numLamparas" name="numLamp" >
+            <label for="potLamp">Potencia Lamparas:</label>
+            <input type="number"  min="0" id="potLamp" [(ngModel)]="modelAlumbrado.potLamparas" placeholder="potencia lampara"
+           class="form-control ng-valid ng-pristine ng-untouched" name="potLamp" title="Potencia de la lampara en w/kW">
+
+            <ion-select id="medPotMotorAlum" class="form-control ng-valid ng-pristine ng-untouched" placeholder="W" 
             [(ngModel)]="modelAlumbrado.medidaPotencia" name="medPotMotorAlum" interface="popover" (ionchange)="cambiaPotGMotor($event.srcElement)">
-              <ion-select-option *ngFor="let medPotAlum of medidorPotencia"
-                [value]="medPotAlum">{{medPotAlum}}</ion-select-option>
+            <ion-select-option value="W">W</ion-select-option>
+            <ion-select-option value="kW">kW</ion-select-option>
             </ion-select>
-            <ion-select id="tipoLamparas" class="form-control ng-valid ng-pristine ng-untouched" value="Incadescente" >
+
+
+            <ion-select id="tipoLamparas" class="form-control ng-valid ng-pristine ng-untouched" placeholder="Incadescente" >
               <ion-select-option value="Incadescente">Incadescente</ion-select-option>
-              <ion-select-option value="Fluorescente">Fluorescente</ion-select-option>
+              <ion-select-option value="Fluorescente">Fluorescente x 1.8</ion-select-option>
             </ion-select>
           </ion-item>
         </div>

@@ -4,7 +4,8 @@ export interface IAlumbrado {
     potAlumEsc?:number;
     numAlumPortal?:number;
     potAlumPortal?:number;
-    incandescencia?:number;
-    Fluorescencia?:number;
+    numLamparas?:number;
+    potLamparas?:number;
     medidaPotencia?:string;
+    totalPotenciaAlumkW:number;
 }
