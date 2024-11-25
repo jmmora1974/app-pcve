@@ -98,6 +98,47 @@
     </form>
   </section>
 
+  <section class="flex-container boxAlumbrado">
+
+    <form (ngSubmit)="agregarAlumbrado()" #formAlumbrado="ngForm">
+      <fieldset>
+        <legend>Alumbrado</legend>
+
+        <div  id="divAlumbrado" class="form-group">
+          <ion-item>
+            <label for="numAlumPortal">M2 Alumbrado:</label>
+            <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numAlumPortal" required
+              [(ngModel)]="modelAlumbrado.numAlumPortal" name="numAlumPortal" valu="Indica el tipo de alumbrado">
+              <ion-select id="selAlumbrado" class="form-control ng-valid ng-pristine ng-untouched" 
+            [(ngModel)]="modelAlumbrado.potAlumPortal" name="potAlumPortal" interface="popover" (ionchange)="cambiaPotAlumPortal($event.srcElement)">
+              <ion-select-option *ngFor="let potAlumP of potenciasAlumbradoPortal"
+                [value]="potAlumP.potencia">{{potAlumP.tipo}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item >
+            <label for="numLamp">Num Lamparas:</label>
+            <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="numLamp"
+           name="numLamp" >
+           <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="potLamp" placeholder="potencia lampara"
+           name="potLamp" >
+            <ion-select id="medPotMotorAlum" class="form-control ng-valid ng-pristine ng-untouched" value="W" required
+            [(ngModel)]="modelGMotor.medidaPotencia" name="medPotMotorGM" interface="popover" (ionchange)="cambiaPotGMotor($event.srcElement)">
+              <ion-select-option *ngFor="let medPotGM of medidorPotencia"
+                [value]="medPotGM">{{medPotGM}}</ion-select-option>
+            </ion-select>
+            <ion-select id="tipoLamparas" class="form-control ng-valid ng-pristine ng-untouched" value="Incadescente" >
+              <ion-select-option value="Incadescente">Incadescente</ion-select-option>
+              <ion-select-option value="Fluorescente">Fluorescente</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-success" [disabled]="!formAlumbrado.form.valid">Agregar alumbrado</button>
+      <button type="button" class="btn btn-default btnBorrar" (click)="formAlumbrado.reset()">Borra
+        datos</button>
+    </form>
+  </section>
+
   <div [hidden]="!submitted">
 
     <h2>Lista ascensores:</h2>

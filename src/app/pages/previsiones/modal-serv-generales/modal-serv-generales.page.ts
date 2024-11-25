@@ -3,6 +3,7 @@
 import { Component, signal, OnInit, WritableSignal, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonSelect, ModalController } from '@ionic/angular';
+import { IAlumbrado } from 'src/app/models/ialumbrado';
 
 
 import { IAscensor } from 'src/app/models/iascensor';
@@ -20,27 +21,56 @@ export class ModalServGeneralesPage implements OnInit {
   submitted = false;
   public tipoPotAscensor: string[] = ['ITA-1', 'ITA-2', 'ITA-3', 'ITA-4', 'ITA-5', 'ITA-6', 'OTRO'];
   public medidorPotencia: string[] = ['kW', 'W', 'cV'];
+  public potenciasAlumbradoPortal = [{
+    tipo: "15W/m2 Incandescia Portal y comunes  ",
+    potencia: 0.015
+  },
+  {
+    tipo: "8W/m2 FLuorescencia Portal y comunes ",
+    potencia: 0.008
+  },
+  {
+    tipo: "7W/m2 Incandescencia Caja Escalera ",
+    potencia: 0.007
+  },
+  {
+    tipo: "4W/m2 FLuorescencia Caja Escalera ",
+    potencia: 0.004
+
+
+
+  }];
+
   formAscensor!: FormGroup;
   modelAscensor!: IAscensor;
   modelGMotor!: IGMotor;
-
+  modelAlumbrado!: IAlumbrado;
+  potenciaConvertidaGMMayor = 0;
   medPotMotorGM: string = 'kW';
-  
+
   //@Input()  numAsc:any;
 
   //Injectamos el servicio de alertas
   utilService = inject(UtilsService);
 
   //Injectamos el servicio de previsiones para los calculos
-  previsionesService=inject(PrevisionesService);
+  previsionesService = inject(PrevisionesService);
 
-  constructor(private fbAsc: FormBuilder, private modalCtrl: ModalController, ) {
-    
+  constructor(private fbAsc: FormBuilder, private modalCtrl: ModalController,) {
+    this.modelAlumbrado = {
+      id:0,
+      numAlumPortal: 0,
+      potAlumPortal: 0,
+      numAlumEsc: 0,
+      potAlumEsc: 0
+
+    }
+
 
     this.modelGMotor = {
       id: 0,
-      numGMotores: 3,
-      potenciaGMotor: 2,
+      numGMotores: 0,
+      potenciaGMotor: 0,
       medidaPotencia: 'kW',
       totalpotenciakw: 0
     };
@@ -74,42 +104,42 @@ export class ModalServGeneralesPage implements OnInit {
       this.utilService.showAlert('Error num ascensor', 'El número de ascensores ha de ser positivo.')
 
     } else if (this.modelAscensor.potenciaMotorAsc < 0.1) {
-      this.utilService.showAlert('Error potencia ascensor.','La potencia del ascensores ha de ser superior a 0.1.')
+      this.utilService.showAlert('Error potencia ascensor.', 'La potencia del ascensores ha de ser superior a 0.1.')
 
     } else {
       this.submitted = true;
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
-      
+
       //calculamos y pasamos la potencia a kW según el valor del selector
-      let potenciaConvertidaAsc = this.previsionesService.pasarakW( this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
-      this.previsionesService.Pasc.update ((value: number)=>value +  this.modelAscensor.numAscensores*potenciaConvertidaAsc*1.3);
+      let potenciaConvertidaAsc = this.previsionesService.pasarakW(this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
+      this.previsionesService.Pasc.update((value: number) => value + this.modelAscensor.numAscensores * potenciaConvertidaAsc * 1.3);
 
 
-      this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values,{
+      this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values, {
         id: this.previsionesService.listaAscensores().length,
         numAscensores: this.modelAscensor.numAscensores,
         tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
         potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
         medidaPotencia: this.modelAscensor.medidaPotencia,
-        totalpotenciakw: (this.modelAscensor.numAscensores*potenciaConvertidaAsc*1.3)
+        totalpotenciakw: (this.modelAscensor.numAscensores * potenciaConvertidaAsc * 1.3)
 
       }]);
-      console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc,this.modelAscensor.medidaPotencia);
-     
+      console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia);
+
 
     }
 
-   
+
   }
 
 
- 
+
 
   cambiaPotAscensor(tipoMotor: any) {
     console.log('selmedpotasc', tipoMotor.value);
     const potAsc = document.getElementById("potAsc");
-    document.getElementById("medPotMotorAsc")?.setAttribute("disabled","true");
+    document.getElementById("medPotMotorAsc")?.setAttribute("disabled", "true");
     potAsc?.contentEditable;
     potAsc?.setAttribute('readonly', 'true');
     document.getElementById("medPotMotorAsc")?.setAttribute('value', 'kW');
@@ -135,52 +165,58 @@ export class ModalServGeneralesPage implements OnInit {
       default:
         this.modelAscensor.potenciaMotorAsc = 0;
         potAsc?.removeAttribute('readonly');
-        document.getElementById("medPotMotorAsc")?.setAttribute("disabled","false");
+        document.getElementById("medPotMotorAsc")?.setAttribute("disabled", "false");
         return "0";
     }
 
   }
 
+
   agregarGrupoMotor() {
 
-     //Comprobamos que el número de ascensores y potencia es positivo.
-     if (this.modelGMotor.numGMotores < 1) {
+    //Comprobamos que el número de ascensores y potencia es positivo.
+    if (this.modelGMotor.numGMotores < 1) {
       this.utilService.showAlert('Error num de motores', 'El número de motores ha de ser positivo.')
 
     } else if (this.modelGMotor.potenciaGMotor < 0.1) {
-      this.utilService.showAlert('Error potencia motor.','La potencia del motor ha de ser superior a 0.1.')
+      this.utilService.showAlert('Error potencia motor.', 'La potencia del motor ha de ser superior a 0.1.')
 
     } else {
       this.submitted = true;
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
-      
+
       //calculamos y pasamos la potencia a kW según el valor del selector
-      let potenciaConvertidaGM = this.previsionesService.pasarakW(this.modelGMotor.potenciaGMotor,this.modelGMotor.medidaPotencia);
-      let potenciaConvertidaGMMayor = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor,this.previsionesService.PgmmaxPot.medidaPotencia);
-      this.previsionesService.PgmmaxPot.totalpotenciakw= potenciaConvertidaGMMayor;
-      console.log('potrcomnve max', potenciaConvertidaGMMayor, 'conver', potenciaConvertidaGM);
-      if(potenciaConvertidaGMMayor<  potenciaConvertidaGM){
-        console.log('potrcomnve max', potenciaConvertidaGMMayor, 'valoe ',this.previsionesService.Pgm() );
-        this.previsionesService.Pgm.update((value: number)=>value - ( potenciaConvertidaGMMayor*0.25));
-        console.log('potrcomnve max desp', potenciaConvertidaGMMayor, 'valoe ',this.previsionesService.Pgm() );
-        this.previsionesService.PgmmaxPot=this.modelGMotor;
-        this.previsionesService.PgmmaxPot.numGMotores=1;
-        this.previsionesService.PgmmaxPot.totalpotenciakw=potenciaConvertidaGM;
-        
+      // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
+      let potenciaConvertidaGM = this.previsionesService.pasarakW(this.modelGMotor.potenciaGMotor, this.modelGMotor.medidaPotencia);
+      this.potenciaConvertidaGMMayor = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor, this.previsionesService.PgmmaxPot.medidaPotencia);
+      this.previsionesService.PgmmaxPot.totalpotenciakw = this.potenciaConvertidaGMMayor;
+
+
+      if (this.potenciaConvertidaGMMayor < potenciaConvertidaGM) {
+        console.log('potrcomnve max', this.potenciaConvertidaGMMayor, 'valoe ', this.previsionesService.Pgm());
+
+        this.previsionesService.Pgm.update((value: number) => value - (this.potenciaConvertidaGMMayor * 0.25));
+        this.previsionesService.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
+
+        console.log('potrcomnve max desp', this.potenciaConvertidaGMMayor, 'valoe ', this.previsionesService.Pgm());
+        this.previsionesService.PgmmaxPot = this.modelGMotor;
+        this.previsionesService.PgmmaxPot.numGMotores = 1;
+        this.previsionesService.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
+
       };
 
-      // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
-      let difGMMax = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor,this.previsionesService.PgmmaxPot.medidaPotencia);
 
 
-      this.previsionesService.Pgm.update((value: number)=>value + ( this.modelGMotor.numGMotores*potenciaConvertidaGM+difGMMax*0.25));
+      //Actualizamos el valor de Prevision grupo motor
 
-      this.modelGMotor.totalpotenciakw=this.modelGMotor.numGMotores*potenciaConvertidaGM;
+      this.previsionesService.Pgm.update((value: number) => value + (this.modelGMotor.numGMotores * potenciaConvertidaGM));
+
+      this.modelGMotor.totalpotenciakw = this.modelGMotor.numGMotores * potenciaConvertidaGM;
 
 
 
-      this.previsionesService.listaGMotor.update((values: IGMotor[]) => [...values,{
+      this.previsionesService.listaGMotor.update((values: IGMotor[]) => [...values, {
         id: this.previsionesService.listaGMotor().length,
         numGMotores: this.modelGMotor.numGMotores,
         potenciaGMotor: this.modelGMotor.potenciaGMotor,
@@ -188,14 +224,22 @@ export class ModalServGeneralesPage implements OnInit {
         totalpotenciakw: this.modelGMotor.totalpotenciakw
       }]);
       console.log('Agregado grupo motor', this.modelGMotor.id, ' ', this.modelGMotor.numGMotores, ' x ', this.modelGMotor.potenciaGMotor,
-      this.modelGMotor.medidaPotencia, 'Total : ',this.modelGMotor.totalpotenciakw,'kW.');
-     
+        this.modelGMotor.medidaPotencia, 'Total : ', this.modelGMotor.totalpotenciakw, 'kW.');
+
 
     }
     this.submitted = true;
   }
   cambiaPotGMotor(elemen: any) {
     console.log('selmedpotGMOotor', JSON.stringify(elemen.value));
+
+  }
+
+  agregarAlumbrado(){
+
+  }
+
+  cambiaPotAlumPortal(ev:any){
 
   }
 }

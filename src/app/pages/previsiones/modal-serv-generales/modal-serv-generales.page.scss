@@ -30,7 +30,7 @@ section{
   flex-wrap: wrap;
   min-width: 90px;
   width: 100%;
-  background-color: aqua;
+  background-color: rgb(176, 244, 244);
   
   text-align: center;
   align-items: center;
@@ -69,17 +69,18 @@ ion-col {
 }
 
 .boxAsc {
-  border: 2px dotted rgb(96 139 168);
+ 
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   text-align: center;
   align-items: center;
-  background-color: aqua;
+  background-color: rgb(207, 244, 244);
   //font-size: 0.69em;
   overflow-x: scroll;
 }
-.boxAsc>*, .boxGMotor > * {
+
+.boxAsc>*, .boxGMotor > * , .boxAlumbrado>*{
   
   border: 2px solid rgb(96 139 168);
   border-radius: 5px;
@@ -94,13 +95,13 @@ ion-col {
 }
 
 .boxGMotor {
-  border: 2px dotted rgb(70, 142, 190);
+  
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   text-align: center;
   align-items: center;
-  background-color: rgb(0, 255, 140);
+  background-color: rgb(139, 192, 169);
   overflow-x: scroll;
 }
 
@@ -132,6 +133,27 @@ ion-select *{
   font-size: 5em;
   justify-content: center;
   text-align: center;
+}
+
+#divAlumbrado {
+  ion-select {
+    //position: relative;
+    min-width: 150px;
+    max-width: 180px;
+    //max-height:35px;
+    margin: auto;
+    padding: auto;
+    font-size:x-small;
+    text-align:justify;
+    vertical-align:auto;
+    justify-content:space-around;
+  }
+  ion-select *{
+    font-size: 1em;
+    justify-content: center;
+    text-align:center;
+  }
+  
 }
 
 fieldset {
