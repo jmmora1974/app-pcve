@@ -122,9 +122,9 @@
            <input type="number" class="form-control ng-valid ng-pristine ng-untouched" min="0" id="potLamp" placeholder="potencia lampara"
            name="potLamp" >
             <ion-select id="medPotMotorAlum" class="form-control ng-valid ng-pristine ng-untouched" value="W" required
-            [(ngModel)]="modelGMotor.medidaPotencia" name="medPotMotorGM" interface="popover" (ionchange)="cambiaPotGMotor($event.srcElement)">
-              <ion-select-option *ngFor="let medPotGM of medidorPotencia"
-                [value]="medPotGM">{{medPotGM}}</ion-select-option>
+            [(ngModel)]="modelAlumbrado.medidaPotencia" name="medPotMotorAlum" interface="popover" (ionchange)="cambiaPotGMotor($event.srcElement)">
+              <ion-select-option *ngFor="let medPotAlum of medidorPotencia"
+                [value]="medPotAlum">{{medPotAlum}}</ion-select-option>
             </ion-select>
             <ion-select id="tipoLamparas" class="form-control ng-valid ng-pristine ng-untouched" value="Incadescente" >
               <ion-select-option value="Incadescente">Incadescente</ion-select-option>
