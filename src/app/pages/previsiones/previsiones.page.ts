@@ -8,6 +8,9 @@ import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-genera
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { IVivienda } from 'src/app/models/ivivienda';
+import { IGMotor } from 'src/app/models/igmotor';
+import { IAscensor } from 'src/app/models/iascensor';
+import { IAlumbrado } from 'src/app/models/ialumbrado';
 
 export interface Tile {
   color: string;
@@ -134,6 +137,24 @@ export class PrevisionesPage {
     this.actualizaResultados();
 
   }
+  //Elimina ascensor y actualiza datos
+  eliminaAscensor(ascElement: IAscensor){
+    this.previsionesService.eliminaAscensor(ascElement);
+    this.actualizaResultados();
+  }
+  //Elimina grupo motor
+  eliminaGrupoMotor(gmElement:IGMotor){
+    this.previsionesService.eliminaGrupoMotor(gmElement);
+    this.actualizaResultados();
+  }
+
+  //Elimina grupo motor
+  eliminaAlumbrado (AlumElement:IAlumbrado){
+    this.previsionesService.eliminaAlumbrado(AlumElement);
+    this.actualizaResultados();
+
+  }
+  
   //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {
 

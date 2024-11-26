@@ -192,7 +192,7 @@
           {{ascItem.numAscensores}} ascensores tipo {{ascItem.tipoMotorAsc}} de {{ascItem.potenciaMotorAsc}} {{ascItem.medidaPotencia}}.
           Total {{ascItem.totalpotenciakw |number}} kW.
           <div class="btn ion-button btnBorrar"
-              (click)="this.previsionesService.eliminaAscensor(ascItem)"><ion-icon name="trash"></ion-icon>
+              (click)="this.eliminaAscensor(ascItem)"><ion-icon name="trash"></ion-icon>
           </div>
         </ion-col>
       } @empty {
@@ -252,7 +252,7 @@
             {{gmItem.numGMotores}} grupo motor  de {{gmItem.potenciaGMotor}} {{gmItem.medidaPotencia}}.
             Total {{gmItem.totalpotenciakw |number}} kW.
             <div class="btn ion-button btnBorrar"
-                (click)="this.previsionesService.eliminaGrupoMotor(gmItem)"><ion-icon name="trash"></ion-icon>
+                (click)="this.eliminaGrupoMotor(gmItem)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {
@@ -271,7 +271,7 @@
 
             Total {{AlumItem.totalPotenciaAlumkW! |number}} kW.
             <div class="btn ion-button btnBorrar"
-                (click)="this.previsionesService.eliminaAlumbrado(AlumItem)"><ion-icon name="trash"></ion-icon>
+                (click)="this.eliminaAlumbrado(AlumItem)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {
