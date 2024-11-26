@@ -120,7 +120,30 @@ mat-grid-tile {
     width: 20;
     display:flex;
   }
+
+  input[type="submit"], .btn-success{
+    padding: 10px 10px;
+    margin: 10px;
+    border: 3px inset #121213;
+  }
+  /*Inputs que no sean de tipo submit*/
+  input:not([type="submit"]){
+    width: 80px;
+    text-align: center;
+    justify-content: center;
+  }
   
+  .btnBorrar{
+    border: 5px outset #19191b;
+    background-color: #cd6866;
+    margin-left: 20px;
+    padding: 10px 10px;
+  }
+
+  ion-button {
+    border: 5px solid grey;
+    border-radius: 20px;
+  }
   #viv{
     width: 20px;
   }
@@ -135,6 +158,10 @@ mat-grid-tile {
     padding: 10px 10px;
   }
 
+  #click-trigger ,#click-triggertv{
+    border-radius: 0;
+    border: none;
+  }
 
 }
 

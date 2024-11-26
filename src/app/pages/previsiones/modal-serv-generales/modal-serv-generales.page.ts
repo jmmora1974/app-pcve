@@ -131,6 +131,7 @@ export class ModalServGeneralesPage implements OnInit {
         totalpotenciakw: (this.modelAscensor.numAscensores * potenciaConvertidaAsc * 1.3)
 
       }]);
+      this.utilService.showAlert ('Creado ascensor.','Agregado ascensor con '+ this.modelAscensor.id + ' :  '+ this.modelAscensor.numAscensores+ ' de '+ this.modelAscensor.potenciaMotorAsc+ this.modelAscensor.medidaPotencia);
       console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia);
 
 
@@ -229,6 +230,8 @@ export class ModalServGeneralesPage implements OnInit {
         medidaPotencia: this.modelGMotor.medidaPotencia,
         totalpotenciakw: this.modelGMotor.totalpotenciakw
       }]);
+      this.utilService.showAlert ('Creado grupo motor.','Agregado grupo motor con id  '+ this.modelGMotor.id+ ' : '+ this.modelGMotor.numGMotores+ '  de '+ this.modelGMotor.potenciaGMotor+
+        this.modelGMotor.medidaPotencia+ 'Total : '+ this.modelGMotor.totalpotenciakw+ ' kW.');
       console.log('Agregado grupo motor', this.modelGMotor.id, ' ', this.modelGMotor.numGMotores, ' x ', this.modelGMotor.potenciaGMotor,
         this.modelGMotor.medidaPotencia, 'Total : ', this.modelGMotor.totalpotenciakw, 'kW.');
 
@@ -244,7 +247,7 @@ export class ModalServGeneralesPage implements OnInit {
   agregarAlumbrado() {
     this.modelAlumbrado.totalPotenciaAlumkW = 0;
     //this.modelAlumbrado.tipoAlumbrado!
-    //console.log('tipo alu ', document.getElementById("selAlumbrado")?.innerHTML);
+    console.log('tipo alu ', document.getElementById("tipoLamparas"));
     if (this.modelAlumbrado.mtsAlumbrado! < 1 && this.modelAlumbrado.numLamparas! < 1) {
       this.utilService.showAlert('Error datos no introducidos.', 'Ha de introducir un valor en mts  alumbrado o número de lámparas.')
 
@@ -283,6 +286,9 @@ export class ModalServGeneralesPage implements OnInit {
         this.modelAlumbrado.id= this.previsionesService.listaAlumbrado().length;
         this.previsionesService.PAlum.update((value: number) => value + this.modelAlumbrado.totalPotenciaAlumkW);
         this.previsionesService.listaAlumbrado.update((values: IAlumbrado[]) => [...values, this.modelAlumbrado]);
+        this.utilService.showAlert('Creado alumbrado','Agregado alumbrado con id :' +this.modelAlumbrado.id+ ' de ' +this.modelAlumbrado.mtsAlumbrado +' mts de '
+          + this.modelAlumbrado.tipoAlumbrado?.nombreAlum +' y '+this.modelAlumbrado.numLamparas + ' de '+this.modelAlumbrado.potLamparas + this.modelAlumbrado.medidaPotencia 
+          +' fluorescencia '+ this.modelAlumbrado.lampFluorescente);
         console.log('Se ha agregado el alumbrado.', this.modelAlumbrado , 'listado',this.previsionesService.listaAlumbrado() );
       } else {
 

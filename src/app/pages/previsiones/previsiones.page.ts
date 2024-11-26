@@ -120,6 +120,7 @@ export class PrevisionesPage {
 
     }
 
+ 
   }
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
@@ -154,6 +155,10 @@ export class PrevisionesPage {
     this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(2);
     this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(2);
 
+
+    if (this.previsionesService.listaViviendas().length>0)        document.getElementById("btnAgregarViv")?.setAttribute('color','warning') 
+      else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
+    
     console.log('tile ', this.tiles[6].text);
 
     //}
