@@ -1,3 +1,9 @@
 {
-  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular/standalone"]
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular/standalone"
+  ],
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "jmmora1974/app-pcve-test2"
+  ]
 }
