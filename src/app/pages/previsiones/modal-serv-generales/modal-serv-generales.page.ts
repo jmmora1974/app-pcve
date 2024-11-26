@@ -18,7 +18,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./modal-serv-generales.page.scss'],
 })
 export class ModalServGeneralesPage implements OnInit {
-  submitted = false;
+  submitted = true;
   public tipoPotAscensor: string[] = ['ITA-1', 'ITA-2', 'ITA-3', 'ITA-4', 'ITA-5', 'ITA-6', 'OTRO'];
   public medidorPotencia: string[] = ['kW', 'W', 'cV'];
   public potenciasAlumbradoPortal = [{
@@ -45,7 +45,7 @@ export class ModalServGeneralesPage implements OnInit {
   modelAscensor!: IAscensor;
   modelGMotor!: IGMotor;
   modelAlumbrado!: IAlumbrado;
-  potenciaConvertidaGMMayor = 0;
+ 
   medPotMotorGM: string = 'kW';
 
   //@Input()  numAsc:any;
@@ -57,30 +57,11 @@ export class ModalServGeneralesPage implements OnInit {
   previsionesService = inject(PrevisionesService);
 
   constructor(private fbAsc: FormBuilder, private modalCtrl: ModalController,) {
-    /* this.modelAlumbrado = {
-       id: 0,
-       mtsAlumbrado: 0,
-       numLamparas: 0,
-       tipoAlumbrado: {nombreAlum: "15W/m2 Incandescia Portal y comunes",      
-       potAlum: 0.015},
-       
-       potLamparas: 0,
-       medidaPotencia: 'W',
-       lampFluorescente: false,
-       totalPotenciaAlumkW: 0,
- 
-     } */
+    this.resetAscensor();
+    this.resetGrupoMotor();
     this.resetAlumbrado();
 
-
-    this.modelGMotor = {
-      id: 0,
-      numGMotores: 0,
-      potenciaGMotor: 0,
-      medidaPotencia: 'kW',
-      totalpotenciakw: 0
-    };
-
+    
     this.formAscensor = this.fbAsc.group({
       id: new FormControl(0, Validators.required),
       numAscensores: new FormControl(0, Validators.required),
@@ -93,14 +74,7 @@ export class ModalServGeneralesPage implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
   ngOnInit() {
-    this.modelAscensor = {
-      id: 0,
-      numAscensores: 0,
-      tipoMotorAsc: 'ITA-1',
-      potenciaMotorAsc: 4.5,
-      medidaPotencia: 'kW',
-      totalpotenciakw: 0
-    };
+   this.resetAscensor();
   }
 
   /*Funcion para agregar ascensores a la previsión de servicios generales*/
@@ -117,31 +91,12 @@ export class ModalServGeneralesPage implements OnInit {
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
 
-      //calculamos y pasamos la potencia a kW según el valor del selector
-      let potenciaConvertidaAsc = this.previsionesService.pasarakW(this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia!);
-      this.previsionesService.Pasc.update((value: number) => value + this.modelAscensor.numAscensores * potenciaConvertidaAsc * 1.3);
-
-
-      this.previsionesService.listaAscensores.update((values: IAscensor[]) => [...values, {
-        id: this.previsionesService.listaAscensores().length,
-        numAscensores: this.modelAscensor.numAscensores,
-        tipoMotorAsc: this.modelAscensor.tipoMotorAsc,
-        potenciaMotorAsc: this.modelAscensor.potenciaMotorAsc,
-        medidaPotencia: this.modelAscensor.medidaPotencia,
-        totalpotenciakw: (this.modelAscensor.numAscensores * potenciaConvertidaAsc * 1.3)
-
-      }]);
-      this.utilService.showAlert ('Creado ascensor.','Agregado ascensor con '+ this.modelAscensor.id + ' :  '+ this.modelAscensor.numAscensores+ ' de '+ this.modelAscensor.potenciaMotorAsc+ this.modelAscensor.medidaPotencia);
-      console.log('Agregado ascensor', this.modelAscensor.id, ' ', this.modelAscensor.numAscensores, ' x ', this.modelAscensor.potenciaMotorAsc, this.modelAscensor.medidaPotencia);
-
+      this.previsionesService.agregraAscensor(this.modelAscensor);
 
     }
 
 
   }
-
-
-
 
   cambiaPotAscensor(tipoMotor: any) {
     console.log('selmedpotasc', tipoMotor.value);
@@ -193,49 +148,7 @@ export class ModalServGeneralesPage implements OnInit {
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
 
-      //calculamos y pasamos la potencia a kW según el valor del selector
-      // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
-      let potenciaConvertidaGM = this.previsionesService.pasarakW(this.modelGMotor.potenciaGMotor, this.modelGMotor.medidaPotencia);
-      this.potenciaConvertidaGMMayor = this.previsionesService.pasarakW(this.previsionesService.PgmmaxPot.potenciaGMotor, this.previsionesService.PgmmaxPot.medidaPotencia);
-      this.previsionesService.PgmmaxPot.totalpotenciakw = this.potenciaConvertidaGMMayor;
-
-
-      if (this.potenciaConvertidaGMMayor < potenciaConvertidaGM) {
-        console.log('potrcomnve max', this.potenciaConvertidaGMMayor, 'valoe ', this.previsionesService.Pgm());
-
-        this.previsionesService.Pgm.update((value: number) => value - (this.potenciaConvertidaGMMayor * 0.25));
-        this.previsionesService.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
-
-        console.log('potrcomnve max desp', this.potenciaConvertidaGMMayor, 'valoe ', this.previsionesService.Pgm());
-        this.previsionesService.PgmmaxPot = this.modelGMotor;
-        this.previsionesService.PgmmaxPot.numGMotores = 1;
-        this.previsionesService.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
-
-      };
-
-
-
-      //Actualizamos el valor de Prevision grupo motor
-
-      this.previsionesService.Pgm.update((value: number) => value + (this.modelGMotor.numGMotores * potenciaConvertidaGM));
-
-      this.modelGMotor.totalpotenciakw = this.modelGMotor.numGMotores * potenciaConvertidaGM;
-
-
-
-      this.previsionesService.listaGMotor.update((values: IGMotor[]) => [...values, {
-        id: this.previsionesService.listaGMotor().length,
-        numGMotores: this.modelGMotor.numGMotores,
-        potenciaGMotor: this.modelGMotor.potenciaGMotor,
-        medidaPotencia: this.modelGMotor.medidaPotencia,
-        totalpotenciakw: this.modelGMotor.totalpotenciakw
-      }]);
-      this.utilService.showAlert ('Creado grupo motor.','Agregado grupo motor con id  '+ this.modelGMotor.id+ ' : '+ this.modelGMotor.numGMotores+ '  de '+ this.modelGMotor.potenciaGMotor+
-        this.modelGMotor.medidaPotencia+ 'Total : '+ this.modelGMotor.totalpotenciakw+ ' kW.');
-      console.log('Agregado grupo motor', this.modelGMotor.id, ' ', this.modelGMotor.numGMotores, ' x ', this.modelGMotor.potenciaGMotor,
-        this.modelGMotor.medidaPotencia, 'Total : ', this.modelGMotor.totalpotenciakw, 'kW.');
-
-
+        this.previsionesService.agregarGrupoMotor(this.modelGMotor);
     }
     this.submitted = true;
   }
@@ -300,9 +213,27 @@ export class ModalServGeneralesPage implements OnInit {
   }
 
 
+//Funciones  para poner valores por defecto de los formularios
+  resetAscensor(){
+    this.modelAscensor = {
+      id: 0,
+      numAscensores: 0,
+      tipoMotorAsc: 'ITA-1',
+      potenciaMotorAsc: 4.5,
+      medidaPotencia: 'kW',
+      totalpotenciakw: 0
+    };
 
-
-  //Funcion para poner valores por defecto
+  }
+  resetGrupoMotor(){
+    this.modelGMotor = {
+      id: 0,
+      numGMotores: 0,
+      potenciaGMotor: 0,
+      medidaPotencia: 'kW',
+      totalpotenciakw: 0
+    };
+  }
   resetAlumbrado() {
     this.modelAlumbrado = {
       id: 0,

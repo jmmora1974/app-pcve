@@ -58,9 +58,9 @@
 
       <button type="submit" class="btn btn-success" [disabled]="!formAscensor.form.valid">Agregar
         Ascensor<ion-ripple-effect></ion-ripple-effect></button>
-      <button type="button" class="btn btn-default btnBorrar" (click)=" formAscensor.reset()">Borrar datos</button>
+      <button type="button" class="btn btn-default btnBorrar" (click)=" resetAscensor()">Borrar datos</button>
 
-      <ion-button id="click-trigger" slot="end"><ion-icon name="information"></ion-icon></ion-button>
+      
       <ion-popover trigger="click-trigger" triggerAction="click">
         <ng-template>
           <ion-content class="ion-padding"><ion-img src="../../../../assets/Psergen.png"> </ion-img></ion-content>
@@ -94,7 +94,7 @@
         </div>
       </fieldset>
       <button type="submit" class="btn btn-success" [disabled]="!formGrupoMotor.form.valid">Agregar grupo motor</button>
-      <button type="button" class="btn btn-default btnBorrar" (click)="formGrupoMotor.reset()">Borra
+      <button type="button" class="btn btn-default btnBorrar" (click)="resetGrupoMotor()">Borra
         datos</button>
     </form>
   </section>
@@ -147,7 +147,7 @@
         datos</button>
     </form>
   </section>
-
+  
   <div [hidden]="!submitted">
 
     <h2>Lista ascensores:</h2>

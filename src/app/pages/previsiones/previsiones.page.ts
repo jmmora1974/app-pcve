@@ -134,10 +134,7 @@ export class PrevisionesPage {
     this.actualizaResultados();
 
   }
-
- 
-
-
+  //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {
 
     /*let prevTemp= this.previsionesService.calculaPT();
@@ -146,18 +143,20 @@ export class PrevisionesPage {
     if (this.previsionesService.prevision()){
       this.previsionesService.prevision()= prevTemp[0];*/
 
+    /* Hace los calculos y actualiza los resultados PX*/
     this.previsionesService.calculaPT();
 
-    this.tiles[6].text = this.previsionesService.prevision().Pviv.toFixed(2);
-    this.tiles[7].text = this.previsionesService.prevision().Psgen!.toFixed(2);
-    this.tiles[8].text = this.previsionesService.prevision().Ploc!.toFixed(2);
-    this.tiles[9].text = this.previsionesService.prevision().Pgar!.toFixed(2)
-    this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(2);
-    this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(2);
+    this.tiles[6].text = this.previsionesService.prevision().Pviv.toFixed(3);
+    this.tiles[7].text = this.previsionesService.prevision().Psgen!.toFixed(3);
+    this.tiles[8].text = this.previsionesService.prevision().Ploc!.toFixed(3);
+    this.tiles[9].text = this.previsionesService.prevision().Pgar!.toFixed(3)
+    this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(3);
+    this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(3);
 
-
-    if (this.previsionesService.listaViviendas().length>0)        document.getElementById("btnAgregarViv")?.setAttribute('color','warning') 
-      else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
+    //Si ya hay viviendas creadas, cambia el color del boton.
+    if (this.previsionesService.listaViviendas().length>0) {
+      document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
+    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
     
     console.log('tile ', this.tiles[6].text);
 
