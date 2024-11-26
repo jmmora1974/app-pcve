@@ -195,4 +195,23 @@
       }
     </ion-row>
   </ion-grid>
+  <ion-grid>
+    <ion-row>
+      @for (AlumItem of this.previsionesService.listaAlumbrado(); track AlumItem.id) {
+      <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
+        <img alt="Icono Alumbrado" src="../../../assets/icon/Alumbrado1.png" height="50px" class="ion-float-right" />
+        {{AlumItem.mtsAlumbrado}} mts de {{AlumItem.tipoAlumbrado!.potAlum}} {{AlumItem.tipoAlumbrado!.nombreAlum!}} <br>
+        {{AlumItem.numLamparas}} lamparas de {{AlumItem.potLamparas}}{{AlumItem.medidaPotencia}} 
+        
+
+        Total {{AlumItem.totalPotenciaAlumkW! |number}} kW.
+        <div class="btn ion-button btnBorrar"
+            (click)="this.previsionesService.eliminaAlumbrado(AlumItem)"><ion-icon name="trash"></ion-icon>
+        </div>
+      </ion-col>
+    } @empty {
+      <li>No hay ningún alumbrado definido.</li>
+      }
+    </ion-row>
+  </ion-grid>
 </ion-content>
