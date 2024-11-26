@@ -176,9 +176,10 @@ export class PrevisionesService {
         
       console.log ('eliminando ', idAsc, 'vamos por el ',item.id);
     })
-
+   
 
   }
+
 
   /* Funcion para eliminar grupo motor.*/
   eliminaGrupoMotor(idGM:IGMotor){
@@ -193,6 +194,8 @@ export class PrevisionesService {
 
 
   }
+   /* Funcion para eliminar alumbrado.*/
+  eliminaAlumbrado(ev: any) {}
 
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {
