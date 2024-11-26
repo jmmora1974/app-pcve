@@ -4,6 +4,7 @@
     "@ionic/angular/standalone"
   ],
   "githubPullRequests.ignoredPullRequestBranches": [
+    "jmmora1974/app-pcve-test2",
     "jmmora1974/app-pcve-test2"
   ]
 }
