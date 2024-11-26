@@ -301,12 +301,15 @@ export class ModalServGeneralesPage implements OnInit {
     this.modelAlumbrado = {
       id: 0,
       mtsAlumbrado: 0,
-
       tipoAlumbrado: { nombreAlum: '15W/m2 Incandescia Portal y comunes', potAlum: 0.015, },
       numLamparas: 0,
       potLamparas: 0,
+      medidaPotencia:'W',
+      lampFluorescente:false,
       totalPotenciaAlumkW: 0
     }
+    
+
   }
 
   cambiaPotAlumPortal(ev: any) {
