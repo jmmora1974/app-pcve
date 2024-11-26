@@ -8,6 +8,7 @@ import { UtilsService } from './utils.service';
 import { IIrve } from '../models/iirve';
 import { IAscensor } from '../models/iascensor';
 import { IGMotor } from '../models/igmotor';
+import { IAlumbrado } from '../models/ialumbrado';
 
 
 
@@ -71,8 +72,10 @@ export class PrevisionesService {
   /* Variables necesarias para calcular  P Servicios gnerales */
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
   listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
+  listaAlumbrado: WritableSignal<IAlumbrado[]>=signal<IAlumbrado[]>([]);
   Pasc=signal(0);  //Prevision ascensor
   Pgm=signal(0); //Pervision grupo motor
+  PAlum=signal(0); //Pervision alumbrado
   PgmmaxPot:IGMotor={
     id:0,
     numGMotores: 0,
@@ -312,7 +315,7 @@ export class PrevisionesService {
   //Calcula prevision servicios generales
   calculaP2(): number {
 
-    return this.Pasc()+this.Pgm();
+    return this.Pasc()+this.Pgm()+this.PAlum();
   }
   //Calcula prevision locales
   calculaP3(): number {

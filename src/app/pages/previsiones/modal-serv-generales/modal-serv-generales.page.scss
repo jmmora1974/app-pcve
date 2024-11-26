@@ -154,7 +154,7 @@ ion-list{
   #divAlumbrado>ion-item>input{
     width: 30%;
     font-size: small;
-    
+
 
   }
 
@@ -162,28 +162,28 @@ ion-list{
     border:12px solid rgb(23, 35, 4);
 
   }
-
  
-  
-  
+  #divAlumbrado>ion-item>ion-checkbox{
+    
+   
+    font-size: 0.5em;
+    
+  }
+  #divAlumbrado>ion-item>input{
+    max-width: 45px;
+    min-width: 35px;
+  }
 
-
-#medPotMotorAlum{
+#medPotMotorAlum::placeholder{
   padding: 3px 3px 3px 3px;
   min-width: none;
-  width: 20px;
+  width: 10px;
   border-radius: 15px;
   justify-content:center;
 }
 #medPotMotorAlum label{
   justify-content:center;
 }
-
-#medPotMotorAlum label{
-  justify-content:center;
-}
-
-
 
 fieldset {
   
@@ -209,7 +209,7 @@ fieldset {
  
 }
 
-label{
+label {
   display: inline-block;
   min-width: 70px;
   max-width: 90px;
@@ -239,11 +239,8 @@ input:not([type="submit"]){
   width: 80px;
   text-align: center;
   justify-content: center;
-  
-  
 }
 
-  
 .btnBorrar{
   border: 5px outset #19191b;
   background-color: #cd6866;
@@ -268,7 +265,7 @@ ion-popover {
   --backdrop-opacity: 0.6;
   --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
   --color: white;
-  --width: 300px;
+  --width: 30px;
 
 }
 
