@@ -300,7 +300,8 @@ export class PrevisionesService {
   buscaGMmasPotente(): IGMotor {
     let GMTemp:IGMotor;
     this.listaGMotor().forEach(elementgm => {
-      if (elementgm){return elementgm }
+          if (elementgm){return elementgm }
+          else {return elementgm }
     });
     return GMTemp!;
   }
