@@ -386,7 +386,7 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
        }
     });
 
-    if (encontradoAlum)   this.listaAlumbrado.set(listaAlumTemp);
+    if (encontradoAlum){   this.listaAlumbrado.set(listaAlumTemp);}
     
 
 
