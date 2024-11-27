@@ -367,8 +367,23 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     return GMTemp!;
   }
   /* Funcion para eliminar alumbrado.*/
-  eliminaAlumbrado(ev: any) { 
+  eliminaAlumbrado(moAlumbrado: IAlumbrado) { 
+    //Actualizamos el valor de Palum
+    this.PAlum.update((value: number) => value - moAlumbrado.totalPotenciaAlumkW);
+    
+    //Eliminamos y reordenamos la lista alumbrado
+    let encontradoAlum:boolean=false;
+    let listaAlumTemp:IAlumbrado[]=[];
+    this.listaAlumbrado().forEach((elemAl:IAlumbrado)=>{
+        if (elemAl.id!=moAlumbrado.id){
+          listaAlumTemp.push(elemAl);
+        }else {
+          encontradoAlum=true;
+       }
+    });
 
+    if (encontradoAlum)    this.listaAlumbrado.set(listaAlumTemp);
+    
 
 
   }
