@@ -183,9 +183,9 @@ export class PrevisionesService {
     let potenciaConvertidaAsc = this.pasarakW(modelAsc.potenciaMotorAsc, modelAsc.medidaPotencia!);
     this.Pasc.update((value: number) => value + modelAsc.numAscensores * potenciaConvertidaAsc * 1.3);
 
-
+    modelAsc.id=this.listaAscensores().length;
     this.listaAscensores.update((values: IAscensor[]) => [...values, {
-      id: this.listaAscensores().length,
+      id: modelAsc.id,
       numAscensores: modelAsc.numAscensores,
       tipoMotorAsc: modelAsc.tipoMotorAsc,
       potenciaMotorAsc: modelAsc.potenciaMotorAsc,
@@ -238,9 +238,9 @@ export class PrevisionesService {
     this.Pgm.update((value: number) => value + (mGMotor.numGMotores * potenciaConvertidaGM));
 
     mGMotor.totalpotenciakw = mGMotor.numGMotores * potenciaConvertidaGM;
-
+    mGMotor.id= this.listaGMotor().length;
     this.listaGMotor.update((values: IGMotor[]) => [...values, {
-      id: this.listaGMotor().length,
+      id: mGMotor.id,
       numGMotores: mGMotor.numGMotores,
       potenciaGMotor: mGMotor.potenciaGMotor,
       medidaPotencia: mGMotor.medidaPotencia,
@@ -259,9 +259,6 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
     mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
   };
-
-  
-
     if (mAlumbrado.potLamparas! > 0 )  {
 
       //Calculamos por numero de lamparas y potencia
@@ -289,6 +286,7 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
       + mAlumbrado.tipoAlumbrado?.nombreAlum +' y '+mAlumbrado.numLamparas + ' de '+mAlumbrado.potLamparas + mAlumbrado.medidaPotencia 
       +' fluorescencia '+ mAlumbrado.lampFluorescente);
     console.log('Se ha agregado el alumbrado.', mAlumbrado , 'listado',this.listaAlumbrado() );
+    
   } else {
 
     console.log("No hay nada calculado.")
@@ -377,22 +375,25 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     let listaAlumTemp:IAlumbrado[]=[];
     let contAlumElim=0;
     this.listaAlumbrado().forEach((elemAl:IAlumbrado)=>{
+      console.log('buscando',elemAl);
         if (elemAl.id!=moAlumbrado.id){
           elemAl.id=contAlumElim;
           listaAlumTemp.push(elemAl);
           contAlumElim++;
+          console.log('agregado',elemAl,"lista temp alumb ",listaAlumTemp);
         }else {
           encontradoAlum=true;
        }
     });
 
-    if (encontradoAlum){   this.listaAlumbrado.set(listaAlumTemp);}
+    if (encontradoAlum){ 
+      console.log("lista temp encontrado ",listaAlumTemp);
+        this.listaAlumbrado.set(listaAlumTemp);
+      }
     
 
 
   }
-
-
 
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {
