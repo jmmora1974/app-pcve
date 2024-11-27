@@ -203,7 +203,7 @@ export class PrevisionesService {
     //calculamos y pasamos la potencia a kW según el valor del selector
     // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
     let potenciaConvertidaGM = this.pasarakW(mGMotor.potenciaGMotor, mGMotor.medidaPotencia);
-    if (this.listaGMotor().length == 0 || this.PgmmaxPot == undefined) {
+    if (this.listaGMotor().length == 0 || this.PgmmaxPot==undefined) {
       this.PgmmaxPot = mGMotor;
       this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
       this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
@@ -212,21 +212,21 @@ export class PrevisionesService {
       //let potenciaConvertidaGMMayor = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
       //this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGMMayor;
 
-      if (this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
+      if ( this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
         console.log('potrcomnve max', this.PgmmaxPot.totalpotenciakw, 'valoe ', this.Pgm());
 
         this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
-
+        
         this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
+        
 
-
-        console.log('potrcomnve max desp', this.PgmmaxPot.totalpotenciakw, 'valo ', this.Pgm(), mGMotor);
+        console.log('potrcomnve max desp', this.PgmmaxPot.totalpotenciakw, 'valo ', this.Pgm(),mGMotor);
         this.PgmmaxPot = mGMotor;
         //this.PgmmaxPot.numGMotores = 1;  //por si queremos calcular el valor de un solo motor
         this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
 
       } else {
-        console.log("LA POT ES MAYOR.", mGMotor, 'pote conv', potenciaConvertidaGM);
+        console.log("LA POT ES MAYOR.", mGMotor, 'pote conv',potenciaConvertidaGM);
       }
 
 
@@ -253,13 +253,16 @@ export class PrevisionesService {
 
 
   }
-  /*--- Funcion para agregar alumbrado --*/
-  agregarAlumbrado(mAlumbrado: IAlumbrado) {
-    if (mAlumbrado.mtsAlumbrado! > 0) {
-      //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
-      mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
-    };
-    if (mAlumbrado.potLamparas! > 0) {
+/*--- Funcion para agregar alumbrado --*/
+agregarAlumbrado (mAlumbrado:IAlumbrado){
+  if (mAlumbrado.mtsAlumbrado! > 0) {
+    //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
+    mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
+  };
+
+  
+
+    if (mAlumbrado.potLamparas! > 0 )  {
 
       //Calculamos por numero de lamparas y potencia
       let potTempLamp = mAlumbrado.numLamparas! * mAlumbrado.potLamparas!;
@@ -267,32 +270,31 @@ export class PrevisionesService {
       //comprobamos si está en kW o W
       if (mAlumbrado.medidaPotencia?.toUpperCase() == "W") {
         //console.log("es lampara W");
-        potTempLamp = potTempLamp / 1000;
+        potTempLamp = potTempLamp/ 1000;
       }
       //Si son lamparas de descarga fluorescentes, se multiplica por el coef 1,8
       if (mAlumbrado.lampFluorescente) {
         console.log("es lampara fluorescente");
         potTempLamp *= 1.8;
       }
-      mAlumbrado.totalPotenciaAlumkW += potTempLamp;
-    } else {
-      this.utilService.showAlert('Error datos no introducidos.', 'Debe indicar la potencia de las lamparas.')
+      mAlumbrado.totalPotenciaAlumkW+=potTempLamp;
+    } 
+   
+  
+  if (mAlumbrado.totalPotenciaAlumkW>0){ 
+    mAlumbrado.id= this.listaAlumbrado().length;
+    this.PAlum.update((value: number) => value + mAlumbrado.totalPotenciaAlumkW);
+    this.listaAlumbrado.update((values: IAlumbrado[]) => [...values, mAlumbrado]);
+    this.utilService.showAlert('Creado alumbrado','Agregado alumbrado con id :' +mAlumbrado.id+ ' de ' +mAlumbrado.mtsAlumbrado +' mts de '
+      + mAlumbrado.tipoAlumbrado?.nombreAlum +' y '+mAlumbrado.numLamparas + ' de '+mAlumbrado.potLamparas + mAlumbrado.medidaPotencia 
+      +' fluorescencia '+ mAlumbrado.lampFluorescente);
+    console.log('Se ha agregado el alumbrado.', mAlumbrado , 'listado',this.listaAlumbrado() );
+  } else {
 
-    }
-    if (mAlumbrado.totalPotenciaAlumkW > 0) {
-      mAlumbrado.id = this.listaAlumbrado().length;
-      this.PAlum.update((value: number) => value + mAlumbrado.totalPotenciaAlumkW);
-      this.listaAlumbrado.update((values: IAlumbrado[]) => [...values, mAlumbrado]);
-      this.utilService.showAlert('Creado alumbrado', 'Agregado alumbrado con id :' + mAlumbrado.id + ' de ' + mAlumbrado.mtsAlumbrado + ' mts de '
-        + mAlumbrado.tipoAlumbrado?.nombreAlum + ' y ' + mAlumbrado.numLamparas + ' de ' + mAlumbrado.potLamparas + mAlumbrado.medidaPotencia
-        + ' fluorescencia ' + mAlumbrado.lampFluorescente);
-      console.log('Se ha agregado el alumbrado.', mAlumbrado, 'listado', this.listaAlumbrado());
-    } else {
-
-      console.log("No hay nada calculado.")
-    }
-
+    console.log("No hay nada calculado.")
   }
+  
+}
 
 
   /*--- Funcion para eliminar ascensor --*/
@@ -335,24 +337,24 @@ export class PrevisionesService {
     });
 
     if (encontradoGM) {
-      this.listaGMotor.set(listaGMTemp);
-      this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
-      this.PgmmaxPot = this.buscaGMmasPotente();
-      console.log('El motor mas pot de busca', this.PgmmaxPot);
-      this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
-      this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
+       this.listaGMotor.set(listaGMTemp);
+        this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+        this.PgmmaxPot = this.buscaGMmasPotente();
+        console.log('El motor mas pot de busca',this.PgmmaxPot);
+        this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
+        this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
+      }
+
+      if (listaGMTemp.length == 0) {
+        this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
+        this.Pgm.set(0);
+      }
+      
+
     }
-
-    if (listaGMTemp.length == 0) {
-      this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
-      this.Pgm.set(0);
-    }
-
-
-  }
-
+  
   //Funcion que busca el motor de mayor potencia y retorna un IGMotor.
-  buscaGMmasPotente(): IGMotor {
+  buscaGMmasPotente():IGMotor {
     let GMTemp: IGMotor;
     this.listaGMotor().forEach(elementgm => {
       let potMotTemp = this.pasarakW(elementgm.potenciaGMotor, elementgm.medidaPotencia);
@@ -365,7 +367,7 @@ export class PrevisionesService {
     return GMTemp!;
   }
   /* Funcion para eliminar alumbrado.*/
-  eliminaAlumbrado(ev: any) {
+  eliminaAlumbrado(ev: any) { 
 
 
 
