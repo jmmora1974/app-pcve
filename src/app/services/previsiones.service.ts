@@ -326,6 +326,7 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     this.listaGMotor().forEach((itemgm) => {
 
       if (itemgm.id != idGM.id) {
+        itemgm.id=contGM;
         listaGMTemp.push(itemgm);
         contGM++;
       } else {
@@ -374,15 +375,18 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     //Eliminamos y reordenamos la lista alumbrado
     let encontradoAlum:boolean=false;
     let listaAlumTemp:IAlumbrado[]=[];
+    let contAlumElim=0;
     this.listaAlumbrado().forEach((elemAl:IAlumbrado)=>{
         if (elemAl.id!=moAlumbrado.id){
+          elemAl.id=contAlumElim;
           listaAlumTemp.push(elemAl);
+          contAlumElim++;
         }else {
           encontradoAlum=true;
        }
     });
 
-    if (encontradoAlum)    this.listaAlumbrado.set(listaAlumTemp);
+    if (encontradoAlum)   this.listaAlumbrado.set(listaAlumTemp);
     
 
 

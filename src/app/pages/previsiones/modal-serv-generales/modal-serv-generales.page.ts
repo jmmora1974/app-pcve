@@ -166,7 +166,7 @@ export class ModalServGeneralesPage implements OnInit {
       this.utilService.showAlert('Error datos no introducidos.', 'Ha de introducir un valor en mts  alumbrado o número de lámparas.')
 
     } else {
-      if (this.modelAlumbrado.numLamparas! > 0 && this.modelAlumbrado.potLamparas!==0) {
+      if (this.modelAlumbrado.numLamparas! > 0 && this.modelAlumbrado.potLamparas==0) {
         this.utilService.showAlert('Error datos no introducidos.', 'Debe indicar la potencia de las lamparas.')
   
       }else{
