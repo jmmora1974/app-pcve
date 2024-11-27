@@ -34,7 +34,7 @@
 
         <ion-item>
           <ion-select aria-label="Tipo Viviendas" interface="popover" formControlName="tipoViv"
-            placeholder="Selecciona tipo" (ionChange)="handleChange($event)">
+            placeholder="Selecciona tipo" (ionChange)="cambiaTipoVivienda($event)">
             <ion-select-option *ngFor="let tipoViviviendaM of tipoViviendas" [value]="tipoViviviendaM">{{
               tipoViviviendaM.id }}.-{{ tipoViviviendaM.nombre }} - {{ tipoViviviendaM.descripcion }}
             </ion-select-option>

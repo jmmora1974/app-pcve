@@ -82,7 +82,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-
+//Funcion agrega vivienda
   agregaVivienda() {  
     if (this.formViviendaM.get('numViv')?.value >0 )  {
       if (this.formViviendaM.get('numViv')?.value <this.formViviendaM.get('numVivIrve')?.value )  {
@@ -107,13 +107,15 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     }
     
   }
-  handleChange(ev:any) {
-    console.log('Current value:', JSON.stringify(ev.target.value));
+
+//Funcion que controla el select de tipo de vivienda
+  cambiaTipoVivienda(ev:any) {
+    //console.log('Current value:', JSON.stringify(ev.target.value));
     
     this.nuevaVivienda.numViviendas=this.numeroviviendas;
     const tipVivtemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
     this.potenciaViv =tipVivtemp.potencia;
-    console.log('tipo potencia', JSON.stringify(tipVivtemp));
+    //console.log('tipo potencia', JSON.stringify(tipVivtemp));
   }
 
 }

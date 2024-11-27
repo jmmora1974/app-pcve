@@ -92,7 +92,7 @@ export class ModalServGeneralesPage implements OnInit {
       //this.modelAscensor.id = this.listaAscensores().length;
 
       this.previsionesService.agregraAscensor(this.modelAscensor);
-
+      this.resetAscensor();
     }
 
 
@@ -147,70 +147,32 @@ export class ModalServGeneralesPage implements OnInit {
       this.submitted = true;
       //Colocamos el id que corresponde al nuevo ascensor
       //this.modelAscensor.id = this.listaAscensores().length;
-
-        this.previsionesService.agregarGrupoMotor(this.modelGMotor);
+      this.previsionesService.agregarGrupoMotor(this.modelGMotor);
+      this.resetGrupoMotor();
     }
-    this.submitted = true;
+    
+
   }
   cambiaPotGMotor(elemen: any) {
     console.log('selmedpotGMOotor', JSON.stringify(elemen.value));
 
   }
-
+  //Funcion encargada de agregar alumbrado
   agregarAlumbrado() {
     this.modelAlumbrado.totalPotenciaAlumkW = 0;
     //this.modelAlumbrado.tipoAlumbrado!
-    console.log('tipo alu ', document.getElementById("tipoLamparas"));
+   
     if (this.modelAlumbrado.mtsAlumbrado! < 1 && this.modelAlumbrado.numLamparas! < 1) {
       this.utilService.showAlert('Error datos no introducidos.', 'Ha de introducir un valor en mts  alumbrado o número de lámparas.')
 
     } else {
       this.submitted = true;
-      if (this.modelAlumbrado.mtsAlumbrado! > 0) {
-        //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
-        this.modelAlumbrado.totalPotenciaAlumkW += this.modelAlumbrado.mtsAlumbrado! * this.modelAlumbrado.tipoAlumbrado!.potAlum;
-      };
-
-      if (this.modelAlumbrado.numLamparas! > 0) {
-
-        if (this.modelAlumbrado.potLamparas! > 0) {
-
-          //Calculamos por numero de lamparas y potencia
-          let potTempLamp = this.modelAlumbrado.numLamparas! * this.modelAlumbrado.potLamparas!;
-          console.log('potTempLamp', potTempLamp);
-          //comprobamos si está en kW o W
-          if (this.modelAlumbrado.medidaPotencia?.toUpperCase() == "W") {
-            //console.log("es lampara W");
-            potTempLamp = potTempLamp/ 1000;
-          }
-          //Si son lamparas de descarga fluorescentes, se multiplica por el coef 1,8
-          if (this.modelAlumbrado.lampFluorescente) {
-            console.log("es lampara fluorescente");
-            potTempLamp *= 1.8;
-          }
-          this.modelAlumbrado.totalPotenciaAlumkW+=potTempLamp;
-        } else {
-          this.utilService.showAlert('Error datos no introducidos.', 'Debe indicar la potencia de las lamparas.')
-
-        }
+      this.previsionesService.agregarAlumbrado(this.modelAlumbrado);
       }
-
-      if (this.modelAlumbrado.totalPotenciaAlumkW>0){ 
-        this.modelAlumbrado.id= this.previsionesService.listaAlumbrado().length;
-        this.previsionesService.PAlum.update((value: number) => value + this.modelAlumbrado.totalPotenciaAlumkW);
-        this.previsionesService.listaAlumbrado.update((values: IAlumbrado[]) => [...values, this.modelAlumbrado]);
-        this.utilService.showAlert('Creado alumbrado','Agregado alumbrado con id :' +this.modelAlumbrado.id+ ' de ' +this.modelAlumbrado.mtsAlumbrado +' mts de '
-          + this.modelAlumbrado.tipoAlumbrado?.nombreAlum +' y '+this.modelAlumbrado.numLamparas + ' de '+this.modelAlumbrado.potLamparas + this.modelAlumbrado.medidaPotencia 
-          +' fluorescencia '+ this.modelAlumbrado.lampFluorescente);
-        console.log('Se ha agregado el alumbrado.', this.modelAlumbrado , 'listado',this.previsionesService.listaAlumbrado() );
-      } else {
-
-        console.log("No hay nada calculado.")
-      }
-      
+     
     }
 
-  }
+  
 
 
 //Funciones  para poner valores por defecto de los formularios

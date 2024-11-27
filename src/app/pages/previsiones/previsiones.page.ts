@@ -152,8 +152,8 @@ export class PrevisionesPage {
   eliminaAlumbrado (AlumElement:IAlumbrado){
     this.previsionesService.eliminaAlumbrado(AlumElement);
     this.actualizaResultados();
-
   }
+
   
   //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {
