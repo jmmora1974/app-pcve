@@ -203,7 +203,7 @@ export class PrevisionesService {
     //calculamos y pasamos la potencia a kW según el valor del selector
     // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
     let potenciaConvertidaGM = this.pasarakW(mGMotor.potenciaGMotor, mGMotor.medidaPotencia);
-    if (this.listaGMotor().length == 0 || undefined) {
+    if (this.listaGMotor().length == 0 || this.PgmmaxPot==undefined) {
       this.PgmmaxPot = mGMotor;
       this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
       this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
@@ -213,10 +213,11 @@ export class PrevisionesService {
       //this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGMMayor;
 
 
-      if (this.PgmmaxPot.totalpotenciakw!=undefined && this.PgmmaxPot.totalpotenciakw < potenciaConvertidaGM) {
+      if ( this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
         console.log('potrcomnve max', this.PgmmaxPot.totalpotenciakw, 'valoe ', this.Pgm());
 
         this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+        
         this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
         
 
@@ -293,6 +294,7 @@ export class PrevisionesService {
         if (idGM.id == this.PgmmaxPot.id) {
           this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
           this.PgmmaxPot = this.buscaGMmasPotente();
+          console.log('El motor mas pot de busca',this.PgmmaxPot);
           this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
           this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
         }
@@ -304,6 +306,7 @@ export class PrevisionesService {
     if (encontradoGM) {
       if (listaGMTemp.length == 0) {
         this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
+        this.Pgm.set(0);
       }
       this.listaGMotor.set(listaGMTemp);
 
