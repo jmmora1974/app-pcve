@@ -246,8 +246,7 @@
       <ion-grid>
         <ion-row>
           @for (gmItem of this.previsionesService.listaGMotor(); track gmItem.id) {
-          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
-            >
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
             <img alt="Icono Grupo Motor" src="../../../assets/icon/grupomotor3.png" height="50px" class="ion-float-right" />
             {{gmItem.numGMotores}} grupo motor  de {{gmItem.potenciaGMotor}} {{gmItem.medidaPotencia}}.
             Total {{gmItem.totalpotenciakw |number}} kW.
@@ -264,14 +263,14 @@
         <ion-row>
           @for (itemAlum of this.previsionesService.listaAlumbrado(); track itemAlum.id) {
           <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
-            <img alt="Icono Alumbrado" slot="start" src="../../../assets/icon/Alumbrado1.png" height="50px" class="ion-float-right" />
-           id:{{itemAlum.id}} - {{itemAlum.mtsAlumbrado}} mts de {{itemAlum.tipoAlumbrado!.potAlum}} {{itemAlum.tipoAlumbrado!.nombreAlum!}} <br>
+            <img alt="Icono Alumbrado" src="../../../assets/icon/Alumbrado1.png" height="50px" class="ion-float-left" />
+            id:{{itemAlum.id}} - {{itemAlum.mtsAlumbrado}} mts de {{itemAlum.tipoAlumbrado!.potAlum}} {{itemAlum.tipoAlumbrado!.nombreAlum!}} <br>
             {{itemAlum.numLamparas}} lamparas de {{itemAlum.potLamparas}}{{itemAlum.medidaPotencia}} 
             
-
+    
             Total {{itemAlum.totalPotenciaAlumkW! |number}} kW.
             <div class="btn ion-button btnBorrar"
-                (click)="this.eliminaAlumbrado(itemAlum)"><ion-icon name="trash"></ion-icon>
+                (click)="this.previsionesService.eliminaAlumbrado(itemAlum)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {

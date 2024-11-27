@@ -121,6 +121,8 @@ caption {
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-size: small;
+    
   }
 
   ion-label {
@@ -140,6 +142,14 @@ caption {
     justify-content: center;
     text-align: center;
     border-radius: 5px;
+    gap: 5px;
+    
+  }
+  
+  ion-col img {
+    float:none;
+    margin-left: 5px;
+    margin-right: auto;
   }
 
   .titListado {
@@ -161,12 +171,7 @@ caption {
     justify-content: center;
   }
   
-  .btnBorrar{
-    border: 5px outset #19191b;
-    background-color: #cd6866;
-    margin-left: 20px;
-    padding: 10px 10px;
-  }
+  
 
   ion-button {
     border: 5px solid grey;
@@ -181,7 +186,7 @@ caption {
     border: none;
     background: none;
   }
-  
+    
   .btnBorrar{
     border: 5px outset #19191b;
     background-color: #cd6866;
