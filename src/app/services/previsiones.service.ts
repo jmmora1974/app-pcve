@@ -212,7 +212,6 @@ export class PrevisionesService {
       //let potenciaConvertidaGMMayor = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
       //this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGMMayor;
 
-
       if ( this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
         console.log('potrcomnve max', this.PgmmaxPot.totalpotenciakw, 'valoe ', this.Pgm());
 
@@ -291,30 +290,33 @@ export class PrevisionesService {
       } else {
         encontradoGM = true;
         this.Pgm.update((value: number) => value - itemgm.totalpotenciakw!);
-        if (idGM.id == this.PgmmaxPot.id) {
-          this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
-          this.PgmmaxPot = this.buscaGMmasPotente();
-          console.log('El motor mas pot de busca',this.PgmmaxPot);
-          this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
-          this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
-        }
-
         console.log('eliminado GM', idGM);
 
       }
     });
+
     if (encontradoGM) {
+       this.listaGMotor.set(listaGMTemp);
+        this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+        this.PgmmaxPot = this.buscaGMmasPotente();
+        console.log('El motor mas pot de busca',this.PgmmaxPot);
+        this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
+        this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
+      }
+
       if (listaGMTemp.length == 0) {
         this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
         this.Pgm.set(0);
       }
-      this.listaGMotor.set(listaGMTemp);
+      
 
     }
-  }
+  
+    
+  
 
   //Funcion que busca el motor de mayor potencia y retorna un IGMotor.
-  buscaGMmasPotente(): IGMotor {
+  buscaGMmasPotente():IGMotor {
     let GMTemp: IGMotor;
     this.listaGMotor().forEach(elementgm => {
       let potMotTemp = this.pasarakW(elementgm.potenciaGMotor, elementgm.medidaPotencia);

@@ -62,8 +62,9 @@ mat-grid-tile {
    }
  td{
   border: 1px solid rgb(10, 8, 8);
-  
+  max-width: 80px;
   //padding-right: 24px;
+  font-size: xx-small;
     text-align: center;
  }
 

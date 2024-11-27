@@ -63,8 +63,8 @@ export class PrevisionesPage {
   ];
 
   /* Definiciones de la tabla de resultados vivienda*/
-  displayedColumnsViv: string[] = ['id', 'numViviendas','tipo.nombre','tipo.potencia','conIrve','potIrve','total','ion-button'];
-  columnaResultado:string[]=['id','numViviendas','tipo.nombre', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
+  displayedColumnsViv: string[] = ['numViviendas','tipo.potencia','conIrve','potIrve','total','ion-button'];
+  columnaResultado:string[]=['numViviendas', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
   
   
   P1: number = 0;
