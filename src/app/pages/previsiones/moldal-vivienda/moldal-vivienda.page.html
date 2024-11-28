@@ -17,15 +17,15 @@
     
       <ion-item>
         <ion-label color="primary" >Núm viviendas:</ion-label>
-        <ion-input formControlName="numViv" type="number" color="danger" class="form-control ng-untouched ng-pristine ng-valid" required></ion-input>
+        <ion-input formControlName="numViv" type="number" min="0" color="danger" class="form-control ng-untouched ng-pristine ng-valid" required></ion-input>
         <ion-label > </ion-label><ion-label > </ion-label>
         
       </ion-item>
       <ion-item>
         <ion-label color="primary" >con Irve?:</ion-label>
-        <ion-input formControlName="numVivIrve" type="number" class=" form-control ng-untouched ng-pristine ng-valid" ></ion-input>
+        <ion-input formControlName="numVivIrve" type="number" min="0" class=" form-control ng-untouched ng-pristine ng-valid" ></ion-input>
         <ion-label color="primary" >potencia Irve?:</ion-label>
-        <ion-input formControlName="potIrve" type="number" value=3.68></ion-input>
+        <ion-input formControlName="potIrve" type="number" min="0" value=3.68></ion-input>
         <ion-label>kW </ion-label>
       </ion-item>
 
@@ -34,7 +34,7 @@
 
         <ion-item>
           <ion-select aria-label="Tipo Viviendas" interface="popover" formControlName="tipoViv"
-            placeholder="Selecciona tipo" (ionChange)="handleChange($event)">
+            placeholder="Selecciona tipo" (ionChange)="cambiaTipoVivienda($event)">
             <ion-select-option *ngFor="let tipoViviviendaM of tipoViviendas" [value]="tipoViviviendaM">{{
               tipoViviviendaM.id }}.-{{ tipoViviviendaM.nombre }} - {{ tipoViviviendaM.descripcion }}
             </ion-select-option>
@@ -42,7 +42,7 @@
 
         </ion-item>
         <ion-label>Potencia: </ion-label>
-        <ion-input size="10" enabled=false formControlName="potViv"  [(ngModel)]="potenciaViv" type="number"></ion-input>
+        <ion-input size="10" enabled=false formControlName="potViv"  min="0" [(ngModel)]="potenciaViv" type="number"></ion-input>
         <ion-label>kW </ion-label>
         
 

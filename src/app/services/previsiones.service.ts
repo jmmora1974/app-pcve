@@ -1,7 +1,7 @@
 
 
-import { BehaviorSubject } from 'rxjs';
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+
+import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { ITipoVivienda, IVivienda } from '../models/ivivienda';
 import { IPrevision } from '../models/iprevision';
 import { UtilsService } from './utils.service';
@@ -23,8 +23,8 @@ export class PrevisionesService {
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
- 
-  
+
+
   prevision: WritableSignal<IPrevision> = signal<IPrevision>({
     id: 0,
     Pviv: 0,
@@ -38,7 +38,7 @@ export class PrevisionesService {
   }
 
   );
- 
+
   valorP1: number = 0;
   valorP2: number = 0;
   valorP3: number = 0;
@@ -48,7 +48,7 @@ export class PrevisionesService {
   /* Variables necesarias para el calculo de P vivienda */
   sumPotP1 = signal(0);
   sumvivP1 = signal(0);
-  numTotalViviendas=signal(0);
+  numTotalViviendas = signal(0);
   sumPotP1sinIrve: number = 0;
   sumPotP1conIrve: number = 0;
   sumPotP1med = signal(0);
@@ -72,28 +72,36 @@ export class PrevisionesService {
   /* Variables necesarias para calcular  P Servicios gnerales */
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
   listaGMotor: WritableSignal<IGMotor[]> = signal<IGMotor[]>([]);
-  listaAlumbrado: WritableSignal<IAlumbrado[]>=signal<IAlumbrado[]>([]);
-  Pasc=signal(0);  //Prevision ascensor
-  Pgm=signal(0); //Pervision grupo motor
-  PAlum=signal(0); //Pervision alumbrado
-  PgmmaxPot:IGMotor={
-    id:0,
+  listaAlumbrado: WritableSignal<IAlumbrado[]> = signal<IAlumbrado[]>([]);
+  Pasc = signal(0);  //Prevision ascensor
+  Pgm = signal(0); //Pervision grupo motor
+  PAlum = signal(0); //Pervision alumbrado
+  PgmmaxPot: IGMotor = {
+    id: 0,
     numGMotores: 0,
     potenciaGMotor: 0,
-    medidaPotencia:'kW',
-    totalpotenciakw:0
+    medidaPotencia: 'kW',
+    totalpotenciakw: 0
   };
 
-  constructor(utilsService: UtilsService) {
+
+
+  //Servicios de mensajeria
+  utilService = inject(UtilsService);
+
+  //Constructor
+  constructor() {
 
   }
 
+
+  /***  VIVIENDAS  *********/
   //Agrega la nueva vieneda al listado de viviendas de la previsión.
   agregraVivienda(nuevaViv: IVivienda) {
     const numV = this.listaViviendas().length;
     nuevaViv.id = numV;
-    this.numTotalViviendas.update(()=>this.numTotalViviendas()+nuevaViv.numViviendas);
-    console.log('numTotalViviendas',this.numTotalViviendas());
+    this.numTotalViviendas.update(() => this.numTotalViviendas() + nuevaViv.numViviendas);
+    console.log('numTotalViviendas', this.numTotalViviendas());
     //Agregamos la vivienda a la lista de viviendas.
     this.listaViviendas.update((values: IVivienda[]) => [...values, nuevaViv]);
     console.log("nueva viv ", nuevaViv);
@@ -115,7 +123,7 @@ export class PrevisionesService {
 
   listaVivTemp = signal<IVivienda[]>([]);
   eliminaVivienda(indice: number) {
-    
+
     this.listaVivTemp.set([]);
     let listaIrveTemp: IIrve[] = [];
     let contId = 0;
@@ -131,8 +139,8 @@ export class PrevisionesService {
 
       } else {
         contId++;
-        this.numTotalViviendas.update(()=>this.numTotalViviendas()-element.numViviendas);
-        if (encontradoIrve==false) {
+        this.numTotalViviendas.update(() => this.numTotalViviendas() - element.numViviendas);
+        if (encontradoIrve == false) {
           let contIrve = 0;
           this.listaIrve().forEach(irvetemp => {
 
@@ -167,40 +175,228 @@ export class PrevisionesService {
     return this.listaViviendas.length;
   }
 
-  /*--- Funcion para eliminar ascensor --*/
-  eliminaAscensor (idAsc:IAscensor){
-    let listaAscTemp:IAscensor[]=[];
-    this.listaAscensores().forEach((item)=>{
+  /*--- SERVICIOS GENERALES --*/
 
-        let contAsc =0;
-        
-      console.log ('eliminando ', idAsc, 'vamos por el ',item.id);
-    })
-   
+  /*--- Funcion para agregar ascensor --*/
+  agregraAscensor(modelAsc: IAscensor) {
+    //calculamos y pasamos la potencia a kW según el valor del selector
+    let potenciaConvertidaAsc = this.pasarakW(modelAsc.potenciaMotorAsc, modelAsc.medidaPotencia!);
+    this.Pasc.update((value: number) => value + modelAsc.numAscensores * potenciaConvertidaAsc * 1.3);
+
+    modelAsc.id=this.listaAscensores().length;
+    this.listaAscensores.update((values: IAscensor[]) => [...values, {
+      id: modelAsc.id,
+      numAscensores: modelAsc.numAscensores,
+      tipoMotorAsc: modelAsc.tipoMotorAsc,
+      potenciaMotorAsc: modelAsc.potenciaMotorAsc,
+      medidaPotencia: modelAsc.medidaPotencia,
+      totalpotenciakw: (modelAsc.numAscensores * potenciaConvertidaAsc * 1.3)
+
+    }]);
+    this.utilService.showAlert('Creado ascensor.', 'Agregado ascensor con ' + modelAsc.id + ' :  ' + modelAsc.numAscensores + ' de ' + modelAsc.potenciaMotorAsc + modelAsc.medidaPotencia);
+    console.log('Agregado ascensor', modelAsc.id, ' ', modelAsc.numAscensores, ' x ', modelAsc.potenciaMotorAsc, modelAsc.medidaPotencia);
 
   }
+  /*--- Funcion para agregar grupo motor --*/
+  agregarGrupoMotor(mGMotor: IGMotor) {
 
+    //calculamos y pasamos la potencia a kW según el valor del selector
+    // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
+    let potenciaConvertidaGM = this.pasarakW(mGMotor.potenciaGMotor, mGMotor.medidaPotencia);
+    if (this.listaGMotor().length == 0 || this.PgmmaxPot==undefined) {
+      this.PgmmaxPot = mGMotor;
+      this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
+      this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
+
+    } else {
+      //let potenciaConvertidaGMMayor = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
+      //this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGMMayor;
+
+      if ( this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
+        console.log('potrcomnve max', this.PgmmaxPot.totalpotenciakw, 'valoe ', this.Pgm());
+
+        this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+        
+        this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
+        
+
+        console.log('potrcomnve max desp', this.PgmmaxPot.totalpotenciakw, 'valo ', this.Pgm(),mGMotor);
+        this.PgmmaxPot = mGMotor;
+        //this.PgmmaxPot.numGMotores = 1;  //por si queremos calcular el valor de un solo motor
+        this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
+
+      } else {
+        console.log("LA POT ES MAYOR.", mGMotor, 'pote conv',potenciaConvertidaGM);
+      }
+
+
+    }
+
+
+    //Actualizamos el valor de Prevision grupo motor
+
+    this.Pgm.update((value: number) => value + (mGMotor.numGMotores * potenciaConvertidaGM));
+
+    mGMotor.totalpotenciakw = mGMotor.numGMotores * potenciaConvertidaGM;
+    mGMotor.id= this.listaGMotor().length;
+    this.listaGMotor.update((values: IGMotor[]) => [...values, {
+      id: mGMotor.id,
+      numGMotores: mGMotor.numGMotores,
+      potenciaGMotor: mGMotor.potenciaGMotor,
+      medidaPotencia: mGMotor.medidaPotencia,
+      totalpotenciakw: mGMotor.totalpotenciakw
+    }]);
+    this.utilService.showAlert('Creado grupo motor.', 'Agregado grupo motor con id  ' + mGMotor.id + ' : ' + mGMotor.numGMotores + '  de ' + mGMotor.potenciaGMotor +
+      mGMotor.medidaPotencia + 'Total : ' + mGMotor.totalpotenciakw + ' kW.');
+    console.log('Agregado grupo motor', mGMotor.id, ' ', mGMotor.numGMotores, ' x ', mGMotor.potenciaGMotor,
+      mGMotor.medidaPotencia, 'Total : ', mGMotor.totalpotenciakw, 'kW.');
+
+
+  }
+/*--- Funcion para agregar alumbrado --*/
+agregarAlumbrado (mAlumbrado:IAlumbrado){
+  if (mAlumbrado.mtsAlumbrado! > 0) {
+    //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
+    mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
+  };
+    if (mAlumbrado.potLamparas! > 0 )  {
+
+      //Calculamos por numero de lamparas y potencia
+      let potTempLamp = mAlumbrado.numLamparas! * mAlumbrado.potLamparas!;
+      console.log('potTempLamp', potTempLamp);
+      //comprobamos si está en kW o W
+      if (mAlumbrado.medidaPotencia?.toUpperCase() == "W") {
+        //console.log("es lampara W");
+        potTempLamp = potTempLamp/ 1000;
+      }
+      //Si son lamparas de descarga fluorescentes, se multiplica por el coef 1,8
+      if (mAlumbrado.lampFluorescente) {
+        console.log("es lampara fluorescente");
+        potTempLamp *= 1.8;
+      }
+      mAlumbrado.totalPotenciaAlumkW+=potTempLamp;
+    } 
+   
+  
+  if (mAlumbrado.totalPotenciaAlumkW>0){ 
+    mAlumbrado.id= this.listaAlumbrado().length;
+    this.PAlum.update((value: number) => value + mAlumbrado.totalPotenciaAlumkW);
+    this.listaAlumbrado.update((values: IAlumbrado[]) => [...values, mAlumbrado]);
+    this.utilService.showAlert('Creado alumbrado','Agregado alumbrado con id :' +mAlumbrado.id+ ' de ' +mAlumbrado.mtsAlumbrado +' mts de '
+      + mAlumbrado.tipoAlumbrado?.nombreAlum +' y '+mAlumbrado.numLamparas + ' de '+mAlumbrado.potLamparas + mAlumbrado.medidaPotencia 
+      +' fluorescencia '+ mAlumbrado.lampFluorescente);
+    console.log('Se ha agregado el alumbrado.', mAlumbrado , 'listado',this.listaAlumbrado() );
+    
+  } else {
+
+    console.log("No hay nada calculado.")
+  }
+  
+}
+
+
+  /*--- Funcion para eliminar ascensor --*/
+  eliminaAscensor(idAsc: IAscensor) {
+    let listaAscTemp: IAscensor[] = [];
+    let contAsc = 0;
+    let encontradoAsc: boolean = false;
+    this.listaAscensores().forEach((item) => {
+      if (item.id != idAsc.id) {
+        listaAscTemp.push(item);
+        contAsc++;
+      } else {
+        encontradoAsc = true;
+        this.Pasc.update((value: number) => value - item.totalpotenciakw!);
+        console.log('eliminado ', idAsc);
+      }
+    });
+    if (encontradoAsc) {
+      this.listaAscensores.set(listaAscTemp);
+    }
+
+  }
 
   /* Funcion para eliminar grupo motor.*/
-  eliminaGrupoMotor(idGM:IGMotor){
+  eliminaGrupoMotor(idGM: IGMotor) {
+    let contGM = 0;
+    let listaGMTemp: IGMotor[] = [];
+    let encontradoGM: boolean = false;
+    this.listaGMotor().forEach((itemgm) => {
 
-    let listaGMTemp:IGMotor[]=[];
-    this.listaGMotor().forEach((item)=>{
+      if (itemgm.id != idGM.id) {
+        itemgm.id=contGM;
+        listaGMTemp.push(itemgm);
+        contGM++;
+      } else {
+        encontradoGM = true;
+        this.Pgm.update((value: number) => value - itemgm.totalpotenciakw!);
+        console.log('eliminado GM', idGM);
 
-        let contAsc =0;
-        
-      console.log ('eliminando ', idGM, 'vamos por el ',item.id);
-    })
+      }
+    });
+
+    if (encontradoGM) {
+       this.listaGMotor.set(listaGMTemp);
+        this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+        this.PgmmaxPot = this.buscaGMmasPotente();
+        console.log('El motor mas pot de busca',this.PgmmaxPot);
+        this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
+        this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
+      }
+
+      if (listaGMTemp.length == 0) {
+        this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
+        this.Pgm.set(0);
+      }
+      
+
+    }
+  
+  //Funcion que busca el motor de mayor potencia y retorna un IGMotor.
+  buscaGMmasPotente():IGMotor {
+    let GMTemp: IGMotor;
+    this.listaGMotor().forEach(elementgm => {
+      let potMotTemp = this.pasarakW(elementgm.potenciaGMotor, elementgm.medidaPotencia);
+      if (!GMTemp || potMotTemp > GMTemp.totalpotenciakw!) {
+        GMTemp = elementgm;
+        GMTemp.totalpotenciakw = potMotTemp;
+      }
+
+    });
+    return GMTemp!;
+  }
+  /* Funcion para eliminar alumbrado.*/
+  eliminaAlumbrado(moAlumbrado: IAlumbrado) { 
+    //Actualizamos el valor de Palum
+    this.PAlum.update((value: number) => value - moAlumbrado.totalPotenciaAlumkW);
+    
+    //Eliminamos y reordenamos la lista alumbrado
+    let encontradoAlum:boolean=false;
+    let listaAlumTemp:IAlumbrado[]=[];
+    let contAlumElim=0;
+    this.listaAlumbrado().forEach((elemAl:IAlumbrado)=>{
+      console.log('buscando',elemAl);
+        if (elemAl.id!=moAlumbrado.id){
+          elemAl.id=contAlumElim;
+          listaAlumTemp.push(elemAl);
+          contAlumElim++;
+          console.log('agregado',elemAl,"lista temp alumb ",listaAlumTemp);
+        }else {
+          encontradoAlum=true;
+       }
+    });
+
+    if (encontradoAlum){ 
+      console.log("lista temp encontrado ",listaAlumTemp);
+        this.listaAlumbrado.set(listaAlumTemp);
+      }
+    
 
 
   }
-   /* Funcion para eliminar alumbrado.*/
-  eliminaAlumbrado(ev: any) {}
 
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {
-
-
     if (coef > 0) {
       if (coef > 0 && coef < 22) {
         //ssthis.cs.update(()=>this.calculaCoefSimult(this.sumvivP1()));
@@ -318,7 +514,7 @@ export class PrevisionesService {
   //Calcula prevision servicios generales
   calculaP2(): number {
 
-    return this.Pasc()+this.Pgm()+this.PAlum();
+    return this.Pasc() + this.Pgm() + this.PAlum();
   }
   //Calcula prevision locales
   calculaP3(): number {
@@ -370,7 +566,7 @@ export class PrevisionesService {
 
   }
 
- 
+
   obtenListaIrve(): IIrve[] {
     return this.listaIrve();
   }
@@ -379,7 +575,7 @@ export class PrevisionesService {
 
   }
 
-  pasarakW(poten: number, idmedida: string='kW'): number {
+  pasarakW(poten: number, idmedida: string = 'kW'): number {
     //calculamos y pasamos la potencia a kW según el valor del selector
     //const valorElem: IonSelect = document.getElementById(idElem)! as unknown as IonSelect;
     console.log('poten pasara kw', poten, 'ideelm', idmedida, 'leido.');

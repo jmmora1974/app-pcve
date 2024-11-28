@@ -55,31 +55,31 @@
     <!--Creamos la tabla para listar las viviendas -->
     <div id="divTabla">
       <table mat-table [dataSource]="this.previsionesService.listaViviendas()" class="mat-elevation-z8 tablaViv">
-        <!-- Columna de ID -->
+        <!-- Columna de ID
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef> ID </th>
           <td mat-cell *matCellDef="let element"> {{element.id}} </td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado"></td>
         </ng-container>
-
+ -->
         <ng-container matColumnDef="numViviendas">
           <th mat-header-cell *matHeaderCellDef> Num Viv: </th>
           <td mat-cell *matCellDef="let element">{{element.numViviendas}} </td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado">Total
             Viv:{{this.previsionesService.numTotalViviendas()}} </td>
         </ng-container>
-
+<!--  
         <ng-container matColumnDef="tipo.nombre">
           <th mat-header-cell *matHeaderCellDef>Tipo viv:</th>
           <td mat-cell *matCellDef="let element">{{element.tipo.nombre}} </td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado"> Pot media: </td>
         </ng-container>
-
+-->
         <ng-container matColumnDef="tipo.potencia">
           <th mat-header-cell *matHeaderCellDef> Potencia Vivienda kW </th>
-          <td mat-cell *matCellDef="let element">{{element.tipo.potencia}} </td>
+          <td mat-cell *matCellDef="let element">{{element.tipo.nombre}}{{element.tipo.potencia}} </td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado">
-            {{this.previsionesService.sumPotP1med().toFixed(3)}}</td>
+            Pot media: {{this.previsionesService.sumPotP1med().toFixed(3)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="conIrve">
@@ -98,15 +98,15 @@
         <ng-container matColumnDef="total">
           <th mat-header-cell *matHeaderCellDef> Total potencia Irve kW</th>
           <td mat-cell *matCellDef="let element">
-            {{((element.numViviendas-element.conIrve!)*element.tipo.potencia+(element.conIrve!*(element.tipo.potencia+0.3*element.potIrve!))).toFixed(2)}}
+            {{((element.numViviendas-element.conIrve!)*element.tipo.potencia+(element.conIrve!*(element.tipo.potencia+0.3*element.potIrve!))).toFixed(3)}}
           </td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado">
-            {{(this.previsionesService.sumPotP1med()*this.previsionesService.cs()).toFixed(2)}}</td>
+            {{(this.previsionesService.sumPotP1med()*this.previsionesService.cs()).toFixed(3)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="ion-button">
           <th mat-header-cell *matHeaderCellDef>Eliminar</th>
-          <td mat-cell *matCellDef="let element"><ion-button class="btnElimina"
+          <td mat-cell *matCellDef="let element"><ion-button class="btnEliminatd"
               (click)="eliminaVivienda(element)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button></td>
           <td mat-footer-cell *matFooterCellDef class="columnaResultado"> </td>
 
@@ -133,8 +133,8 @@
     }
 
 
-    <ion-col color="danger"><ion-button color="danger" (click)="agregarVivienda()" expand="block" fill="clear"
-        shape="round">
+    <ion-col color="danger"><ion-button id="btnAgregarViv" class="btn btnAgregar" color="danger" (click)="agregarVivienda()" expand="block" 
+        shape="round" >
         Agregar viviendas
       </ion-button>
     </ion-col>
@@ -153,7 +153,7 @@
     </ion-item-divider>
 
 
-    <ion-col><ion-button color="secondary" (click)="agregarServGrales()" expand="block" fill="clear" shape="round">
+    <ion-col><ion-button   class="btnAgregar"  color="secondary" (click)="agregarServGrales()" expand="block"  shape="round">
         Agregar/Eliminar Servicios Generales
       </ion-button></ion-col>
 
@@ -192,7 +192,7 @@
           {{ascItem.numAscensores}} ascensores tipo {{ascItem.tipoMotorAsc}} de {{ascItem.potenciaMotorAsc}} {{ascItem.medidaPotencia}}.
           Total {{ascItem.totalpotenciakw |number}} kW.
           <div class="btn ion-button btnBorrar"
-              (click)="this.previsionesService.eliminaAscensor(ascItem)"><ion-icon name="trash"></ion-icon>
+              (click)="this.eliminaAscensor(ascItem)"><ion-icon name="trash"></ion-icon>
           </div>
         </ion-col>
       } @empty {
@@ -246,13 +246,12 @@
       <ion-grid>
         <ion-row>
           @for (gmItem of this.previsionesService.listaGMotor(); track gmItem.id) {
-          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
-            >
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
             <img alt="Icono Grupo Motor" src="../../../assets/icon/grupomotor3.png" height="50px" class="ion-float-right" />
             {{gmItem.numGMotores}} grupo motor  de {{gmItem.potenciaGMotor}} {{gmItem.medidaPotencia}}.
             Total {{gmItem.totalpotenciakw |number}} kW.
             <div class="btn ion-button btnBorrar"
-                (click)="this.previsionesService.eliminaGrupoMotor(gmItem)"><ion-icon name="trash"></ion-icon>
+                (click)="this.eliminaGrupoMotor(gmItem)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {
@@ -262,16 +261,16 @@
       </ion-grid>
       <ion-grid>
         <ion-row>
-          @for (AlumItem of this.previsionesService.listaAlumbrado(); track AlumItem.id) {
+          @for (itemAlum of this.previsionesService.listaAlumbrado(); track itemAlum.id) {
           <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
-            <img alt="Icono Alumbrado" src="../../../assets/icon/Alumbrado1.png" height="50px" class="ion-float-right" />
-            {{AlumItem.mtsAlumbrado}} mts de {{AlumItem.tipoAlumbrado!.potAlum}} {{AlumItem.tipoAlumbrado!.nombreAlum!}} <br>
-            {{AlumItem.numLamparas}} lamparas de {{AlumItem.potLamparas}}{{AlumItem.medidaPotencia}} 
+            <img alt="Icono Alumbrado" src="../../../assets/icon/Alumbrado1.png" height="50px" class="ion-float-left" />
+            id:{{itemAlum.id}} - {{itemAlum.mtsAlumbrado}} mts de {{itemAlum.tipoAlumbrado!.potAlum}} {{itemAlum.tipoAlumbrado!.nombreAlum!}} <br>
+            {{itemAlum.numLamparas}} lamparas de {{itemAlum.potLamparas}}{{itemAlum.medidaPotencia}} 
             
-
-            Total {{AlumItem.totalPotenciaAlumkW! |number}} kW.
+    
+            Total {{itemAlum.totalPotenciaAlumkW! |number}} kW.
             <div class="btn ion-button btnBorrar"
-                (click)="this.previsionesService.eliminaAlumbrado(AlumItem)"><ion-icon name="trash"></ion-icon>
+                (click)="this.previsionesService.eliminaAlumbrado(itemAlum)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {
@@ -285,7 +284,7 @@
     <ion-item-divider color="tertiary">
       <ion-label>Prevision Locales</ion-label>
     </ion-item-divider>
-    <ion-col><ion-button (click)="agregarLocales()" expand="block" fill="clear" shape="round">
+    <ion-col><ion-button  class="btn ion-button btnAgregar"  (click)="agregarLocales()" expand="block" shape="round">
         Agregar Locales
       </ion-button></ion-col>
   </ion-item-group>
@@ -294,7 +293,7 @@
     <ion-item-divider color="secondary">
       <ion-label>Prevision Garage</ion-label>
     </ion-item-divider>
-    <ion-col><ion-button (click)="agregarGarage()" expand="block" fill="clear" shape="round">
+    <ion-col><ion-button class="btn ion-button btnAgregar" (click)="agregarGarage()" expand="block"  shape="round">
         Agregar Garage
       </ion-button></ion-col>
   </ion-item-group>
@@ -309,7 +308,7 @@
 
       <ion-label>Potencia : {{irve.potencia}}</ion-label>
       <ion-label>Potencia vivienda :{{irve.tipoVivienda.potencia}} kW</ion-label>
-      <ion-label>={{(irve.cantidad*irve.potencia)}} kW</ion-label>
+      <ion-label>={{(irve.cantidad*irve.potencia)|number}} kW</ion-label>
 
     </ion-item>
 

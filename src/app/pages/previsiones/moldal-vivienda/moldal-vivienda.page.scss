@@ -2,11 +2,24 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 
 .ng-valid[required], .ng-valid.required  {
-    border-left: 5px solid #42A948; /* green */
+    border-bottom:5px dotted #f7c746; /* green */
   }
   
 .ng-invalid:not(form)  {
-    border-left: 5px solid #a94442; /* red */
+    border: 3px solid #a94442; /* red */
+}
+
+.ng-valid {
+  border:2px solid #54e029; /* green */
+}
+.ng-invalid[required], .ng-valid.required  {
+  border-bottom: 3px solid #eb1b10; /* orange */
+}
+.ng-invalid {
+  border-bottom: 5px solid #e20b07; /* red */
+}
+.ng-invalid:not(form)  {
+  border: 5px solid #a94442; /* red */
 }
 
 section{

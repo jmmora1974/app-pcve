@@ -8,6 +8,10 @@ import { ModalServGeneralesPage } from './modal-serv-generales/modal-serv-genera
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { IVivienda } from 'src/app/models/ivivienda';
+import { IGMotor } from 'src/app/models/igmotor';
+import { IAscensor } from 'src/app/models/iascensor';
+import { IAlumbrado } from 'src/app/models/ialumbrado';
+import { R3TargetBinder } from '@angular/compiler';
 
 export interface Tile {
   color: string;
@@ -46,11 +50,11 @@ export class PrevisionesPage {
    */
   /* Definiciones de la cabecera */
   tiles: Tile[] = [
-    { text: 'PViv', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PSerGen', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PLoc', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PGar', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PIrve', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PViv', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PSerGen', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PLoc', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PGar', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PIrve', cols: 1, rows: 1, color: '#F8ECE0' },
     { text: 'PTotal: ' + this.previsionesService.prevision().Ptotal.toString(), cols: 1, rows: 2, color: '#45F577' },
     { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
@@ -60,8 +64,8 @@ export class PrevisionesPage {
   ];
 
   /* Definiciones de la tabla de resultados vivienda*/
-  displayedColumnsViv: string[] = ['id', 'numViviendas','tipo.nombre','tipo.potencia','conIrve','potIrve','total','ion-button'];
-  columnaResultado:string[]=['id','numViviendas','tipo.nombre', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
+  displayedColumnsViv: string[] = ['numViviendas','tipo.potencia','conIrve','potIrve','total','ion-button'];
+  columnaResultado:string[]=['numViviendas', 'tipo.potencia', 'conIrve','potIrve','total','ion-button'];
   
   
   P1: number = 0;
@@ -120,6 +124,7 @@ export class PrevisionesPage {
 
     }
 
+ 
   }
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
@@ -133,10 +138,25 @@ export class PrevisionesPage {
     this.actualizaResultados();
 
   }
+  //Elimina ascensor y actualiza datos
+  eliminaAscensor(ascElement: IAscensor){
+    this.previsionesService.eliminaAscensor(ascElement);
+    this.actualizaResultados();
+  }
+  //Elimina grupo motor
+  eliminaGrupoMotor(gmElement:IGMotor){
+    this.previsionesService.eliminaGrupoMotor(gmElement);
+    this.actualizaResultados();
+  }
 
- 
+  //Elimina grupo motor
+  eliminaAlumbrado (AlumElement:IAlumbrado){
+    this.previsionesService.eliminaAlumbrado(AlumElement);
+    this.actualizaResultados();
+  }
 
-
+  
+  //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {
 
     /*let prevTemp= this.previsionesService.calculaPT();
@@ -145,15 +165,21 @@ export class PrevisionesPage {
     if (this.previsionesService.prevision()){
       this.previsionesService.prevision()= prevTemp[0];*/
 
+    /* Hace los calculos y actualiza los resultados PX*/
     this.previsionesService.calculaPT();
 
-    this.tiles[6].text = this.previsionesService.prevision().Pviv.toFixed(2);
-    this.tiles[7].text = this.previsionesService.prevision().Psgen!.toFixed(2);
-    this.tiles[8].text = this.previsionesService.prevision().Ploc!.toFixed(2);
-    this.tiles[9].text = this.previsionesService.prevision().Pgar!.toFixed(2)
-    this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(2);
-    this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(2);
+    this.tiles[6].text = this.previsionesService.prevision().Pviv.toFixed(3);
+    this.tiles[7].text = this.previsionesService.prevision().Psgen!.toFixed(3);
+    this.tiles[8].text = this.previsionesService.prevision().Ploc!.toFixed(3);
+    this.tiles[9].text = this.previsionesService.prevision().Pgar!.toFixed(3)
+    this.tiles[10].text = this.previsionesService.prevision().Pirve!.toFixed(3);
+    this.tiles[5].text = "Prevision Total " + this.previsionesService.prevision().Ptotal.toFixed(3);
 
+    //Si ya hay viviendas creadas, cambia el color del boton.
+    if (this.previsionesService.listaViviendas().length>0) {
+      document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
+    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
+    
     console.log('tile ', this.tiles[6].text);
 
     //}
