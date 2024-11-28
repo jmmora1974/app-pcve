@@ -18,6 +18,7 @@ import { IAlumbrado } from '../models/ialumbrado';
 
 
 export class PrevisionesService {
+  
 
 
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
@@ -292,6 +293,10 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
     console.log("No hay nada calculado.")
   }
   
+}
+/*--- Funcion para agregar locales --*/
+agregrarLocales(data: any) {
+ console.log('agre local',data)
 }
 
 

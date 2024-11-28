@@ -12,6 +12,7 @@ import { IGMotor } from 'src/app/models/igmotor';
 import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
 import { R3TargetBinder } from '@angular/compiler';
+import { ModalLocalesComponent } from './modal-locales/modal-locales.component';
 
 export interface Tile {
   color: string;
@@ -83,8 +84,23 @@ export class PrevisionesPage {
   agregarGarage() {
     throw new Error('Method not implemented.');
   }
-  agregarLocales() {
-    throw new Error('Method not implemented.');
+  async agregarLocales() {
+    const modal = await this.modalCtrl.create({
+      component: ModalLocalesComponent,
+    });
+    modal.present();
+    
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      //this.previsionesService.agregrarLocales(data);
+
+      this.actualizaResultados();
+      //console.log('agregados servicios generales ', this.previsionActual);
+
+
+    }
+    this.actualizaResultados();
   }
 
   async agregarServGrales() {
