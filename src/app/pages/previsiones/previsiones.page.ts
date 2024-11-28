@@ -12,7 +12,7 @@ import { IGMotor } from 'src/app/models/igmotor';
 import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
 import { R3TargetBinder } from '@angular/compiler';
-import { ModalLocalesComponent } from './modal-locales/modal-locales.component';
+import { ModalLocalesComponent } from './old- modal-locales/modal-locales.component';
 
 export interface Tile {
   color: string;
