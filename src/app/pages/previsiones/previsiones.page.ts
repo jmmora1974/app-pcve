@@ -77,7 +77,9 @@ export class PrevisionesPage {
   PT: number = 0;
 
 
-  calculaPotLocal(){}
+  calculaPotLocal(){
+    console.log('toi en previ')
+  }
   
   agregarIrve() {
     throw new Error('Method not implemented.');

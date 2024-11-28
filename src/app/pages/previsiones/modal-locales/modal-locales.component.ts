@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { ILocal } from 'src/app/models/ilocal';
 import { PrevisionesService } from 'src/app/services/previsiones.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { ModalLocalesComponentRoutingModule } from './moldal-locales-routing.module';
 
 @Component({
   selector: 'app-modal-locales',
