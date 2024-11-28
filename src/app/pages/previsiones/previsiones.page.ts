@@ -50,11 +50,11 @@ export class PrevisionesPage {
    */
   /* Definiciones de la cabecera */
   tiles: Tile[] = [
-    { text: 'PViv', cols: 1, rows: 1, color: '#39be7c' },
-    { text: 'PSerGen', cols: 1, rows: 1, color: '#39be7c' },
-    { text: 'PLoc', cols: 1, rows: 1, color: '#39be7c' },
-    { text: 'PGar', cols: 1, rows: 1, color: '#39be7c' },
-    { text: 'PIrve', cols: 1, rows: 1, color: '#39be7c' },
+    { text: 'PViv', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PSerGen', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PLoc', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PGar', cols: 1, rows: 1, color: '#F8ECE0' },
+    { text: 'PIrve', cols: 1, rows: 1, color: '#F8ECE0' },
     { text: 'PTotal: ' + this.previsionesService.prevision().Ptotal.toString(), cols: 1, rows: 2, color: '#45F577' },
     { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
