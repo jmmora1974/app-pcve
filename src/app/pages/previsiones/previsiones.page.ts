@@ -11,6 +11,7 @@ import { IVivienda } from 'src/app/models/ivivienda';
 import { IGMotor } from 'src/app/models/igmotor';
 import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
+import { R3TargetBinder } from '@angular/compiler';
 
 export interface Tile {
   color: string;
@@ -49,11 +50,11 @@ export class PrevisionesPage {
    */
   /* Definiciones de la cabecera */
   tiles: Tile[] = [
-    { text: 'PViv', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PSerGen', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PLoc', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PGar', cols: 1, rows: 1, color: 'lightgreen' },
-    { text: 'PIrve', cols: 1, rows: 1, color: 'lightgreen' },
+    { text: 'PViv', cols: 1, rows: 1, color: '#39be7c' },
+    { text: 'PSerGen', cols: 1, rows: 1, color: '#39be7c' },
+    { text: 'PLoc', cols: 1, rows: 1, color: '#39be7c' },
+    { text: 'PGar', cols: 1, rows: 1, color: '#39be7c' },
+    { text: 'PIrve', cols: 1, rows: 1, color: '#39be7c' },
     { text: 'PTotal: ' + this.previsionesService.prevision().Ptotal.toString(), cols: 1, rows: 2, color: '#45F577' },
     { text: this.previsionesService.prevision().Pviv.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
     { text: this.previsionesService.prevision().Psgen!.toString(), cols: 1, rows: 1, color: '#D9F5D7' },
