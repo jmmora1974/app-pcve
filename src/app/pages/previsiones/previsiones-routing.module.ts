@@ -14,6 +14,14 @@ const routes: Routes = [
   },  {
     path: 'modal-serv-generales',
     loadChildren: () => import('./modal-serv-generales/modal-serv-generales.module').then( m => m.ModalServGeneralesPageModule)
+  },
+  {
+    path: 'modal-locales',
+    loadChildren: () => import('./modal-locales/modal-locales.module').then( m => m.ModalLocalesPageModule)
+  },
+  {
+    path: 'modal-locales',
+    loadChildren: () => import('./pages/previsiones/modal-locales/modal-locales.module').then( m => m.ModalLocalesPageModule)
   }
 
 

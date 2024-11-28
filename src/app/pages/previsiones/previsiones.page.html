@@ -287,7 +287,23 @@
     <ion-col><ion-button  class="btn ion-button btnAgregar"  (click)="agregarLocales()" expand="block" shape="round">
         Agregar Locales
       </ion-button></ion-col>
-     
+      <ion-grid>
+        <ion-row>
+          @for (locItem of this.previsionesService.listaLocales(); track locItem.id) {
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
+            >
+            <img alt="Icono Local" src="../../../../assets/local.jpg" height="50px" class="ion-float-right" />
+            {{locItem.numLocales}} locales de {{locItem.mtsLocal}} con Potencia de  {{locItem.potLocal}} kW.
+            Total {{locItem.totalPotenciaLocalkW |number}} kW.
+            <div class="btn ion-button btnEliminar"
+                (click)="this.previsionesService.eliminarLocal(locItem)"><ion-icon name="trash"></ion-icon>
+            </div>
+          </ion-col>
+        } @empty {
+          <li>No hay ningún local definido.</li>
+          }
+        </ion-row>
+      </ion-grid>
   </ion-item-group>
 
   <ion-item-group>

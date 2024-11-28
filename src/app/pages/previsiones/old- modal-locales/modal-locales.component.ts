@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ILocal } from 'src/app/models/ilocal';
 import { PrevisionesService } from 'src/app/services/previsiones.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -44,9 +44,26 @@ export class ModalLocalesComponent implements OnInit {
   
   agregarLocales(){
     console.log('locales ', this.modelLocal);
+    
     this.calculaPotLocal();
+
+    //Comprobamos que el número de ascensores y potencia es positivo.
+    if (this.modelLocal.numLocales < 1) {
+      this.utilService.showAlert('Error num de locales', 'El número de locales ha de ser positivo.');
+
+    } else if (this.modelLocal.mtsLocal < 0.1) {
+      this.utilService.showAlert('Error superficie local.', 'La superficie del local ha de ser superior a 0.');
+
+    } else {
+      
+      //Colocamos el id que corresponde al nuevo ascensor
+      //this.modelAscensor.id = this.listaAscensores().length;
+      this.previsionesService.agregarLocal(this.modelLocal);
+      this.resetLocal();
+    }
   }
   
+  //calcula automaticamente los inputs del form
   calculaPotLocal(){
     if (this.modelLocal!.mtsLocal<34.5) {
         this.modelLocal!.potLocal=3.45;
@@ -57,7 +74,12 @@ export class ModalLocalesComponent implements OnInit {
     this.modelLocal.totalPotenciaLocalkW=this.modelLocal.numLocales*this.modelLocal.potLocal;
 
   }
-    constructor() { this.resetLocal()}
+
+  cancel() {
+    return this.modalCtrl.dismiss(null, 'cancel');
+  }
+  
+    constructor( private modalCtrl: ModalController) { this.resetLocal()}
 
     ngOnInit() { this.resetLocal();}
 

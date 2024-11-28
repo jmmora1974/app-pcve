@@ -13,6 +13,7 @@ import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
 import { R3TargetBinder } from '@angular/compiler';
 import { ModalLocalesComponent } from './old- modal-locales/modal-locales.component';
+import { ILocal } from 'src/app/models/ilocal';
 
 export interface Tile {
   color: string;
@@ -173,6 +174,12 @@ export class PrevisionesPage {
   //Elimina grupo motor
   eliminaAlumbrado (AlumElement:IAlumbrado){
     this.previsionesService.eliminaAlumbrado(AlumElement);
+    this.actualizaResultados();
+  }
+
+   //Elimina local
+   eliminarLocal(locElement:ILocal){
+    this.previsionesService.eliminarLocal(locElement);
     this.actualizaResultados();
   }
 

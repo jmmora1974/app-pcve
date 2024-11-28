@@ -9,6 +9,7 @@ import { IIrve } from '../models/iirve';
 import { IAscensor } from '../models/iascensor';
 import { IGMotor } from '../models/igmotor';
 import { IAlumbrado } from '../models/ialumbrado';
+import { ILocal } from '../models/ilocal';
 
 
 
@@ -18,7 +19,7 @@ import { IAlumbrado } from '../models/ialumbrado';
 
 
 export class PrevisionesService {
-  
+ 
 
 
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
@@ -60,6 +61,12 @@ export class PrevisionesService {
   PotP1diurMed: number = 0;
   cs = signal(0);
 
+
+  /** Variables para locales */
+  Ploc=signal(0);
+  listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
+
+   /** Variables para Irves */
   numIrves: number = 0;
 
   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
@@ -89,6 +96,7 @@ export class PrevisionesService {
 
   //Servicios de mensajeria
   utilService = inject(UtilsService);
+  
 
   //Constructor
   constructor() {
@@ -295,9 +303,34 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
   
 }
 /*--- Funcion para agregar locales --*/
-agregrarLocales(data: any) {
- console.log('agre local',data)
+agregarLocal(mLocal: ILocal) {
+
+  if(mLocal.potLocal>0 && mLocal.totalPotenciaLocalkW>0 ){
+
+    this.Ploc.update ((value:number)=>value+mLocal.totalPotenciaLocalkW);
+  } else {
+      mLocal=this.calculaPotLocal(mLocal);
+      this.Ploc.update ((value:number)=>value+mLocal.totalPotenciaLocalkW);
+  }
+  mLocal.id=this.listaLocales().length;
+  this.listaLocales.update((values:ILocal[])=>[...values,mLocal]);
+  console.log("Agregado local ", mLocal);
+    
 }
+
+calculaPotLocal(cLoc:ILocal ):ILocal{
+  if (cLoc.mtsLocal<34.5) {
+      cLoc.potLocal=3.45;
+  }else {
+    cLoc.potLocal=cLoc.mtsLocal*0.1;
+  }
+  
+  cLoc.totalPotenciaLocalkW=cLoc.numLocales*cLoc.potLocal;
+
+  return cLoc;
+
+}
+
 
 
   /*--- Funcion para eliminar ascensor --*/
@@ -400,6 +433,33 @@ agregrarLocales(data: any) {
 
   }
 
+/* Funcion para eliminar local.*/
+  eliminarLocal(local: ILocal) {
+     //Actualizamos el valor de Palum
+     this.Ploc.update((value: number) => value - local.totalPotenciaLocalkW);
+    
+     //Eliminamos y reordenamos la lista alumbrado
+     let encontradoLocal:boolean=false;
+     let listaLocalTemp:ILocal[]=[];
+     let contLocElim=0;
+     this.listaLocales().forEach((elemLocal:ILocal)=>{
+       console.log('buscando local',elemLocal);
+         if (elemLocal.id!=local.id){
+          elemLocal.id=contLocElim;
+           listaLocalTemp.push(elemLocal);
+           contLocElim++;
+           console.log('agregado',elemLocal,"lista temp alumb ",listaLocalTemp);
+         }else {
+           encontradoLocal=true;
+        }
+     });
+ 
+     if (encontradoLocal){ 
+       console.log("lista temp encontrado ",listaLocalTemp);
+         this.listaLocales.set(listaLocalTemp);
+       }
+  }
+  
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {
     if (coef > 0) {
@@ -523,7 +583,7 @@ agregrarLocales(data: any) {
   }
   //Calcula prevision locales
   calculaP3(): number {
-    return 0;
+    return this.Ploc();
   }
   //Calcula prevision garage
   calculaP4(): number {

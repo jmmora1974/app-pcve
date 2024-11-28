@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>modalLocales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">modalLocales</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <section class="flex-container boxAsc" collapse="condense">
+    <form (ngSubmit)="agregarLocales()" #formLocales="ngForm">
+      <fieldset>
+        <legend>Locales</legend>
+  
+        <div  id="divLocales" class="form-group">
+          
+            <label for="txtNumLocales">Num Locales:</label>
+            <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numLocales" required
+              [(ngModel)]="modelLocal!.numLocales" (keyup)="calculaPotLocal()" name="numLocales" placeholder="Numero de locales" title="Numero de locales">
+            
+              <label for="mtsLocal"> Superficie local: </label>
+              <input type="number" id="mtsLocal"  min="0" class="form-control ng-untouched ng-pristine ng-valid" required
+                [(ngModel)]="modelLocal!.mtsLocal"   name="mtsLocal" (keyup)="calculaPotLocal()"
+                 placeholder="Superficie de locales" title="Superficie de locales">
+                 Potencia local: {{modelLocal.potLocal}} 
+                 
+                 Total: {{modelLocal.totalPotenciaLocalkW}}
+              
+              <input type="number"[hidden]="true"  [(ngModel)]="modelLocal.totalPotenciaLocalkW"  name="id"> 
+          
+  
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-success" [disabled]="!formLocales.form.valid">Agregar local</button>
+      <button type="button" class="btn btn-default btnBorrar" (click)="resetLocal()">Borra
+        datos</button>
+    </form>
+  </section>
+  <section>
+      <input type="number" ondblclick="calcular()">
+  </section>
+
+</ion-content>
