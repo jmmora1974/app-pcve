@@ -11,13 +11,14 @@ const routes: Routes = [
   {
     path: 'moldal-vivienda',
     loadChildren: () => import('./moldal-vivienda/moldal-vivienda.module').then( m => m.MoldalViviendaPageModule)
-  },  {
+  },
+  {
     path: 'modal-serv-generales',
     loadChildren: () => import('./modal-serv-generales/modal-serv-generales.module').then( m => m.ModalServGeneralesPageModule)
   },
   {
     path: 'modal-locales',
-    loadChildren: () => import('./modal-locales/modal-locales.module').then( m => m.ModalLocalesPageModule)
+    loadChildren: () => import('./modal-locales-pagina/modal-locales.module').then( m => m.ModalLocalesPageModule)
   },
   {
     path: 'modal-locales',
