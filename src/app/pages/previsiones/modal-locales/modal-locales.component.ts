@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ILocal } from 'src/app/models/ilocal';
 import { PrevisionesService } from 'src/app/services/previsiones.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { MoldalViviendaPageRoutingModule } from '../moldal-vivienda/moldal-vivienda-routing.module';
+import { ModalLocalesComponentRoutingModule } from './moldal-locales-routing.module';
 
 @Component({
   selector: 'app-modal-locales',
@@ -16,15 +16,22 @@ import { MoldalViviendaPageRoutingModule } from '../moldal-vivienda/moldal-vivie
     CommonModule,
     FormsModule,
     IonicModule,
-    MoldalViviendaPageRoutingModule,
     ReactiveFormsModule
-  ], 
+  ],
+  
+  
 })
 
 export class ModalLocalesComponent implements OnInit {
   utilService = inject(UtilsService);
   previsionesService = inject(PrevisionesService);
-  modelLocal: ILocal | undefined;
+  modelLocal: ILocal ={
+    id: 0,
+    numLocales: 0,
+    mtsLocal: 0,
+    potLocal: 0,
+    totalPotenciaLocalkW: 0 
+  };
 
   resetLocal() { 
     this.modelLocal={
@@ -35,12 +42,23 @@ export class ModalLocalesComponent implements OnInit {
       totalPotenciaLocalkW: 0
     };
   }
-
+  
   agregarLocales(){
     console.log('locales ', this.modelLocal);
+    this.calculaPotLocal();
   }
+  
+  calculaPotLocal(){
+    if (this.modelLocal!.mtsLocal<34.5) {
+        this.modelLocal!.potLocal=3.45;
+    }else {
+      this.modelLocal.potLocal=this.modelLocal!.mtsLocal*0.1;
+    }
+    
+    this.modelLocal.totalPotenciaLocalkW=this.modelLocal.numLocales*this.modelLocal.potLocal;
 
-    constructor() { }
+  }
+    constructor() { this.resetLocal()}
 
     ngOnInit() { this.resetLocal();}
 

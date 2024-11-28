@@ -77,7 +77,8 @@ export class PrevisionesPage {
   PT: number = 0;
 
 
-
+  calculaPotLocal(){}
+  
   agregarIrve() {
     throw new Error('Method not implemented.');
   }
@@ -142,6 +143,8 @@ export class PrevisionesPage {
 
  
   }
+
+  
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
     this.previsionesService.eliminaVivienda(ev.id);
