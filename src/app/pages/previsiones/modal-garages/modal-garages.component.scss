@@ -31,17 +31,21 @@
     min-width: 90px;
     width: 100%;
     background-color: rgb(176, 244, 244);
-    
+    height: fit-content;
     text-align: center;
     align-items: center;
     vertical-align: middle;
     
   }
-  
+  ion-modal>.ion-page{
+    height: fit-content;
+  }
+
   form {
     width: 100%;
     
   }
+  
   ion-grid {
     --ion-grid-width: 50%;
   
@@ -54,11 +58,12 @@
     justify-content: center;
     text-align: center;
   }
-  
   ion-col {
     //background-color: #3ea3b1;
-    background-color: #c7e7e4;
-    border: solid 1px #d7dbe7;
+    
+    background-color: #F8ECE0;
+    border: solid 1px hsl(225, 25%, 87%);
+    --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
     color: #000000;
     display: flex;
     align-items: center;
@@ -66,14 +71,15 @@
     text-align: center;
     border-radius: 5px;
     gap: 5px;
-    
+
   }
-  
+
   ion-col img {
-    float:none;
+    float: none;
     margin-left: 5px;
     margin-right: auto;
   }
+  
   
   .boxAsc {
    

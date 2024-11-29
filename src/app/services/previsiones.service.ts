@@ -343,7 +343,7 @@ agregarGarage(modelGarage: IGarage) {
       this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
   }
 
-  if (modelGarage.numPlazas){this.numPlazasPkn.update((value:number)=> value+modelGarage.numPlazas!);  }
+  if (modelGarage.numPlazas){this.numPlazasPkn.update((value:number)=> value+modelGarage.numPlazas!);  };
   
   modelGarage.id=this.listaGarages().length;
   this.listaGarages.update((values:IGarage[])=>[...values,modelGarage]);
@@ -507,12 +507,14 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
            console.log('agregado',elemGarage,"lista temp alumb ",listaGarageTemp);
          }else {
            encontradoGarage=true;
+           if (garageElement.numPlazas!>0){this.numPlazasPkn.update((value:number)=> value-garageElement.numPlazas!);  };
         }
      });
  
      if (encontradoGarage){ 
        console.log("lista temp encontrado ",listaGarageTemp);
          this.listaGarages.set(listaGarageTemp);
+        
          
        }
   }
@@ -607,7 +609,7 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
     });
 
     let minIrve = Math.ceil(this.numPlazasPkn() / 10);
-    console.log("10%", this.numIrves)
+    console.log("10% plazas pkn", this.numIrves)
     if (this.numIrves < minIrve) {
 
       let vivTemp: IVivienda = this.listaViviendas()[this.listaViviendas().length - 1];

@@ -201,46 +201,6 @@
       </ion-row>
     </ion-grid>
 
-    <!------- Prueba 3 listado Asc----
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-           
-            <img
-              alt="Silhouette of a person's head"
-              src="../../../assets/icon/Grupomoto1.png"
-              height="20px"
-            />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-          </ion-col>
-          <ion-col>
-           
-            <img
-              alt="Silhouette of a person's head"
-              src="../../../assets/icon/Alumbrado1.png"
-              height="20px"
-              class="ion-float-left"
-            />
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-          </ion-col>
-          @for (ascItem of this.previsionesService.listaAscensores(); track ascItem.id) {
-          <ion-col>
-            
-            <img
-              alt="Silhouette of a person's head"
-              src="../../../assets/icon/ascensor.png"
-              height="20px"
-              class="ion-float-right"
-            /><br>
-            {{ascItem.numAscensores}} ascensores tipo  {{ascItem.tipoMotorAsc}} de  {{ascItem.potenciaMotorAsc}}. 
-              Total  {{ascItem.totalpotenciakw |number}} kW. 
-          </ion-col>
-        } @empty {
-          <li>No hay ningún ascensor definido.</li>
-          }
-        </ion-row>
-      </ion-grid> 
-      --->
 
      <!---Listado de guupo motor  -->
       <ion-grid>
@@ -316,10 +276,10 @@
       <ion-grid>
         <ion-row>
           @for (garageItem of this.previsionesService.listaGarages(); track garageItem.id) {
-          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
-            >
+            <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-lg="3">
             <img alt="Icono Garage" src="../../../assets/garaje.png" height="50px" class="ion-float-right" />
             {{garageItem.numPlantas}} plantas de {{garageItem.mtsGarage}} mts con potencia de {{garageItem.potGarage|number}} kW.
+            Con {{this.previsionesService.numPlazasPkn()}} plazas  de parking. <br>
             Total {{garageItem.totalPotenciaGaragekW |number}} kW.
             <div class="btn ion-button btnEliminar"
                 (click)="this.eliminarGarage(garageItem)"><ion-icon name="trash"></ion-icon>
@@ -339,7 +299,6 @@
     <ion-item *ngFor="let irve of previsionesService.listaIrve()">
       <ion-label>{{irve.id}}</ion-label>
       <ion-label>Num Irves :{{irve.cantidad}}</ion-label>
-
       <ion-label>Potencia : {{irve.potencia}}</ion-label>
       <ion-label>Potencia vivienda :{{irve.tipoVivienda.potencia}} kW</ion-label>
       <ion-label>={{(irve.cantidad*irve.potencia)|number}} kW</ion-label>
