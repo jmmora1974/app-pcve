@@ -88,24 +88,7 @@ export class PrevisionesPage {
     throw new Error('Method not implemented.');
   }
  
-  async agregarLocales() {
-    const modal = await this.modalCtrl.create({
-      component: ModalLocalesComponent,
-    });
-    modal.present();
-    
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      //this.previsionesService.agregrarLocales(data);
-
-      this.actualizaResultados();
-      //console.log('agregados servicios generales ', this.previsionActual);
-
-
-    }
-    this.actualizaResultados();
-  }
+  
  /* Funcion agregar servicios generales */
   async agregarServGrales() {
     const modal = await this.modalCtrl.create({
@@ -155,17 +138,35 @@ export class PrevisionesPage {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.previsionesService.agregarGarage(data);
+      //this.previsionesService.agregarGarage(data);
 
-      this.actualizaResultados();
+      //this.actualizaResultados();
       console.log('agregado garage: ', this.previsionesService.prevision);
 
 
     }
+    this.actualizaResultados();
 
   }
 
-  
+  async agregarLocales() {
+    const modal = await this.modalCtrl.create({
+      component: ModalLocalesComponent,
+    });
+    modal.present();
+    
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      //this.previsionesService.agregrarLocales(data);
+
+      this.actualizaResultados();
+      //console.log('agregados servicios generales ', this.previsionActual);
+
+
+    }
+    this.actualizaResultados();
+  }
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
     this.previsionesService.eliminaVivienda(ev.id);

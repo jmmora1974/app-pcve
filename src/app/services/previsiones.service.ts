@@ -338,10 +338,10 @@ calculaPotLocal(cLoc:ILocal ):ILocal{
 agregarGarage(modelGarage: IGarage) {
   if(modelGarage.potGarage>0 && modelGarage.totalPotenciaGaragekW>0 ){
 
-    this.Ploc.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
+    this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
   } else {
       modelGarage=this.calculaPotGarage(modelGarage);
-      this.Ploc.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
+      this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
   }
   modelGarage.id=this.listaGarages().length;
   this.listaGarages.update((values:IGarage[])=>[...values,modelGarage]);
@@ -350,14 +350,11 @@ agregarGarage(modelGarage: IGarage) {
 }
 
 calculaPotGarage(cGarage:IGarage ):IGarage{
-  if (cGarage.mtsGarage<34.5) {
-    cGarage.potGarage=3.45;
-  }else {
-    cGarage.potGarage=cGarage.mtsGarage*0.1;
-  }
   
-  cGarage.totalPotenciaGaragekW=cGarage.numPlantas*cGarage.potGarage;
+  cGarage.potGarage = cGarage.mtsGarage * cGarage.ventilacion;
 
+
+  cGarage.totalPotenciaGaragekW = cGarage.numPlantas * cGarage.potGarage;
   return cGarage;
 
 }
