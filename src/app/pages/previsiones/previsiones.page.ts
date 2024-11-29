@@ -12,8 +12,10 @@ import { IGMotor } from 'src/app/models/igmotor';
 import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
 import { R3TargetBinder } from '@angular/compiler';
-import { ModalLocalesComponent } from './old- modal-locales/modal-locales.component';
+import { ModalLocalesComponent } from './modal-locales/modal-locales.component';
 import { ILocal } from 'src/app/models/ilocal';
+import { ModalGaragesComponent } from './modal-garages/modal-garages.component';
+import { IGarage } from 'src/app/models/igarage';
 
 export interface Tile {
   color: string;
@@ -85,9 +87,7 @@ export class PrevisionesPage {
   agregarIrve() {
     throw new Error('Method not implemented.');
   }
-  agregarGarage() {
-    throw new Error('Method not implemented.');
-  }
+ 
   async agregarLocales() {
     const modal = await this.modalCtrl.create({
       component: ModalLocalesComponent,
@@ -106,7 +106,7 @@ export class PrevisionesPage {
     }
     this.actualizaResultados();
   }
-
+ /* Funcion agregar servicios generales */
   async agregarServGrales() {
     const modal = await this.modalCtrl.create({
       component: ModalServGeneralesPage,
@@ -126,6 +126,7 @@ export class PrevisionesPage {
     this.actualizaResultados();
   }
 
+  /* Funcion agregar vivienda */
 
   async agregarVivienda() {
     const modal = await this.modalCtrl.create({
@@ -142,9 +143,26 @@ export class PrevisionesPage {
       console.log('agregada vivienda: ', this.previsionesService.prevision);
 
 
+    } 
+  }
+  /* Funcion agregar garage */
+  async agregarGarage() {
+    const modal = await this.modalCtrl.create({
+      component: ModalGaragesComponent,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.previsionesService.agregarGarage(data);
+
+      this.actualizaResultados();
+      console.log('agregado garage: ', this.previsionesService.prevision);
+
+
     }
 
- 
   }
 
   
@@ -183,6 +201,12 @@ export class PrevisionesPage {
     this.actualizaResultados();
   }
 
+    //Elimina garage
+    eliminarGarage(garageElement:IGarage){
+      this.previsionesService.eliminarGarage(garageElement);
+      this.actualizaResultados();
+    }
+  
   
   //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {

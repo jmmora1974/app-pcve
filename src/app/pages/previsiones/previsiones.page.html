@@ -313,6 +313,23 @@
     <ion-col><ion-button class="btn ion-button btnAgregar" (click)="agregarGarage()" expand="block"  shape="round">
         Agregar Garage
       </ion-button></ion-col>
+      <ion-grid>
+        <ion-row>
+          @for (garageItem of this.previsionesService.listaGarages(); track garageItem.id) {
+          <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
+            >
+            <img alt="Icono Garage" src="../../../assets/garaje.png" height="50px" class="ion-float-right" />
+            {{garageItem.numPlantas}} plantas de {{garageItem.mtsGarage}} mts con potencia de {{garageItem.potGarage|number}} kW.
+            Total {{garageItem.totalPotenciaGaragekW |number}} kW.
+            <div class="btn ion-button btnEliminar"
+                (click)="this.previsionesService.eliminarGarage(garageItem)"><ion-icon name="trash"></ion-icon>
+            </div>
+          </ion-col>
+        } @empty {
+          <li>No hay ningún garage definido.</li>
+          }
+        </ion-row>
+      </ion-grid>
   </ion-item-group>
 
   <ion-item-group>

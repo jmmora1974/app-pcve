@@ -10,6 +10,7 @@ import { IAscensor } from '../models/iascensor';
 import { IGMotor } from '../models/igmotor';
 import { IAlumbrado } from '../models/ialumbrado';
 import { ILocal } from '../models/ilocal';
+import { IGarage } from '../models/igarage';
 
 
 
@@ -19,9 +20,7 @@ import { ILocal } from '../models/ilocal';
 
 
 export class PrevisionesService {
- 
-
-
+  
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
@@ -65,6 +64,10 @@ export class PrevisionesService {
   /** Variables para locales */
   Ploc=signal(0);
   listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
+
+   /** Variables para garages */
+   PGar=signal(0);
+   listaGarages: WritableSignal<IGarage[]> = signal<IGarage[]>([]);
 
    /** Variables para Irves */
   numIrves: number = 0;
@@ -331,7 +334,33 @@ calculaPotLocal(cLoc:ILocal ):ILocal{
 
 }
 
+/*--- Funcion para agregar garage --*/
+agregarGarage(modelGarage: IGarage) {
+  if(modelGarage.potGarage>0 && modelGarage.totalPotenciaGaragekW>0 ){
 
+    this.Ploc.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
+  } else {
+      modelGarage=this.calculaPotGarage(modelGarage);
+      this.Ploc.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
+  }
+  modelGarage.id=this.listaGarages().length;
+  this.listaGarages.update((values:IGarage[])=>[...values,modelGarage]);
+  console.log("Agregado garage ", modelGarage);
+    
+}
+
+calculaPotGarage(cGarage:IGarage ):IGarage{
+  if (cGarage.mtsGarage<34.5) {
+    cGarage.potGarage=3.45;
+  }else {
+    cGarage.potGarage=cGarage.mtsGarage*0.1;
+  }
+  
+  cGarage.totalPotenciaGaragekW=cGarage.numPlantas*cGarage.potGarage;
+
+  return cGarage;
+
+}
 
   /*--- Funcion para eliminar ascensor --*/
   eliminaAscensor(idAsc: IAscensor) {
@@ -459,7 +488,35 @@ calculaPotLocal(cLoc:ILocal ):ILocal{
          this.listaLocales.set(listaLocalTemp);
        }
   }
-  
+
+  /* Funcion para eliminar garage.*/
+  eliminarGarage(garageElement: IGarage) {
+     //Actualizamos el valor de Palum
+     this.PGar.update((value: number) => value - garageElement.totalPotenciaGaragekW);
+    
+     //Eliminamos y reordenamos la lista garage
+     let encontradoGarage:boolean=false;
+     let listaGarageTemp:IGarage[]=[];
+     let contLocElim=0;
+     this.listaGarages().forEach((elemGarage:IGarage)=>{
+       console.log('buscando Garage',elemGarage);
+         if (elemGarage.id!=garageElement.id){
+          elemGarage.id=contLocElim;
+           listaGarageTemp.push(elemGarage);
+           contLocElim++;
+           console.log('agregado',elemGarage,"lista temp alumb ",listaGarageTemp);
+         }else {
+           encontradoGarage=true;
+        }
+     });
+ 
+     if (encontradoGarage){ 
+       console.log("lista temp encontrado ",listaGarageTemp);
+         this.listaGarages.set(listaGarageTemp);
+       }
+  }
+
+
   //Calculamos el coeficente CS de la tabla tablaITC10
   calculaCoefSimult(coef: number): number {
     if (coef > 0) {
@@ -587,7 +644,7 @@ calculaPotLocal(cLoc:ILocal ):ILocal{
   }
   //Calcula prevision garage
   calculaP4(): number {
-    return 0;
+    return this.PGar();
   }
   //Calcula prevision Irve excepto esquema 2 y 4a.
   calculaP5(): number {

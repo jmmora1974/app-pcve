@@ -19,10 +19,6 @@ const routes: Routes = [
   {
     path: 'modal-locales',
     loadChildren: () => import('./modal-locales-pagina/modal-locales.module').then( m => m.ModalLocalesPageModule)
-  },
-  {
-    path: 'modal-locales',
-    loadChildren: () => import('./pages/previsiones/modal-locales/modal-locales.module').then( m => m.ModalLocalesPageModule)
   }
 
 
