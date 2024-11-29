@@ -275,18 +275,18 @@
       </ion-button></ion-col>
       <ion-grid>
         <ion-row>
-          @for (garageItem of this.previsionesService.listaGarages(); track garageItem.id) {
-            <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-lg="3">
-            <img alt="Icono Garage" src="../../../assets/garaje.png" height="50px" class="ion-float-right" />
-            {{garageItem.numPlantas}} plantas de {{garageItem.mtsGarage}} mts con potencia de {{garageItem.potGarage|number}} kW.
-            Con {{this.previsionesService.numPlazasPkn()}} plazas  de parking. <br>
-            Total {{garageItem.totalPotenciaGaragekW |number}} kW.
-            <div class="btn ion-button btnEliminar"
-                (click)="this.eliminarGarage(garageItem)"><ion-icon name="trash"></ion-icon>
+          @for (garItem of this.previsionesService.listaGarages(); track garItem.id) {
+            <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
+            <img alt="Icono Garage" src="../../../../assets/garaje.png" height="50px" class="ion-float-right" />
+           <p> {{garItem.numPlantas}} plantas de {{garItem.mtsGarage}} mts2 con Potencia de {{garItem.potGarage}} kW.
+            Con {{this.previsionesService.numPlazasPkn()}} plazas de parking.</p>
+           <h5> Total {{garItem.totalPotenciaGaragekW |number}} kW.</h5>
+            <div class="btn ion-button btnEliminar" (click)="this.previsionesService.eliminarGarage(garItem)"><ion-icon
+                name="trash"></ion-icon>
             </div>
           </ion-col>
-        } @empty {
-          <li>No hay ningún garage definido.</li>
+          } @empty {
+          <li>No hay ningún local definido.</li>
           }
         </ion-row>
       </ion-grid>

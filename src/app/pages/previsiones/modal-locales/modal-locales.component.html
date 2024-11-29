@@ -40,12 +40,11 @@
       datos</button>
   </form>
 </section>
-<section>
+
   <ion-grid>
     <ion-row>
       @for (locItem of this.previsionesService.listaLocales(); track locItem.id) {
-      <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3"
-        >
+      <ion-col>
         <img alt="Icono Local" src="../../../../assets/local.jpg" height="50px" class="ion-float-right" />
         {{locItem.numLocales}} locales de {{locItem.mtsLocal}} con Potencia de  {{locItem.potLocal}} kW.
         Total {{locItem.totalPotenciaLocalkW |number}} kW.
@@ -58,4 +57,3 @@
       }
     </ion-row>
   </ion-grid>
-</section>

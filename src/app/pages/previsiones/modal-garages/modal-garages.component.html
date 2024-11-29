@@ -9,7 +9,7 @@
 
   </ion-toolbar>
 </ion-header>
-
+<section id="secFormGarage">
   <form (ngSubmit)="agregarGarage()" #formGarages="ngForm">
     <fieldset>
       <legend>Garages</legend>
@@ -58,15 +58,17 @@
     <button type="button" class="btn btn-default btnBorrar" (click)="resetGarage()">Borra
       datos</button>
   </form>
+</section>
 
   <ion-grid>
+    <section>
     <ion-row>
       @for (garItem of this.previsionesService.listaGarages(); track garItem.id) {
-      <ion-col size="3" size-xs="12" size-sm="6" size-md="4" size-lg="3">
+        <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
         <img alt="Icono Garage" src="../../../../assets/garaje.png" height="50px" class="ion-float-right" />
-        {{garItem.numPlantas}} plantas de {{garItem.mtsGarage}} mts2 con Potencia de {{garItem.potGarage}} kW.
-        Con {{this.previsionesService.numPlazasPkn()}} plazas de parking. <br>
-        Total {{garItem.totalPotenciaGaragekW |number}} kW.
+       <p> {{garItem.numPlantas}} plantas de {{garItem.mtsGarage}} mts2 con Potencia de {{garItem.potGarage}} kW.
+        Con {{this.previsionesService.numPlazasPkn()}} plazas de parking.</p>
+       <h5> Total {{garItem.totalPotenciaGaragekW |number}} kW.</h5>
         <div class="btn ion-button btnEliminar" (click)="this.previsionesService.eliminarGarage(garItem)"><ion-icon
             name="trash"></ion-icon>
         </div>
@@ -75,4 +77,5 @@
       <li>No hay ningún local definido.</li>
       }
     </ion-row>
+  </section>
   </ion-grid>
