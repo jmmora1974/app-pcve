@@ -61,24 +61,12 @@ export class PrevisionesService {
   cs = signal(0);
 
 
-  /** Variables para locales */
-  Ploc=signal(0);
-  listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
-
-   /** Variables para garages */
-   PGar=signal(0);
-   listaGarages: WritableSignal<IGarage[]> = signal<IGarage[]>([]);
-
-   /** Variables para Irves */
-  numIrves: number = 0;
-
-  public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
+   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
     { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5.75 },
     { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
     { id: 3, nombre: 'Contratada', descripcion: 'Vivienda con potencia contratada o con tarifa nocturna.', potencia: 0 }
   ];
-  numPlazasPkn = signal(0);
 
   /* Variables necesarias para calcular  P Servicios gnerales */
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
@@ -95,6 +83,17 @@ export class PrevisionesService {
     totalpotenciakw: 0
   };
 
+   /** Variables para locales */
+   Ploc=signal(0);
+   listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
+ 
+    /** Variables para garages */
+    PGar=signal(0);
+    listaGarages: WritableSignal<IGarage[]> = signal<IGarage[]>([]);
+    numPlazasPkn = signal(0);
+ 
+    /** Variables para Irves */
+   numIrves: number = 0;
 
 
   //Servicios de mensajeria
@@ -343,6 +342,9 @@ agregarGarage(modelGarage: IGarage) {
       modelGarage=this.calculaPotGarage(modelGarage);
       this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
   }
+
+  if (modelGarage.numPlazas){this.numPlazasPkn.update((value:number)=> value+modelGarage.numPlazas!);  }
+  
   modelGarage.id=this.listaGarages().length;
   this.listaGarages.update((values:IGarage[])=>[...values,modelGarage]);
   console.log("Agregado garage ", modelGarage);
@@ -483,6 +485,7 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
      if (encontradoLocal){ 
        console.log("lista temp encontrado ",listaLocalTemp);
          this.listaLocales.set(listaLocalTemp);
+         
        }
   }
 
@@ -510,6 +513,7 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
      if (encontradoGarage){ 
        console.log("lista temp encontrado ",listaGarageTemp);
          this.listaGarages.set(listaGarageTemp);
+         
        }
   }
 

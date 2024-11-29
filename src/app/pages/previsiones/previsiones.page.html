@@ -322,7 +322,7 @@
             {{garageItem.numPlantas}} plantas de {{garageItem.mtsGarage}} mts con potencia de {{garageItem.potGarage|number}} kW.
             Total {{garageItem.totalPotenciaGaragekW |number}} kW.
             <div class="btn ion-button btnEliminar"
-                (click)="this.previsionesService.eliminarGarage(garageItem)"><ion-icon name="trash"></ion-icon>
+                (click)="this.eliminarGarage(garageItem)"><ion-icon name="trash"></ion-icon>
             </div>
           </ion-col>
         } @empty {
