@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AlertController, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
+import { AlertController, IonSelect, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
 import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
 import { PrevisionesService } from '../../../services/previsiones.service';
 import { IonSelectCustomEvent } from '@ionic/core';
@@ -55,7 +55,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       id: [this.numIdVivienda],
       numViv:  new FormControl (0, [Validators.required]),
       tipoViv: [this.tipoViviendas[0]],
-      potViv: [this.tipoViviendas[0].potencia],
+      potViv: new FormControl({value: this.tipoViviendas[0].potencia, disabled: true}, Validators.required),
       numVivIrve: [0],
       potIrve: [3.68],
       
@@ -92,6 +92,10 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       this.nuevaVivienda.tipo= this.formViviendaM.get('tipoViv')?.value ;
       if (this.nuevaVivienda.tipo.nombre=="Contratada" ){
         this.nuevaVivienda.tipo.potencia = this.formViviendaM.get('potViv')?.value;
+        if(this.nuevaVivienda.tipo.potencia==0 || this.nuevaVivienda.tipo.potencia ==undefined ){
+          this.utilserv.showAlert ("Error potencia irve","La potencia del irve ha de ser un número positivo.")
+      return "";
+        }
   
       }
       
@@ -110,12 +114,46 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
 //Funcion que controla el select de tipo de vivienda
   cambiaTipoVivienda(ev:any) {
-    //console.log('Current value:', JSON.stringify(ev.target.value));
+    console.log('Current cambio tipo vivienda:', JSON.stringify(ev.value));
     
     this.nuevaVivienda.numViviendas=this.numeroviviendas;
     const tipVivtemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
     this.potenciaViv =tipVivtemp.potencia;
-    //console.log('tipo potencia', JSON.stringify(tipVivtemp));
+    
+    console.log('tipo potencia', JSON.stringify(tipVivtemp));
+
+    const potVivienda = document.getElementById("txtPotVivienda");
+    const medidaVivienda= document.getElementById("selMedidaPotenciaVivienda") as HTMLIonSelectElement;
+
+    potVivienda!.setAttribute("disabled", "true");
+    medidaVivienda.setAttribute('disabled', 'true');
+       
+    potVivienda?.setAttribute('readonly', 'true');
+    medidaVivienda.setAttribute('readonly', 'true');
+   
+    document.getElementById("medPotMotorAsc")?.setAttribute('value', 'kW');
+    switch (tipVivtemp.nombre) {
+      case "Basica":
+        this.potenciaViv = tipVivtemp.potencia;
+        return this.potenciaViv;
+      case "Elevada":
+        this.potenciaViv =tipVivtemp.potencia;
+        return this.potenciaViv;
+      
+      default:
+        this.potenciaViv =0;
+        potVivienda?.removeAttribute('readonly');
+        potVivienda?.setAttribute("disabled", "false");
+        medidaVivienda.removeAttribute('readonly');
+        medidaVivienda?.setAttribute("disabled", "false");
+        return "0";
+    }
+
+  }
+
+  cambiaPotIrve(){
+
+    console.log("en cambio pot irve")
   }
 
 }

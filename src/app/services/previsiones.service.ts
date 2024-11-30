@@ -20,7 +20,7 @@ import { IGarage } from '../models/igarage';
 
 
 export class PrevisionesService {
-  
+
   listaViviendas: WritableSignal<IVivienda[]> = signal<IVivienda[]>([]);
   listaPrevisiones: WritableSignal<IPrevision[]> = signal<IPrevision[]>([]);
   listaIrve: WritableSignal<IIrve[]> = signal<IIrve[]>([]);
@@ -61,7 +61,7 @@ export class PrevisionesService {
   cs = signal(0);
 
 
-   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
+  public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
     { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5.75 },
     { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
@@ -83,22 +83,22 @@ export class PrevisionesService {
     totalpotenciakw: 0
   };
 
-   /** Variables para locales */
-   Ploc=signal(0);
-   listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
- 
-    /** Variables para garages */
-    PGar=signal(0);
-    listaGarages: WritableSignal<IGarage[]> = signal<IGarage[]>([]);
-    numPlazasPkn = signal(0);
- 
-    /** Variables para Irves */
-   numIrves: number = 0;
+  /** Variables para locales */
+  Ploc = signal(0);
+  listaLocales: WritableSignal<ILocal[]> = signal<ILocal[]>([]);
+
+  /** Variables para garages */
+  PGar = signal(0);
+  listaGarages: WritableSignal<IGarage[]> = signal<IGarage[]>([]);
+  numPlazasPkn = signal(0);
+
+  /** Variables para Irves */
+  numIrves: number = 0;
 
 
   //Servicios de mensajeria
   utilService = inject(UtilsService);
-  
+
 
   //Constructor
   constructor() {
@@ -194,7 +194,7 @@ export class PrevisionesService {
     let potenciaConvertidaAsc = this.pasarakW(modelAsc.potenciaMotorAsc, modelAsc.medidaPotencia!);
     this.Pasc.update((value: number) => value + modelAsc.numAscensores * potenciaConvertidaAsc * 1.3);
 
-    modelAsc.id=this.listaAscensores().length;
+    modelAsc.id = this.listaAscensores().length;
     this.listaAscensores.update((values: IAscensor[]) => [...values, {
       id: modelAsc.id,
       numAscensores: modelAsc.numAscensores,
@@ -214,7 +214,7 @@ export class PrevisionesService {
     //calculamos y pasamos la potencia a kW según el valor del selector
     // ya obtenido el motor de mayor potencia, se ha de multiplicar por 1.25, por lo tanto solo sumamos el res de multiplicar por 0.25
     let potenciaConvertidaGM = this.pasarakW(mGMotor.potenciaGMotor, mGMotor.medidaPotencia);
-    if (this.listaGMotor().length == 0 || this.PgmmaxPot==undefined) {
+    if (this.listaGMotor().length == 0 || this.PgmmaxPot == undefined) {
       this.PgmmaxPot = mGMotor;
       this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
       this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
@@ -223,21 +223,21 @@ export class PrevisionesService {
       //let potenciaConvertidaGMMayor = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
       //this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGMMayor;
 
-      if ( this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
+      if (this.PgmmaxPot.totalpotenciakw! < potenciaConvertidaGM) {
         console.log('potrcomnve max', this.PgmmaxPot.totalpotenciakw, 'valoe ', this.Pgm());
 
         this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
-        
-        this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
-        
 
-        console.log('potrcomnve max desp', this.PgmmaxPot.totalpotenciakw, 'valo ', this.Pgm(),mGMotor);
+        this.Pgm.update((value: number) => value + potenciaConvertidaGM * 0.25);
+
+
+        console.log('potrcomnve max desp', this.PgmmaxPot.totalpotenciakw, 'valo ', this.Pgm(), mGMotor);
         this.PgmmaxPot = mGMotor;
         //this.PgmmaxPot.numGMotores = 1;  //por si queremos calcular el valor de un solo motor
         this.PgmmaxPot.totalpotenciakw = potenciaConvertidaGM;
 
       } else {
-        console.log("LA POT ES MAYOR.", mGMotor, 'pote conv',potenciaConvertidaGM);
+        console.log("LA POT ES MAYOR.", mGMotor, 'pote conv', potenciaConvertidaGM);
       }
 
 
@@ -249,7 +249,7 @@ export class PrevisionesService {
     this.Pgm.update((value: number) => value + (mGMotor.numGMotores * potenciaConvertidaGM));
 
     mGMotor.totalpotenciakw = mGMotor.numGMotores * potenciaConvertidaGM;
-    mGMotor.id= this.listaGMotor().length;
+    mGMotor.id = this.listaGMotor().length;
     this.listaGMotor.update((values: IGMotor[]) => [...values, {
       id: mGMotor.id,
       numGMotores: mGMotor.numGMotores,
@@ -264,13 +264,13 @@ export class PrevisionesService {
 
 
   }
-/*--- Funcion para agregar alumbrado --*/
-agregarAlumbrado (mAlumbrado:IAlumbrado){
-  if (mAlumbrado.mtsAlumbrado! > 0) {
-    //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
-    mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
-  };
-    if (mAlumbrado.potLamparas! > 0 )  {
+  /*--- Funcion para agregar alumbrado --*/
+  agregarAlumbrado(mAlumbrado: IAlumbrado) {
+    if (mAlumbrado.mtsAlumbrado! > 0) {
+      //Calculamos y sumamos la potencia de alumbado de caja de escalera y/o portal y espacios comunes.
+      mAlumbrado.totalPotenciaAlumkW += mAlumbrado.mtsAlumbrado! * mAlumbrado.tipoAlumbrado!.potAlum;
+    };
+    if (mAlumbrado.potLamparas! > 0) {
 
       //Calculamos por numero de lamparas y potencia
       let potTempLamp = mAlumbrado.numLamparas! * mAlumbrado.potLamparas!;
@@ -278,88 +278,88 @@ agregarAlumbrado (mAlumbrado:IAlumbrado){
       //comprobamos si está en kW o W
       if (mAlumbrado.medidaPotencia?.toUpperCase() == "W") {
         //console.log("es lampara W");
-        potTempLamp = potTempLamp/ 1000;
+        potTempLamp = potTempLamp / 1000;
       }
       //Si son lamparas de descarga fluorescentes, se multiplica por el coef 1,8
       if (mAlumbrado.lampFluorescente) {
         console.log("es lampara fluorescente");
         potTempLamp *= 1.8;
       }
-      mAlumbrado.totalPotenciaAlumkW+=potTempLamp;
-    } 
-   
-  
-  if (mAlumbrado.totalPotenciaAlumkW>0){ 
-    mAlumbrado.id= this.listaAlumbrado().length;
-    this.PAlum.update((value: number) => value + mAlumbrado.totalPotenciaAlumkW);
-    this.listaAlumbrado.update((values: IAlumbrado[]) => [...values, mAlumbrado]);
-    this.utilService.showAlert('Creado alumbrado','Agregado alumbrado con id :' +mAlumbrado.id+ ' de ' +mAlumbrado.mtsAlumbrado +' mts de '
-      + mAlumbrado.tipoAlumbrado?.nombreAlum +' y '+mAlumbrado.numLamparas + ' de '+mAlumbrado.potLamparas + mAlumbrado.medidaPotencia 
-      +' fluorescencia '+ mAlumbrado.lampFluorescente);
-    console.log('Se ha agregado el alumbrado.', mAlumbrado , 'listado',this.listaAlumbrado() );
-    
-  } else {
+      mAlumbrado.totalPotenciaAlumkW += potTempLamp;
+    }
 
-    console.log("No hay nada calculado.")
+
+    if (mAlumbrado.totalPotenciaAlumkW > 0) {
+      mAlumbrado.id = this.listaAlumbrado().length;
+      this.PAlum.update((value: number) => value + mAlumbrado.totalPotenciaAlumkW);
+      this.listaAlumbrado.update((values: IAlumbrado[]) => [...values, mAlumbrado]);
+      this.utilService.showAlert('Creado alumbrado', 'Agregado alumbrado con id :' + mAlumbrado.id + ' de ' + mAlumbrado.mtsAlumbrado + ' mts de '
+        + mAlumbrado.tipoAlumbrado?.nombreAlum + ' y ' + mAlumbrado.numLamparas + ' de ' + mAlumbrado.potLamparas + mAlumbrado.medidaPotencia
+        + ' fluorescencia ' + mAlumbrado.lampFluorescente);
+      console.log('Se ha agregado el alumbrado.', mAlumbrado, 'listado', this.listaAlumbrado());
+
+    } else {
+
+      console.log("No hay nada calculado.")
+    }
+
   }
-  
-}
-/*--- Funcion para agregar locales --*/
-agregarLocal(mLocal: ILocal) {
+  /*--- Funcion para agregar locales --*/
+  agregarLocal(mLocal: ILocal) {
 
-  if(mLocal.potLocal>0 && mLocal.totalPotenciaLocalkW>0 ){
+    if (mLocal.potLocal > 0 && mLocal.totalPotenciaLocalkW > 0) {
 
-    this.Ploc.update ((value:number)=>value+mLocal.totalPotenciaLocalkW);
-  } else {
-      mLocal=this.calculaPotLocal(mLocal);
-      this.Ploc.update ((value:number)=>value+mLocal.totalPotenciaLocalkW);
-  }
-  mLocal.id=this.listaLocales().length;
-  this.listaLocales.update((values:ILocal[])=>[...values,mLocal]);
-  console.log("Agregado local ", mLocal);
-    
-}
+      this.Ploc.update((value: number) => value + mLocal.totalPotenciaLocalkW);
+    } else {
+      mLocal = this.calculaPotLocal(mLocal);
+      this.Ploc.update((value: number) => value + mLocal.totalPotenciaLocalkW);
+    }
+    mLocal.id = this.listaLocales().length;
+    this.listaLocales.update((values: ILocal[]) => [...values, mLocal]);
+    console.log("Agregado local ", mLocal);
 
-calculaPotLocal(cLoc:ILocal ):ILocal{
-  if (cLoc.mtsLocal<34.5) {
-      cLoc.potLocal=3.45;
-  }else {
-    cLoc.potLocal=cLoc.mtsLocal*0.1;
-  }
-  
-  cLoc.totalPotenciaLocalkW=cLoc.numLocales*cLoc.potLocal;
-
-  return cLoc;
-
-}
-
-/*--- Funcion para agregar garage --*/
-agregarGarage(modelGarage: IGarage) {
-  if(modelGarage.potGarage>0 && modelGarage.totalPotenciaGaragekW>0 ){
-
-    this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
-  } else {
-      modelGarage=this.calculaPotGarage(modelGarage);
-      this.PGar.update ((value:number)=>value+modelGarage.totalPotenciaGaragekW);
   }
 
-  if (modelGarage.numPlazas){this.numPlazasPkn.update((value:number)=> value+modelGarage.numPlazas!);  };
-  
-  modelGarage.id=this.listaGarages().length;
-  this.listaGarages.update((values:IGarage[])=>[...values,modelGarage]);
-  console.log("Agregado garage ", modelGarage);
-    
-}
+  calculaPotLocal(cLoc: ILocal): ILocal {
+    if (cLoc.mtsLocal < 34.5) {
+      cLoc.potLocal = 3.45;
+    } else {
+      cLoc.potLocal = cLoc.mtsLocal * 0.1;
+    }
 
-calculaPotGarage(cGarage:IGarage ):IGarage{
-  
-  cGarage.potGarage = cGarage.mtsGarage * cGarage.ventilacion;
+    cLoc.totalPotenciaLocalkW = cLoc.numLocales * cLoc.potLocal;
+
+    return cLoc;
+
+  }
+
+  /*--- Funcion para agregar garage --*/
+  agregarGarage(modelGarage: IGarage) {
+    if (modelGarage.potGarage > 0 && modelGarage.totalPotenciaGaragekW > 0) {
+
+      this.PGar.update((value: number) => value + modelGarage.totalPotenciaGaragekW);
+    } else {
+      modelGarage = this.calculaPotGarage(modelGarage);
+      this.PGar.update((value: number) => value + modelGarage.totalPotenciaGaragekW);
+    }
+
+    if (modelGarage.numPlazas) { this.numPlazasPkn.update((value: number) => value + modelGarage.numPlazas!); };
+
+    modelGarage.id = this.listaGarages().length;
+    this.listaGarages.update((values: IGarage[]) => [...values, modelGarage]);
+    console.log("Agregado garage ", modelGarage);
+
+  }
+
+  calculaPotGarage(cGarage: IGarage): IGarage {
+
+    cGarage.potGarage = cGarage.mtsGarage * cGarage.ventilacion;
 
 
-  cGarage.totalPotenciaGaragekW = cGarage.numPlantas * cGarage.potGarage;
-  return cGarage;
+    cGarage.totalPotenciaGaragekW = cGarage.numPlantas * cGarage.potGarage;
+    return cGarage;
 
-}
+  }
 
   /*--- Funcion para eliminar ascensor --*/
   eliminaAscensor(idAsc: IAscensor) {
@@ -390,7 +390,7 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
     this.listaGMotor().forEach((itemgm) => {
 
       if (itemgm.id != idGM.id) {
-        itemgm.id=contGM;
+        itemgm.id = contGM;
         listaGMTemp.push(itemgm);
         contGM++;
       } else {
@@ -402,24 +402,24 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
     });
 
     if (encontradoGM) {
-       this.listaGMotor.set(listaGMTemp);
-        this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
-        this.PgmmaxPot = this.buscaGMmasPotente();
-        console.log('El motor mas pot de busca',this.PgmmaxPot);
-        this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
-        this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
-      }
-
-      if (listaGMTemp.length == 0) {
-        this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
-        this.Pgm.set(0);
-      }
-      
-
+      this.listaGMotor.set(listaGMTemp);
+      this.Pgm.update((value: number) => value - (this.PgmmaxPot.totalpotenciakw! * 0.25));
+      this.PgmmaxPot = this.buscaGMmasPotente();
+      console.log('El motor mas pot de busca', this.PgmmaxPot);
+      this.PgmmaxPot.totalpotenciakw = this.pasarakW(this.PgmmaxPot.potenciaGMotor, this.PgmmaxPot.medidaPotencia);
+      this.Pgm.update((value: number) => value + (this.PgmmaxPot.totalpotenciakw! * 0.25));
     }
-  
+
+    if (listaGMTemp.length == 0) {
+      this.PgmmaxPot != null; //Si la lista de GM esta vacia reseteamos la variable de motor de mayor potencia.(no a 0 para no confundir con el id 0)
+      this.Pgm.set(0);
+    }
+
+
+  }
+
   //Funcion que busca el motor de mayor potencia y retorna un IGMotor.
-  buscaGMmasPotente():IGMotor {
+  buscaGMmasPotente(): IGMotor {
     let GMTemp: IGMotor;
     this.listaGMotor().forEach(elementgm => {
       let potMotTemp = this.pasarakW(elementgm.potenciaGMotor, elementgm.medidaPotencia);
@@ -432,91 +432,91 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
     return GMTemp!;
   }
   /* Funcion para eliminar alumbrado.*/
-  eliminaAlumbrado(moAlumbrado: IAlumbrado) { 
+  eliminaAlumbrado(moAlumbrado: IAlumbrado) {
     //Actualizamos el valor de Palum
     this.PAlum.update((value: number) => value - moAlumbrado.totalPotenciaAlumkW);
-    
+
     //Eliminamos y reordenamos la lista alumbrado
-    let encontradoAlum:boolean=false;
-    let listaAlumTemp:IAlumbrado[]=[];
-    let contAlumElim=0;
-    this.listaAlumbrado().forEach((elemAl:IAlumbrado)=>{
-      console.log('buscando',elemAl);
-        if (elemAl.id!=moAlumbrado.id){
-          elemAl.id=contAlumElim;
-          listaAlumTemp.push(elemAl);
-          contAlumElim++;
-          console.log('agregado',elemAl,"lista temp alumb ",listaAlumTemp);
-        }else {
-          encontradoAlum=true;
-       }
+    let encontradoAlum: boolean = false;
+    let listaAlumTemp: IAlumbrado[] = [];
+    let contAlumElim = 0;
+    this.listaAlumbrado().forEach((elemAl: IAlumbrado) => {
+      console.log('buscando', elemAl);
+      if (elemAl.id != moAlumbrado.id) {
+        elemAl.id = contAlumElim;
+        listaAlumTemp.push(elemAl);
+        contAlumElim++;
+        console.log('agregado', elemAl, "lista temp alumb ", listaAlumTemp);
+      } else {
+        encontradoAlum = true;
+      }
     });
 
-    if (encontradoAlum){ 
-      console.log("lista temp encontrado ",listaAlumTemp);
-        this.listaAlumbrado.set(listaAlumTemp);
-      }
-    
+    if (encontradoAlum) {
+      console.log("lista temp encontrado ", listaAlumTemp);
+      this.listaAlumbrado.set(listaAlumTemp);
+    }
+
 
 
   }
 
-/* Funcion para eliminar local.*/
+  /* Funcion para eliminar local.*/
   eliminarLocal(local: ILocal) {
-     //Actualizamos el valor de Palum
-     this.Ploc.update((value: number) => value - local.totalPotenciaLocalkW);
-    
-     //Eliminamos y reordenamos la lista alumbrado
-     let encontradoLocal:boolean=false;
-     let listaLocalTemp:ILocal[]=[];
-     let contLocElim=0;
-     this.listaLocales().forEach((elemLocal:ILocal)=>{
-       console.log('buscando local',elemLocal);
-         if (elemLocal.id!=local.id){
-          elemLocal.id=contLocElim;
-           listaLocalTemp.push(elemLocal);
-           contLocElim++;
-           console.log('agregado',elemLocal,"lista temp alumb ",listaLocalTemp);
-         }else {
-           encontradoLocal=true;
-        }
-     });
- 
-     if (encontradoLocal){ 
-       console.log("lista temp encontrado ",listaLocalTemp);
-         this.listaLocales.set(listaLocalTemp);
-         
-       }
+    //Actualizamos el valor de Palum
+    this.Ploc.update((value: number) => value - local.totalPotenciaLocalkW);
+
+    //Eliminamos y reordenamos la lista alumbrado
+    let encontradoLocal: boolean = false;
+    let listaLocalTemp: ILocal[] = [];
+    let contLocElim = 0;
+    this.listaLocales().forEach((elemLocal: ILocal) => {
+      console.log('buscando local', elemLocal);
+      if (elemLocal.id != local.id) {
+        elemLocal.id = contLocElim;
+        listaLocalTemp.push(elemLocal);
+        contLocElim++;
+        console.log('agregado', elemLocal, "lista temp alumb ", listaLocalTemp);
+      } else {
+        encontradoLocal = true;
+      }
+    });
+
+    if (encontradoLocal) {
+      console.log("lista temp encontrado ", listaLocalTemp);
+      this.listaLocales.set(listaLocalTemp);
+
+    }
   }
 
   /* Funcion para eliminar garage.*/
   eliminarGarage(garageElement: IGarage) {
-     //Actualizamos el valor de Palum
-     this.PGar.update((value: number) => value - garageElement.totalPotenciaGaragekW);
-    
-     //Eliminamos y reordenamos la lista garage
-     let encontradoGarage:boolean=false;
-     let listaGarageTemp:IGarage[]=[];
-     let contLocElim=0;
-     this.listaGarages().forEach((elemGarage:IGarage)=>{
-       console.log('buscando Garage',elemGarage);
-         if (elemGarage.id!=garageElement.id){
-          elemGarage.id=contLocElim;
-           listaGarageTemp.push(elemGarage);
-           contLocElim++;
-           console.log('agregado',elemGarage,"lista temp alumb ",listaGarageTemp);
-         }else {
-           encontradoGarage=true;
-           if (garageElement.numPlazas!>0){this.numPlazasPkn.update((value:number)=> value-garageElement.numPlazas!);  };
-        }
-     });
- 
-     if (encontradoGarage){ 
-       console.log("lista temp encontrado ",listaGarageTemp);
-         this.listaGarages.set(listaGarageTemp);
-        
-         
-       }
+    //Actualizamos el valor de Palum
+    this.PGar.update((value: number) => value - garageElement.totalPotenciaGaragekW);
+
+    //Eliminamos y reordenamos la lista garage
+    let encontradoGarage: boolean = false;
+    let listaGarageTemp: IGarage[] = [];
+    let contLocElim = 0;
+    this.listaGarages().forEach((elemGarage: IGarage) => {
+      console.log('buscando Garage', elemGarage);
+      if (elemGarage.id != garageElement.id) {
+        elemGarage.id = contLocElim;
+        listaGarageTemp.push(elemGarage);
+        contLocElim++;
+        console.log('agregado', elemGarage, "lista temp alumb ", listaGarageTemp);
+      } else {
+        encontradoGarage = true;
+        if (garageElement.numPlazas! > 0) { this.numPlazasPkn.update((value: number) => value - garageElement.numPlazas!); };
+      }
+    });
+
+    if (encontradoGarage) {
+      console.log("lista temp encontrado ", listaGarageTemp);
+      this.listaGarages.set(listaGarageTemp);
+
+
+    }
   }
 
 
@@ -608,24 +608,28 @@ calculaPotGarage(cGarage:IGarage ):IGarage{
 
     });
 
+    //Comprobamos si el numero de irves ess el 10% de las plazas de parking
+
     let minIrve = Math.ceil(this.numPlazasPkn() / 10);
+    let difIrve = minIrve - this.numIrves;
     console.log("10% plazas pkn", this.numIrves)
     if (this.numIrves < minIrve) {
-
-      let vivTemp: IVivienda = this.listaViviendas()[this.listaViviendas().length - 1];
-
-      console.log('irv', vivTemp, 'difff', minIrve - this.numIrves);
-      if (vivTemp?.conIrve != undefined) {
-
-        vivTemp.conIrve += (minIrve - this.numIrves);
-        console.log('irv', vivTemp.conIrve);
-        this.eliminaVivienda(vivTemp.id);
-        this.agregraVivienda(vivTemp!);
-        //this.calculaP1();
+      //si el numero de irves es menor, crea una vivienda de potencia basica con la diferencia de irves necesaria
+      let vivTemp: IVivienda = {
+        id: this.listaViviendas().length,
+        numViviendas: difIrve,
+        tipo: this.tipoViviendas[0],
+        conIrve: difIrve,
+        potIrve: 3.68,
       }
 
+      console.log('irv', vivTemp, 'difff', difIrve);
 
-      alert('Irve insuficientes. El mínimo de Irves ha de ser del 10% .Se ha modificado el calculo para ' + minIrve);
+
+      this.agregraVivienda(vivTemp!);
+      //this.calculaP1();
+
+      this.utilService.showAlert('Irve insuficientes.', ' El mínimo de Irves ha de ser del 10% .Se ha modificado el calculo  y se ha agregado ' + difIrve + ' viendas con ' + difIrve + ' irves.');
       //return 0;
     }
 

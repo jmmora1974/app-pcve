@@ -2,7 +2,11 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 
 .ng-valid[required], .ng-valid.required  {
-    border-bottom:5px dotted #f7c746; /* green */
+    border-bottom:2px dotted #54c66b; /* orange */
+  }
+
+  .ng-untouched {
+    border:5px solid #9e7c0c; /* orange */
   }
   
 .ng-invalid:not(form)  {
@@ -10,7 +14,7 @@
 }
 
 .ng-valid {
-  border:2px solid #54e029; /* green */
+  border:none; /* green */
 }
 .ng-invalid[required], .ng-valid.required  {
   border-bottom: 3px solid #eb1b10; /* orange */
@@ -27,8 +31,10 @@ section{
 }
 
 ion-item {
- 
+  display: block;
+ text-align: center;
   align-items: start;
+
 }
 
 ion-col {
@@ -39,27 +45,28 @@ ion-col {
 }
 
  ion-form{
+    display: inline-flexbox;
     background-color: #b95f2b;
     border: solid 1px #2b51b9;
     color: #0c0a7a;
     text-align: start;
+    margin: auto;
+    vertical-align: middle;
  }
 
-ion-select-option {
-    background-color: #68a72d;
-    border: solid 2px #0f1730;
-    --border-radius: 8px;
-    color: #aa2727;
-    text-align: center;
-  }
 
-  ion-label{
+
+  label{
     padding: 5px;
+    color: primary;
   }
 
   ion-input{
-    text-align: right;
-    max-width: 80px;
+    padding: 10px 5px 2px 2px;
+    margin: auto;
+    max-width: 60px;
     background-color: #dbf0c8;
     border: unset 1px #0f1730;
+    text-align: center;
+    vertical-align: middle
   }

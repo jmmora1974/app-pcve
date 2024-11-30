@@ -23,27 +23,38 @@
       </ion-item>
       <ion-item>
         <ion-label color="primary" >con Irve?:</ion-label>
-        <ion-input formControlName="numVivIrve" type="number" min="0" class=" form-control ng-untouched ng-pristine ng-valid" ></ion-input>
+        <ion-input formControlName="numVivIrve" type="number" min="0" class=" form-control ng-untouched ng-pristine ng-valid"  (onkeyup)="cambiaPotIrve()" required></ion-input>
         <ion-label color="primary" >potencia Irve?:</ion-label>
-        <ion-input formControlName="potIrve" type="number" min="0" value=3.68></ion-input>
-        <ion-label>kW </ion-label>
+        <ion-input formControlName="potIrve" id="potIrve" type="number" min="0" value=0 ></ion-input>
+       
+        <ion-select id="selMedidaPotenciaIrve" class="form-control ng-valid ng-pristine ng-untouched" placeholder="kW" 
+        name="selMedidaPotenciaVivienda" interface="popover"  >
+       <ion-select-option value="W">kW</ion-select-option>
+       <ion-select-option value="kW">W</ion-select-option>
+       </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label bg="dark">Tipo: </ion-label>
 
         <ion-item>
-          <ion-select aria-label="Tipo Viviendas" interface="popover" formControlName="tipoViv"
-            placeholder="Selecciona tipo" (ionChange)="cambiaTipoVivienda($event)">
+          <ion-select id="selTipoViviendas" interface="popover" formControlName="tipoViv"
+            placeholder="Selecciona tipo" (ionChange)="cambiaTipoVivienda($event.target)">
             <ion-select-option *ngFor="let tipoViviviendaM of tipoViviendas" [value]="tipoViviviendaM">{{
               tipoViviviendaM.id }}.-{{ tipoViviviendaM.nombre }} - {{ tipoViviviendaM.descripcion }}
             </ion-select-option>
           </ion-select>
 
+
         </ion-item>
-        <ion-label>Potencia: </ion-label>
-        <ion-input size="10" enabled=false formControlName="potViv"  min="0" [(ngModel)]="potenciaViv" type="number"></ion-input>
-        <ion-label>kW </ion-label>
+        <ion-label for="txtPotVivienda">Potencia: </ion-label>
+        <ion-input id="txtPotVivienda" formControlName="potViv"  min="0" [readonly]="true" [(ngModel)]="potenciaViv" type="number" required ></ion-input>
+
+        <ion-select id="selMedidaPotenciaVivienda" class="form-control ng-valid ng-pristine ng-untouched" placeholder="kW" 
+         name="selMedidaPotenciaVivienda" interface="popover"  [disabled]="true">
+        <ion-select-option value="W">kW</ion-select-option>
+        <ion-select-option value="kW">W</ion-select-option>
+        </ion-select>
         
 
       </ion-item>
