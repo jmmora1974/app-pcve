@@ -26,12 +26,10 @@
   border: 5px solid #a94442; /* red */
 }
 
-section{
-  display: inline-flexbox;
-}
+
 
 ion-item {
-  display: block;
+  display: inline-flexbox;
  text-align: center;
   align-items: start;
 
@@ -44,15 +42,7 @@ ion-col {
   
 }
 
- ion-form{
-    display: inline-flexbox;
-    background-color: #b95f2b;
-    border: solid 1px #2b51b9;
-    color: #0c0a7a;
-    text-align: start;
-    margin: auto;
-    vertical-align: middle;
- }
+ 
 
 
 
