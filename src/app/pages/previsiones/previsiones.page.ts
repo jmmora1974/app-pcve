@@ -230,10 +230,33 @@ export class PrevisionesPage {
 
     //Si ya hay viviendas creadas, cambia el color del boton.
     if (this.previsionesService.listaViviendas().length>0) {
-      document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
-    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
+      document.getElementById("btnAgregarViv")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
+
     
-    console.log('tile ', this.tiles[6].text);
+    //Si ya hay servicos generales creados, cambia el color del boton.
+    if ((this.previsionesService.PAlum()+this.previsionesService.Pasc()+this.previsionesService.Pgm())>0) {
+      document.getElementById("btnAgregarSerGen")?.setAttribute('color','success') ;
+      
+    } else  document.getElementById("btnAgregarSerGen")?.setAttribute('color','warning') ;
+
+    //Si ya hay locales creados, cambia el color del boton.
+    if (this.previsionesService.Ploc()>0) {
+      document.getElementById("btnAgregarLocales")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarLocales")?.setAttribute('color','warning') ;
+    
+
+     //Si ya hay garages creados, cambia el color del boton.
+     if ((this.previsionesService.PGar())>0) {
+      document.getElementById("btnAgregarGarage")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarGarage")?.setAttribute('color','warning') ;
+    
+
+    
+
+    
+    
+    //console.log('tile ', this.tiles[6].text);
 
     //}
 
