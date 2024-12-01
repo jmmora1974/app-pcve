@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertController, IonSelect, LoadingController, ModalController, NavParams, SelectChangeEventDetail } from '@ionic/angular';
 import { ITipoVivienda, IVivienda } from 'src/app/models/ivivienda';
 import { PrevisionesService } from '../../../services/previsiones.service';
-import { IonSelectCustomEvent } from '@ionic/core';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
@@ -13,11 +12,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class MoldalViviendaPage implements OnInit {
   previsionesService=inject(PrevisionesService);
-   public tipoViviendas: ITipoVivienda[] = [
-    { id: 0, nombre: 'Basica', descripcion:'Vivienda standard',  potencia: 5.75 },
-    { id: 1, nombre: 'Elevada', descripcion:'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
-    { id: 2, nombre: 'Contratada',descripcion:'Vivienda con potencia contratada o con tarifa nocturna.',  potencia: 0 }
-  ];
+   public tipoViviendas=this.previsionesService.tipoViviendas;
+
   potenciaViv?: number=5.75;
   numIdVivienda:number=0;
   numeroviviendas: number=0;
@@ -27,7 +23,8 @@ export class MoldalViviendaPage implements OnInit {
     numViviendas: 0,
     tipo: this.tipoViviendas[0] ,
     conIrve:0,
-    potIrve:3.68
+    potIrve:3.68,
+    medidaPotIrve:'kW'
    
   }
 customOptions:(new () => ITipoVivienda[]) | undefined ;
@@ -93,7 +90,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       if (this.nuevaVivienda.tipo.nombre=="Contratada" ){
         this.nuevaVivienda.tipo.potencia = this.formViviendaM.get('potViv')?.value;
         if(this.nuevaVivienda.tipo.potencia==0 || this.nuevaVivienda.tipo.potencia ==undefined ){
-          this.utilserv.showAlert ("Error potencia irve","La potencia del irve ha de ser un número positivo.")
+          this.utilserv.showAlert ("Error potencia vivienda","La potencia de la vivienda contrada ha de ser un número positivo.")
       return "";
         }
   
@@ -103,6 +100,24 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       this.numIdVivienda!++;
       this.nuevaVivienda.conIrve=this.formViviendaM.get('numVivIrve')?.value ;
       this.nuevaVivienda.potIrve=this.formViviendaM.get('potIrve')?.value ;
+
+      console.log("this.nuevaVivienda.tipo.medidaPotVivienda?", this.nuevaVivienda.tipo.medidaPotVivienda);
+      
+      //Comprobamos si las potencias esta en Watios para pasarlos a KW
+      if (this.nuevaVivienda.tipo.medidaPotVivienda?.toUpperCase()=='W'){
+        this.nuevaVivienda.tipo.potencia!/=1000;
+        this.nuevaVivienda.tipo.medidaPotVivienda='kW';
+        console.log("med potvic era W y se ha pasado a kW");
+      }
+
+      //Comprobamos si las potencias esta en Watios para pasarlos a KW
+      if (this.nuevaVivienda.medidaPotIrve=='W'){
+        this.nuevaVivienda.potIrve!/=1000;
+        this.nuevaVivienda.medidaPotIrve='kW';
+        console.log("med pot irve era W y se ha pasado a kW");
+      }
+
+
       
       return this.modalCtrl.dismiss(this.nuevaVivienda, 'confirm');
     } else {
@@ -120,7 +135,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     const tipVivtemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
     this.potenciaViv =tipVivtemp.potencia;
     
-    console.log('tipo potencia', JSON.stringify(tipVivtemp));
+   // console.log('tipo potencia', JSON.stringify(tipVivtemp));
 
     const potVivienda = document.getElementById("txtPotVivienda");
     const medidaVivienda= document.getElementById("selMedidaPotenciaVivienda") as HTMLIonSelectElement;
@@ -131,7 +146,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
     potVivienda?.setAttribute('readonly', 'true');
     medidaVivienda.setAttribute('readonly', 'true');
    
-    document.getElementById("medPotMotorAsc")?.setAttribute('value', 'kW');
+    document.getElementById("selMedidaPotenciaVivienda")?.setAttribute('value', 'kW');
     switch (tipVivtemp.nombre) {
       case "Basica":
         this.potenciaViv = tipVivtemp.potencia;
@@ -151,9 +166,15 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
   }
 
-  cambiaPotIrve(){
-
-    console.log("en cambio pot irve")
+  cambiaTipoMedidaIrve(medIrve:string='kW'){
+    this.nuevaVivienda.medidaPotIrve=medIrve;
+    console.log('cambiaTipoMedidaIrve',medIrve)
   }
+
+  cambiaTipoMedidaVivienda(medViv:string='kw'){
+    this.nuevaVivienda.tipo.medidaPotVivienda=medViv;
+    console.log('cambiaTipoMedidaViv',medViv)
+  }
+  
 
 }

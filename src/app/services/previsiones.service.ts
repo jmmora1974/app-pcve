@@ -63,10 +63,11 @@ export class PrevisionesService {
 
   public tablaITC10: number[] = [1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7, 7.8, 8.5, 9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3];
   public tipoViviendas: ITipoVivienda[] = [
-    { id: 1, nombre: 'Basica', descripcion: 'Vivienda standard', potencia: 5.75 },
-    { id: 2, nombre: 'Elevada', descripcion: 'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2 },
-    { id: 3, nombre: 'Contratada', descripcion: 'Vivienda con potencia contratada o con tarifa nocturna.', potencia: 0 }
+    { id: 0, nombre: 'Basica', descripcion:'Vivienda standard',  potencia: 5.75 ,medidaPotVivienda:'kW'},
+    { id: 1, nombre: 'Elevada', descripcion:'Vivienda con dispositivos a alto consumo o de más de 160mts.', potencia: 9.2, medidaPotVivienda:'kW'},
+    { id: 2, nombre: 'Contratada',descripcion:'Vivienda con potencia contratada o con tarifa nocturna.',  potencia: 0, medidaPotVivienda:'kW' }
   ];
+  public medidasPotencia:string[]=['kW','W'];
 
   /* Variables necesarias para calcular  P Servicios gnerales */
   listaAscensores: WritableSignal<IAscensor[]> = signal<IAscensor[]>([]);
