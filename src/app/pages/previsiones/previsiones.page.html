@@ -151,7 +151,7 @@
 
   </ion-item-group>
 
-  <ion-item-group>
+  <ion-item-group >
     <ion-item-divider color="secondary">
       <h2> Prevision Sevicios Generales</h2>
       <ion-label slot="end">Pasc: {{this.previsionesService.Pasc().toFixed(3)}} kW Pgm:
@@ -301,7 +301,7 @@
         </ng-template>
       </ion-popover>
     </ion-item-divider>
-    <ion-col color="primary"><ion-button id="btnAgregarGarage" class="btn ion-button btnAgregar" (click)="agregarGarage()" expand="block" shape="round">
+    <ion-col color="primary"><ion-button id="btnAgregarGarage"  color="warning" class="btn ion-button btnAgregar" (click)="agregarGarage()" expand="block" shape="round">
         Agregar Garage
       </ion-button></ion-col>
     <ion-grid>
@@ -326,6 +326,7 @@
   <ion-item-group>
     <ion-item-divider color="primary">
       <ion-label>Prevision Irve</ion-label>
+      <label slot="end">PIrve: {{this.previsionesService.prevision().Pirve|number}} kW</label>
     </ion-item-divider>
     <ion-item *ngFor="let irve of previsionesService.listaIrve()">
       <ion-label>{{irve.id}}</ion-label>

@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <section>
+  <section id="secFormVivivienda">
     <ion-form [formGroup]="formViviendaM"  (ngSubmit)="agregaVivienda()">
     
       <ion-item>
@@ -20,8 +20,7 @@
         <ion-input formControlName="numViv" type="number" min="0" color="danger" class="form-control ng-untouched ng-pristine ng-valid" required></ion-input>
         <ion-label > </ion-label><ion-label > </ion-label>
         
-      </ion-item>
-      <ion-item>
+      
         <ion-label color="primary" >con Irve?:</ion-label>
         <ion-input formControlName="numVivIrve" type="number" min="0" class=" form-control ng-untouched ng-pristine ng-valid"  required></ion-input>
         <ion-label color="primary" >potencia Irve:</ion-label>

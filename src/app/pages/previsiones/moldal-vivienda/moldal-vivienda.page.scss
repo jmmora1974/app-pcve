@@ -26,20 +26,32 @@
   border: 5px solid #a94442; /* red */
 }
 
-
-
+#secFormVivivienda{
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 169px;
+}
+ion-form{
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
 ion-item {
-  display: inline-flexbox;
+  display: inherit;
+  flex-wrap: wrap;
  text-align: center;
-  align-items: start;
+  align-items:center;
+  vertical-align: middle;
 
 }
 
+
 ion-col {
+ 
   background-color: #3ea3b1;
   border: solid 1px #2b51b9;
   color: #fff;
-  
+  min-width: 60px;
 }
 
  
@@ -53,8 +65,9 @@ ion-col {
 
   ion-input{
     padding: 10px 5px 2px 2px;
-    margin: auto;
+    margin: 10px 5px 5px 5px;
     max-width: 60px;
+    min-width: 50px;
     background-color: #dbf0c8;
     border: unset 1px #0f1730;
     text-align: center;
