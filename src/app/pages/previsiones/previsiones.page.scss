@@ -18,6 +18,27 @@ mat-grid-tile {
 }
 
 :host {
+  --ion-color-primary: #79a79b;
+	--ion-color-primary-rgb: 157,173,200;
+	--ion-color-primary-contrast: #000000;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #8a98b0;
+	--ion-color-primary-tint: #a7b5ce;
+  --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
+
+	--ion-color-secondary:#a2b4d3;
+	--ion-color-secondary-rgb: 1,99,170;
+	--ion-color-secondary-contrast: #000000;
+	--ion-color-secondary-contrast-rgb: 255,255,255;
+	--ion-color-secondary-shade: #015796;
+	--ion-color-secondary-tint: #1a73b3;
+
+	--ion-color-tertiary: #e1d0ab;
+	--ion-color-tertiary-rgb: 79,102,156;
+	--ion-color-tertiary-contrast: #000000;
+	--ion-color-tertiary-contrast-rgb: 255,255,255;
+	--ion-color-tertiary-shade: #465a89;
+	--ion-color-tertiary-tint: #6175a6;
 
   body {
     background-color: var(--ion-color-light);
@@ -29,7 +50,10 @@ mat-grid-tile {
 
     @include mat.all-component-themes($theme);
   }
-
+  h2{
+    min-width: 150px;
+    font-size: 0.8em;
+  }
   #divTabla {
     width: 100%;
     scroll-behavior: smooth;
@@ -133,6 +157,7 @@ mat-grid-tile {
 
   ion-label {
     padding: 5px;
+    font-size: 0.8rem;
   }
 
   ion-item {
@@ -153,6 +178,7 @@ mat-grid-tile {
     text-align: center;
     border-radius: 5px;
     gap: 5px;
+    vertical-align: middle;
 
   }
 
@@ -215,10 +241,19 @@ mat-grid-tile {
   }
 
   #click-trigger,
-  #click-triggertv {
+  #click-triggertv,#click-triggertv2 {
     border-radius: 0;
     border: none;
   }
+
+  #infoCS *{
+    width: 5px;
+    padding: 0;
+    margin: 0;
+
+  }
+
+ 
 
 }
 
@@ -227,7 +262,7 @@ mat-grid-tile {
 #contentpop,
 .popover-content {
   border: 5px solid #2b51b9;
-  width: 500px;
+  width: 200px;
 
 }
 
