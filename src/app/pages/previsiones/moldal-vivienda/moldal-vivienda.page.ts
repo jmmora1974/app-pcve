@@ -67,10 +67,15 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
   }
 
 
-  get potTipoVivienda() {
+  get medidaTipoVivienda() {
+    return this.formViviendaM.get('tipoViv.medidaPotVivienda')?.value | 0;
+  }
+
+  get tipoVivienda() {
     return this.formViviendaM.get('tipoViv')?.value | 0;
   }
 
+ 
   get ObtenNumViviendasConIrve() {
     return this.formViviendaM.get('numVivIrve')?.value;
   }
@@ -173,8 +178,17 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
 
   cambiaTipoMedidaVivienda(medViv:string='kw'){
     this.nuevaVivienda.tipo.medidaPotVivienda=medViv;
-    console.log('cambiaTipoMedidaViv',medViv)
+   
+    const vivTemp:ITipoVivienda = this.formViviendaM.get('tipoViv')!.value;
+
+    vivTemp.medidaPotVivienda=medViv;
+    this.formViviendaM.get('tipoViv')?.setValue(vivTemp);
+    console.log('cambiaTipoMedidaViv',vivTemp);
   }
   
 
 }
+function tmedidaTipoVivienda() {
+  throw new Error('Function not implemented.');
+}
+
