@@ -1,7 +1,80 @@
+@use '@angular/material' as mat;
+
+//@include mat.core();
+//@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900);
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+    
+  )
+));
+
+mat-grid-tile {
+  background: lightblue;
+  //max-height:  25px;
+  border-radius: 9px;
+  text-align:center;
+
+}
+
 :host {
-    body {
-        background-color: var(--ion-color-light);
-    }
+  
+  body {
+    background-color: var(--ion-color-light);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 30px;
+    height: 100%;
+  
+    @include mat.all-component-themes($theme);
+  }
+  #divTabla {
+    width: 100%;
+    scroll-behavior:smooth;
+    overflow-y:auto;
+    //overflow: auto;
+    overflow-x: visible;
+    font-size: 0.5em;
+    //border: 4px solid currentColor;
+  }
+  .tablaViv {
+    width: 100%;
+    overflow-y:auto;
+    scroll-behavior:smooth;
+    overflow-x: visible;
+    //border: 4px solid currentColor;
+  }
+  th{
+    //font-size: 1.3em;
+    border: 2px solid currentColor;
+    
+    color: #2834bb;
+    //padding-right: 24px;
+    text-align: center;
+    max-width: 90px;
+    padding: 0;
+    
+   }
+ td{
+  border: 1px solid rgb(10, 8, 8);
+  
+  //padding-right: 24px;
+    text-align: center;
+ }
+
+ .columnaResultado{
+  border: 2px solid rgb(0, 2, 1);
+  //font-size: 1.3em;
+  
+ }
+ .mat-column-select {
+  overflow: initial;
+}
+  
+
 
     ion-content {
         --background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-medium));
@@ -10,65 +83,55 @@
     ion-grid {
         --ion-grid-width: 50%;
 
-        --ion-grid-width-xs: 50%;
-        --ion-grid-width-sm: 576px;
-        --ion-grid-width-md: 768px;
-        --ion-grid-width-lg: 992px;
-        --ion-grid-width-xl: 1200px;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        align-content: center;
-    }
-    ion-label{
-       // margin: 10px;
-       // padding: 10px;
-        //min-width: 60px;
-       max-width:15%;
-    }
+    --ion-grid-width-xs: 50%;
+    --ion-grid-width-sm: 576px;
+    --ion-grid-width-md: 768px;
+    --ion-grid-width-lg: 992px;
+    --ion-grid-width-xl: 1200px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 
-    ion-select{
-        margin: 0px;
-        padding: 0px;
-        min-width: 60px;
-        max-width: 100px;
-        display: block;
-    }
+  ion-label {
+    padding: 5px;
+  }
+  ion-item {
+    --border-radius: 1px;
+    margin-bottom:1px;
+  }
+  ion-col {
+    //background-color: #3ea3b1;
+    background-color: #28bbaa;
+    border: solid 1px #d7dbe7;
+    color: #fcfcfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 5px;
+  }
 
-    ion-text{
-        margin: 0px;
-        padding: 0px;
-        min-width: 60px;
-        height: 90%;
-    }
-    ion-input{
-        text-align: center;
-        min-width: 60px;
-        max-width: 100px;
-        max-height: 10px;
-        color:rgb(235, 13, 13);
-        //border: 1px solid rgb(235, 13, 13);
-    }
-    .btnAgregar{
-        border: solid 2px #6bac17;
-        background-color: #41e232;
-        color: #070101;
-        height: 90%;
-        //width: 15%;
-        min-width: 80px;
-        align-content: center;
-        border-radius: 10px;
-        text-align: center;
-        right: 10px;
-    }
-    
+  .titListado {
+    color:#2834bb;
+    background-color: #2b51b9;
+    width: 20;
+    display:flex;
+  }
+  
+  #viv{
+    width: 20px;
+  }
+  .btnEliminar{
+    width: 20px;
+  }
+  
+  #p1, rp1 {
+    background-color: #c8e232;
+    border: solid 1px #2b51b9;
+    color: #070101;
 
-    #p1 {
-        background-color: #c8e232;
-        border: solid 1px #2b51b9;
-        color: #070101;
-        border-radius: 4px;
-    }
+  }
 
     #p2 {
         background-color: #c8e232;
@@ -98,43 +161,15 @@
 
     }
 
-    #pt {
-        background-color: #41e232;
-        border: solid 4px #b6351e;
-        color: #010702;
-        border-radius: 10%;
-    }
+  #pt {
+    background-color: #41e232;
+    border: solid 2px #b6351e;
+    color: #010702;
 
-    ion-accordion.accordion-expanding ion-item[slot="header"],
-    ion-accordion.accordion-expanded ion-item[slot="header"] {
-        --background: var(--ion-color-light);
-        --color: rgb(10, 128, 10);
-        width: 100%;
-    }
+  }
 
-    :root {
-        --ion-color-rose: #fecdd3;
-        --ion-color-rose-rgb: 254, 205, 211;
-        --ion-color-rose-contrast: #000000;
-        --ion-color-rose-contrast-rgb: 0, 0, 0;
-        --ion-color-rose-shade: #e0b4ba;
-        --ion-color-rose-tint: #fed2d7;
-      }
-      
-      .ion-color-rose {
-        --ion-color-base: var(--ion-color-rose);
-        --ion-color-base-rgb: var(--ion-color-rose-rgb);
-        --ion-color-contrast: var(--ion-color-rose-contrast);
-        --ion-color-contrast-rgb: var(--ion-color-rose-contrast-rgb);
-        --ion-color-shade: var(--ion-color-rose-shade);
-        --ion-color-tint: var(--ion-color-rose-tint);
-      }
-      
-      div[slot='content'] {
-       // background: rgba(var(--ion-color-rose-rgb), 0.25);
-      
-        background-color: #c1e2be;
-    }
-   
 
 }
+
+@include mat.core();
+@include mat.color-variants-backwards-compatibility($theme);

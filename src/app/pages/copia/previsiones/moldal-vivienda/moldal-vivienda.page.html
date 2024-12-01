@@ -6,19 +6,20 @@
     </ion-buttons>
     <ion-title>Agregar vivienda/s a la previsión</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="agregaVivienda()" [strong]="true" [disabled]="!formViviendao.dirty">Confirm</ion-button>
+      <ion-button (click)="agregaVivienda()" [strong]="true" [disabled]="!formViviendaM.dirty">Confirm</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-form [formGroup]="formViviendao" onsubmit="agregaViviendao()">
+    <ion-form [formGroup]="formViviendaM" (ngSubmit)="agregaVivienda()">
     
       <ion-item>
         <ion-label color="primary" >Núm viviendas:</ion-label>
-        <ion-input formControlName="numViv" type="number"  required></ion-input>
+        <ion-input formControlName="numViv" type="number" color="danger" class="form-control" required></ion-input>
         <ion-label > </ion-label><ion-label > </ion-label>
+        
       </ion-item>
       <ion-item>
         <ion-label color="primary" >con Irve?:</ion-label>
@@ -32,10 +33,10 @@
         <ion-label bg="dark">Tipo: </ion-label>
 
         <ion-item>
-          <ion-select aria-label="Tipo Viviendas" interface="action-sheet" formControlName="tipoViv"
+          <ion-select aria-label="Tipo Viviendas" interface="popover" formControlName="tipoViv"
             placeholder="Selecciona tipo" (ionChange)="handleChange($event)">
-            <ion-select-option *ngFor="let tipoVivivienda of tipoViviendas" [value]="tipoVivivienda">{{
-              tipoVivivienda.id }}.-{{ tipoVivivienda.nombre }} - {{ tipoVivivienda.descripcion }}
+            <ion-select-option *ngFor="let tipoViviviendaM of tipoViviendas" [value]="tipoViviviendaM">{{
+              tipoViviviendaM.id }}.-{{ tipoViviviendaM.nombre }} - {{ tipoViviviendaM.descripcion }}
             </ion-select-option>
           </ion-select>
 
@@ -53,7 +54,7 @@
       </ion-item>
       <ion-row>
         <ion-col>
-          <ion-button [disabled]="!formViviendao.dirty" type="button" color="primary" shape="full" expand="block"
+          <ion-button [disabled]="!formViviendaM.dirty" type="ngSubmit" color="primary" shape="full" expand="block"
             (click)="agregaVivienda()">Agregar vivienda</ion-button>
         </ion-col>
       </ion-row>
