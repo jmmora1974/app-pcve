@@ -102,7 +102,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
       this.nuevaVivienda.potIrve=this.formViviendaM.get('potIrve')?.value ;
 
       console.log("this.nuevaVivienda.tipo.medidaPotVivienda?", this.nuevaVivienda.tipo.medidaPotVivienda);
-      
+
       //Comprobamos si las potencias esta en Watios para pasarlos a KW
       if (this.nuevaVivienda.tipo.medidaPotVivienda?.toUpperCase()=='W'){
         this.nuevaVivienda.tipo.potencia!/=1000;
@@ -161,7 +161,7 @@ customOptions:(new () => ITipoVivienda[]) | undefined ;
         potVivienda?.setAttribute("disabled", "false");
         medidaVivienda.removeAttribute('readonly');
         medidaVivienda?.setAttribute("disabled", "false");
-        return "0";
+        return "0"; 
     }
 
   }
