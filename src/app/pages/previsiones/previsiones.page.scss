@@ -128,6 +128,8 @@ mat-grid-tile {
 
     ion-grid {
         --ion-grid-width: 50%;
+    ion-grid {
+        --ion-grid-width: 50%;
 
 <<<<<<< HEAD
     --ion-grid-width-xs: 50%;
@@ -299,7 +301,19 @@ mat-grid-tile {
         color: #070101;
         border-radius: 5px;
     }
+    #p2 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
+        border-radius: 5px;
+    }
 
+    #p3 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
+        border-radius: 6px;
+    }
     #p3 {
         background-color: #c8e232;
         border: solid 1px #2b51b9;
@@ -311,14 +325,24 @@ mat-grid-tile {
         background-color: #c8e232;
         border: solid 1px #2b51b9;
         color: #070101;
+    #p4 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
 
+    }
     }
 
     #p5 {
         background-color: #c8e232;
         border: solid 1px #2b51b9;
         color: #070101;
+    #p5 {
+        background-color: #c8e232;
+        border: solid 1px #2b51b9;
+        color: #070101;
 
+    }
     }
 
     #pt {
