@@ -26,18 +26,27 @@
   border: 5px solid #a94442; /* red */
 }
 
-
-
+#secFormVivivienda{
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 369px;
+}
+ion-form{
+  display: block;
+}
 ion-item {
-  display: inline-flexbox;
+  display: inherit;
+  flex-wrap: wrap;
  text-align: center;
-  align-items: start;
+  align-items:center;
+  vertical-align: middle;
 
 }
 ion-item *{
   display: block;
  text-align: center;
-  align-items: start;
+  align-items:center;
+  
 
 }
 
