@@ -29,10 +29,12 @@
 #secFormVivivienda{
   display: flex;
   flex-wrap: wrap;
-  min-width: 369px;
+  min-width: 169px;
 }
 ion-form{
   display: block;
+  width: 100%;
+  overflow: auto;
 }
 ion-item {
   display: inherit;
@@ -42,15 +44,10 @@ ion-item {
   vertical-align: middle;
 
 }
-ion-item *{
-  display: block;
- text-align: center;
-  align-items:center;
-  
 
-}
 
 ion-col {
+ 
   background-color: #3ea3b1;
   border: solid 1px #2b51b9;
   color: #fff;
