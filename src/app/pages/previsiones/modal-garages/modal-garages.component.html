@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon class="fa fa-back"></ion-icon>
+      <ion-button color="danger" (click)="cancel()">Volver atras</ion-button>
+    </ion-buttons>
+    <ion-title>Previsión Garages </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+<section id="secFormGarage">
+  <form (ngSubmit)="agregarGarage()" #formGarages="ngForm">
+    <fieldset>
+      <legend>Garages</legend>
+
+      <div id="divGarages" class="form-group">
+        <ion-item>
+          <label for="txtNumPlantas">Num plantas:</label>
+          <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numPlantas" required
+            [(ngModel)]="modelGarage!.numPlantas" (keyup)="calculaPotGarage()" name="numPlantas"
+            placeholder="Numero de plantas" title="Numero de plantas">
+
+          <label for="mtsGarage"> Superficie Garage: </label>
+          <input type="number" id="mtsGarage" min="0" class="form-control ng-untouched ng-pristine ng-valid" required
+            [(ngModel)]="modelGarage!.mtsGarage" name="mtsGarage" (keyup)="calculaPotGarage()"
+            placeholder="Superficie de Garages" title="Superficie de Garages"> mts2
+          </ion-item>
+        <ion-item>
+          <label for="numPlazas"> Num plazas: </label>
+          <input type="number" id="numPlazas" min="0" class="form-control ng-untouched ng-pristine ng-valid"
+            [(ngModel)]="modelGarage!.numPlazas" name="numPlazas">
+
+        </ion-item>
+
+
+        Tipo ventilacion:
+
+        <input type="radio" id="ventNatural" [name]="modelGarage.ventilacion" [value]=0.01
+          (change)="cambioVentilacion($event.target)" checked><label for="ventNatural">10 W/m2 Natural</label>
+        <input type="radio" id="ventForzada" [name]="modelGarage.ventilacion" [value]=0.02
+          (change)="cambioVentilacion($event.target)"><label for="ventForzada">20 W/m1 Forzada</label>
+
+
+        <ion-item>
+          <ion-item style="border: 1px solid;" disabled>Potencia Garage: {{modelGarage.potGarage|number}} kW</ion-item>
+          <input type="number" [hidden]="true" [(ngModel)]="modelGarage.totalPotenciaGaragekW" name="id">
+          <ion-item disabled style="border: 1px solid; padding: 1px;margin: auto;"> Total:
+            {{modelGarage.totalPotenciaGaragekW|number}} Kw</ion-item>
+
+
+
+        </ion-item>
+
+      </div>
+    </fieldset>
+    <button type="submit" class="btn btn-success" [disabled]="!formGarages.form.valid">Agregar Garage</button>
+    <button type="button" class="btn btn-default btnBorrar" (click)="resetGarage()">Borra
+      datos</button>
+  </form>
+</section>
+
+  <ion-grid>
+    <section>
+    <ion-row>
+      @for (garItem of this.previsionesService.listaGarages(); track garItem.id) {
+        <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3">
+        <img alt="Icono Garage" src="../../../../assets/garaje.png" height="50px" class="ion-float-right" />
+       <p> {{garItem.numPlantas}} plantas de {{garItem.mtsGarage}} mts2 con Potencia de {{garItem.potGarage}} kW.
+        Con {{this.previsionesService.numPlazasPkn()}} plazas de parking.</p>
+       <h5> Total {{garItem.totalPotenciaGaragekW |number}} kW.</h5>
+        <div class="btn ion-button btnEliminar" (click)="this.previsionesService.eliminarGarage(garItem)"><ion-icon
+            name="trash"></ion-icon>
+        </div>
+      </ion-col>
+      } @empty {
+      <li>No hay ningún local definido.</li>
+      }
+    </ion-row>
+  </section>
+  </ion-grid>

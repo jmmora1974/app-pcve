@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+ 
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon class="fa fa-back"></ion-icon>
+      <ion-button color="danger" (click)="cancel()">Volver atras</ion-button>
+    </ion-buttons>
+        <ion-title>Previsión Locales </ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+<section class="flex-container boxAsc" collapse="condense">
+  <form (ngSubmit)="agregarLocales()" #formLocales="ngForm">
+    <fieldset>
+      <legend>Locales</legend>
+
+      <div  id="divLocales" class="form-group">
+        <ion-item>
+          <label for="txtNumLocales">Num Locales:</label>
+          <input type="number" min="0" class="form-control ng-untouched ng-pristine ng-valid" id="numLocales" required
+            [(ngModel)]="modelLocal!.numLocales" (keyup)="calculaPotLocal()" name="numLocales" placeholder="Numero de locales" title="Numero de locales">
+          
+            <label for="mtsLocal"> Superficie local: </label>
+            <input type="number" id="mtsLocal"  min="0" class="form-control ng-untouched ng-pristine ng-valid" required
+              [(ngModel)]="modelLocal!.mtsLocal"   name="mtsLocal" (keyup)="calculaPotLocal()"
+               placeholder="Superficie de locales" title="Superficie de locales"> mts2
+              </ion-item>
+            <ion-item style="align-items: center;">  
+              <ion-item style="border: 1px solid;" disabled>Potencia local: {{modelLocal.potLocal|number}}  kW</ion-item> 
+              <input type="number"[hidden]="true"  [(ngModel)]="modelLocal.totalPotenciaLocalkW"  name="id"> 
+              <ion-item disabled style="border: 1px solid; padding: 1px;margin: auto;">  Total: {{modelLocal.totalPotenciaLocalkW|number}} Kw</ion-item> 
+              
+           
+          </ion-item>
+
+      </div>
+    </fieldset>
+    <button type="submit" class="btn btn-success" [disabled]="!formLocales.form.valid">Agregar local</button>
+    <button type="button" class="btn btn-default btnBorrar" (click)="resetLocal()">Borra
+      datos</button>
+  </form>
+</section>
+
+  <ion-grid>
+    <ion-row>
+      @for (locItem of this.previsionesService.listaLocales(); track locItem.id) {
+      <ion-col>
+        <img alt="Icono Local" src="../../../../assets/local.jpg" height="50px" class="ion-float-right" />
+        {{locItem.numLocales}} locales de {{locItem.mtsLocal}} con Potencia de  {{locItem.potLocal}} kW.
+        Total {{locItem.totalPotenciaLocalkW |number}} kW.
+        <div class="btn ion-button btnEliminar"
+            (click)="this.previsionesService.eliminarLocal(locItem)"><ion-icon name="trash"></ion-icon>
+        </div>
+      </ion-col>
+    } @empty {
+      <li>No hay ningún local definido.</li>
+      }
+    </ion-row>
+  </ion-grid>

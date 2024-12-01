@@ -171,7 +171,8 @@ export class ModalServGeneralesPage implements OnInit {
   
       }else{
         this.submitted = true;
-        this.previsionesService.agregarAlumbrado(this.modelAlumbrado);}
+        this.previsionesService.agregarAlumbrado(this.modelAlumbrado);
+      }
         this.resetAlumbrado();
       }
      

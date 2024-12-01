@@ -12,6 +12,10 @@ import { IGMotor } from 'src/app/models/igmotor';
 import { IAscensor } from 'src/app/models/iascensor';
 import { IAlumbrado } from 'src/app/models/ialumbrado';
 import { R3TargetBinder } from '@angular/compiler';
+import { ModalLocalesComponent } from './modal-locales/modal-locales.component';
+import { ILocal } from 'src/app/models/ilocal';
+import { ModalGaragesComponent } from './modal-garages/modal-garages.component';
+import { IGarage } from 'src/app/models/igarage';
 
 export interface Tile {
   color: string;
@@ -76,17 +80,16 @@ export class PrevisionesPage {
   PT: number = 0;
 
 
-
+  calculaPotLocal(){
+    console.log('toi en previ')
+  }
+  
   agregarIrve() {
     throw new Error('Method not implemented.');
   }
-  agregarGarage() {
-    throw new Error('Method not implemented.');
-  }
-  agregarLocales() {
-    throw new Error('Method not implemented.');
-  }
-
+ 
+  
+ /* Funcion agregar servicios generales */
   async agregarServGrales() {
     const modal = await this.modalCtrl.create({
       component: ModalServGeneralesPage,
@@ -106,6 +109,7 @@ export class PrevisionesPage {
     this.actualizaResultados();
   }
 
+  /* Funcion agregar vivienda */
 
   async agregarVivienda() {
     const modal = await this.modalCtrl.create({
@@ -122,9 +126,46 @@ export class PrevisionesPage {
       console.log('agregada vivienda: ', this.previsionesService.prevision);
 
 
-    }
+    } 
+  }
+  /* Funcion agregar garage */
+  async agregarGarage() {
+    const modal = await this.modalCtrl.create({
+      component: ModalGaragesComponent,
+    });
+    modal.present();
 
- 
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      //this.previsionesService.agregarGarage(data);
+
+      //this.actualizaResultados();
+      console.log('agregado garage: ', this.previsionesService.prevision);
+
+
+    }
+    this.actualizaResultados();
+
+  }
+
+  async agregarLocales() {
+    const modal = await this.modalCtrl.create({
+      component: ModalLocalesComponent,
+    });
+    modal.present();
+    
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      //this.previsionesService.agregrarLocales(data);
+
+      this.actualizaResultados();
+      //console.log('agregados servicios generales ', this.previsionActual);
+
+
+    }
+    this.actualizaResultados();
   }
   //Elimina la vivienda 
   eliminaVivienda(ev: any) {
@@ -155,6 +196,18 @@ export class PrevisionesPage {
     this.actualizaResultados();
   }
 
+   //Elimina local
+   eliminarLocal(locElement:ILocal){
+    this.previsionesService.eliminarLocal(locElement);
+    this.actualizaResultados();
+  }
+
+    //Elimina garage
+    eliminarGarage(garageElement:IGarage){
+      this.previsionesService.eliminarGarage(garageElement);
+      this.actualizaResultados();
+    }
+  
   
   //Funcion encagada de actualizar los datos de P1,P2, P3,P4,P5 y PT
   actualizaResultados() {
@@ -177,10 +230,33 @@ export class PrevisionesPage {
 
     //Si ya hay viviendas creadas, cambia el color del boton.
     if (this.previsionesService.listaViviendas().length>0) {
-      document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
-    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','danger') ;
+      document.getElementById("btnAgregarViv")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarViv")?.setAttribute('color','warning') ;
+
     
-    console.log('tile ', this.tiles[6].text);
+    //Si ya hay servicos generales creados, cambia el color del boton.
+    if ((this.previsionesService.PAlum()+this.previsionesService.Pasc()+this.previsionesService.Pgm())>0) {
+      document.getElementById("btnAgregarSerGen")?.setAttribute('color','success') ;
+      
+    } else  document.getElementById("btnAgregarSerGen")?.setAttribute('color','warning') ;
+
+    //Si ya hay locales creados, cambia el color del boton.
+    if (this.previsionesService.Ploc()>0) {
+      document.getElementById("btnAgregarLocales")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarLocales")?.setAttribute('color','warning') ;
+    
+
+     //Si ya hay garages creados, cambia el color del boton.
+     if ((this.previsionesService.PGar())>0) {
+      document.getElementById("btnAgregarGarage")?.setAttribute('color','success') ;
+    } else  document.getElementById("btnAgregarGarage")?.setAttribute('color','warning') ;
+    
+
+    
+
+    
+    
+    //console.log('tile ', this.tiles[6].text);
 
     //}
 
